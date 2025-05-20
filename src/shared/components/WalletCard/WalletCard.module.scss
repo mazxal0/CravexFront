@@ -1,0 +1,57 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  border: 2px solid var(--border-color);
+  border-radius: 5px;
+  padding: 15px 20px;
+  max-height: 180px;
+}
+
+.name {
+  text-align: center;
+  font-size: 16px;
+  border-bottom: 1px dashed var(--border-color);
+  margin-bottom: 10px;
+  padding-bottom: 7px;
+}
+
+.sums_container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.total_sum {
+  font-size: 28px;
+
+}
+
+.change {
+
+}
+
+.dominate_container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.dominate_name {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.dominate_change {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  height: 100%;
+  margin-left: auto;
+}
+
+.progress_bar_container {
+  margin-top: 15px;
+}

@@ -1,0 +1,31 @@
+.input_container {
+  position: relative;
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+  background-color: transparent;
+  color: var(--font-color);
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid var(--blue-color);
+  font-size: 16px;
+  transition: all 0.3s ease;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.label {
+  position: absolute;
+  font-size: 13px;
+  left: 12px;
+  top: 4px;
+  pointer-events: none;
+  background-color: var(--bg-primary-color);
+  padding: 0 4px;
+  color: var(--font-color);
+  transform-origin: left center;
+}

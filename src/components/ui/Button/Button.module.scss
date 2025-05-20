@@ -1,0 +1,28 @@
+.button {
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  height: 40px;
+  color: var(--font-color);
+}
+
+.typical {
+  background-color: var(--button-primary-color);
+  transition: all 200ms;
+
+  &:hover {
+    background-color: var(--button-primary-hover-color);
+  }
+}
+
+.hoverButton {
+  background: transparent;
+  border: 1px solid var(--button-primary-color);
+  transition: all 200ms;
+
+  &:hover {
+    background-color: var(--button-primary-hover-color);
+  }
+}

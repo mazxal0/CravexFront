@@ -1,0 +1,28 @@
+
+.wallets_place {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 200px);
+  justify-content: center;
+  grid-auto-rows: minmax(200px, auto);
+  column-gap: 30px;
+  width: calc(100% - 100px);
+  margin: 0 auto;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  padding: 20px 40px;
+}
+
+.wallets_placeholder {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  width: 100%;
+  height: 225px;
+}
+
+.text_placeholder {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}

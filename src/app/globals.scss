@@ -1,0 +1,57 @@
+:root {
+  --bg-primary-color: #0D1117;
+  --bg-secondary-color: #161B22;
+  --bg-alternative-color: #101116;
+  --border-color: #374151;
+  --border-color-in-rbg: rgb(161, 161, 161);
+  --primary-color: #fff;
+
+  --font-color: #E5E7EB;
+  --font-alternative-color: #9CA3AF;
+  --font-black-color: #9191913F;
+  --success-color: #10B981;
+  --error-color: #EF4444;
+
+  --chart-line-color: #FF9360;
+  --border-color-header: rgba(145, 145, 145, 0.25);
+  --border-color-opacity-25: rgba(145, 145, 145, 0.25);
+
+  --button-primary-color: #3B82F6;
+  --button-primary-hover-color: #2563EB;
+
+  --link-primary-color: #60A5FA;
+  --link-primary-hover-color: #3B82F6;
+
+  --gray-color: #605d5d;
+
+  --accent-color: #3B82F6;
+
+  --focus-blue-color: rgb(74, 108, 247);
+  --blue-color: rgba(74, 108, 247, 0.2)
+}
+
+.dark {
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  color: var(--link-primary-color);
+  transition: all 200ms;
+}
+
+a:hover {
+  color: var(--link-primary-hover-color);
+}
+
+.main_app {
+  overflow-x: hidden;
+  background-color: var(--bg-primary-color);
+  color: var(--font-color);
+  font-family: 'Manrope', sans-serif;
+  font-weight: 500;
+}

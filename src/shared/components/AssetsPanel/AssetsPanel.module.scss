@@ -1,0 +1,13 @@
+.left_part {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  background-color: var(--bg-secondary-color);
+  border-radius: 10px;
+}
+
+.border_top {
+  border-top: 0.5px solid rgba(var(--border-color-in-rbg), 0.05);
+  border-top: 0.5px solid
+    color-mix(in srgb, var(--border-color) 5%, transparent);
+}
