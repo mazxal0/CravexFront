@@ -5,17 +5,16 @@ import { useEffect } from 'react';
 import styles from './WalletsPanel.module.scss';
 
 import { WalletCard } from '@/shared/components';
-import { walletsPageManagerStore } from '@/shared/stores/WalletsPageManager.store';
+import { rootStore } from '@/shared/stores';
 
 export const WalletsPanel = observer(() => {
   useEffect(() => {
-    walletsPageManagerStore.getAllWallets();
-    console.log(walletsPageManagerStore.wallets);
+    rootStore.walletsPageManagerStore.getAllWallets();
   }, []);
 
   return (
     <div className={styles.wallets_place}>
-      {walletsPageManagerStore.wallets.map((wallet) => (
+      {rootStore.walletsPageManagerStore.wallets.map((wallet) => (
         <WalletCard
           key={wallet.id}
           id={wallet.id}

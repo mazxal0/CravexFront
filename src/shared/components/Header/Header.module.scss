@@ -1,13 +1,14 @@
 @use "@/styles/variables" as *;
 
 .main_header {
-  width: 100vw;
-  background-color: var(--bg-secondary-color);
+  height: 100vh;
+  width: 5vw;
+  background-color: var(--bg-primary-color);
   position: fixed;
   display: flex;
   align-items: center;
-  height: #{$headerHeight};
-  border: 1px solid var(--border-color-header);
+  //height: #{$headerHeight};
+  border-bottom: 1px solid var(--border-color);
   z-index: 999;
   top: 0;
   padding: 0 20px;
@@ -31,11 +32,26 @@
   display: flex;
   align-items: center;
   position: relative;
-  margin-left: 500px;
+  margin-left: auto;
+  gap: 50px;
+}
+
+.image_icon {
+  display: flex;
+  align-items: center;
+  background-color: var(--card-bg-color);
+  padding: 5px;
+  border-radius: 50%;
+
+  border: 3px solid transparent;
+
+  &:hover {
+    border-color: 3px solid var(--button-primary-hover-color);
+  }
 }
 
 .burger_button_container {
   display: flex;
   align-items: center;
-  margin-left: auto;
+  margin-left: 100px;
 }

@@ -2,12 +2,26 @@ import axios from 'axios';
 import { LineData } from 'lightweight-charts';
 import { makeAutoObservable } from 'mobx';
 
+import { type Asset, type CurrentAsset } from '@/shared/types';
 import { DateForChart } from '@/shared/types/ChartData.types';
 
-class CurrentActivityStore {
+export class CurrentActivityStore {
   private _dateOfChart: DateForChart = '1';
-  private _currentAsset: string = 'bitcoin';
-  private _prices: LineData[] = [];
+  private _dataForChart: LineData[] = [];
+  private _currentAsset: CurrentAsset = {
+    coinId: '',
+    coinName: '',
+    coinSymbol: '',
+    amount: 0,
+    price: 0,
+    logoUrl: '',
+    changing: 0,
+    volume: 0,
+    marketCap: 0,
+    prices: [],
+    marketCaps: [],
+    volumes: [],
+  };
 
   public constructor() {
     makeAutoObservable(this);
@@ -15,10 +29,21 @@ class CurrentActivityStore {
 
   async getPricesForChart() {
     try {
+      console.log(this.currentAsset.coinName);
       const response = await axios.get(
-        `http://localhost:8080/coin/chart_data/${this._currentAsset}?vs_currency=usd&days=${this._dateOfChart}`,
+        `http://localhost:8080/coin/chart_data/${this.currentAsset.coinName}?vs_currency=usd&days=${this.dateOfChart}`,
       );
-      this.prices = response.data.prices;
+      const data = response.data;
+
+      this.supplementCurrentAsset = {
+        ...this._currentAsset,
+        prices: data.prices,
+        volumes: data.volumes,
+        volume: data.volumes[data.volumes.length - 1].value,
+        marketCaps: data.marketCaps,
+        marketCap: data.marketCaps[data.marketCaps.length - 1].value,
+      };
+      this.dataForChart = this.currentAsset?.prices || [];
     } catch (er) {
       console.error(er);
     }
@@ -33,21 +58,31 @@ class CurrentActivityStore {
     return this._dateOfChart;
   }
 
-  set currentAsset(asset: string) {
-    this._currentAsset = asset;
+  set currentAsset(asset: Asset) {
+    this._currentAsset = {
+      ...asset,
+      prices: [],
+      volumes: [],
+      marketCaps: [],
+      volume: 0,
+      marketCap: 0,
+    };
     this.getPricesForChart();
   }
 
-  get currentAsset() {
+  set supplementCurrentAsset(asset: CurrentAsset) {
+    this._currentAsset = asset;
+  }
+
+  get currentAsset(): CurrentAsset {
     return this._currentAsset;
   }
 
-  set prices(prices: LineData[]) {
-    this._prices = prices;
+  set dataForChart(newData: LineData[]) {
+    this._dataForChart = newData;
   }
-
-  get prices() {
-    return this._prices;
+  get dataForChart() {
+    return this._dataForChart;
   }
 }
 

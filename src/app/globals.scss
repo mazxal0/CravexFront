@@ -1,8 +1,15 @@
 :root {
-  --bg-primary-color: #0D1117;
-  --bg-secondary-color: #161B22;
-  --bg-alternative-color: #101116;
-  --border-color: #374151;
+  //--bg-primary-color: #0D1117;
+  //--bg-secondary-color: #161B22;
+  //--bg-alternative-color: #101116;
+  --bg-primary-color: #1C2126;
+  --bg-secondary-color: #3B4754;
+  --bg-alternative-color: #293038;
+
+  --card-bg-color: #293038; // #293038
+  --card-color-hover: rgba(255, 255, 255, 0.05);
+
+  --border-color: #516371;
   --border-color-in-rbg: rgb(161, 161, 161);
   --primary-color: #fff;
 
@@ -16,8 +23,8 @@
   --border-color-header: rgba(145, 145, 145, 0.25);
   --border-color-opacity-25: rgba(145, 145, 145, 0.25);
 
-  --button-primary-color: #3B82F6;
-  --button-primary-hover-color: #2563EB;
+  --button-primary-color: #2563EB;
+  --button-primary-hover-color: #0c56cc;
 
   --link-primary-color: #60A5FA;
   --link-primary-hover-color: #3B82F6;
@@ -27,7 +34,9 @@
   --accent-color: #3B82F6;
 
   --focus-blue-color: rgb(74, 108, 247);
-  --blue-color: rgba(74, 108, 247, 0.2)
+  --blue-color: rgba(74, 108, 247, 0.2);
+
+  --box-shadow-color: rgba(0, 0, 0, 0.3);
 }
 
 .dark {

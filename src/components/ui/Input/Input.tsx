@@ -15,6 +15,10 @@ export const Input: FC<InputProps> = ({
   onChange,
   value,
   id,
+  classNameForLabel,
+  topLevelOfLabel,
+  bottomLevelOfLabel,
+  backgroundLabel = 'primary',
   ...props
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -27,10 +31,17 @@ export const Input: FC<InputProps> = ({
     <div className={styles.input_container}>
       <motion.label
         htmlFor={inputId}
-        className={styles.label}
+        className={clsx(
+          classNameForLabel,
+          styles.label,
+          styles[`bg-label-${backgroundLabel}`],
+        )}
         initial={{ y: '50%', scale: 1 }}
         animate={{
-          y: isFocused || hasValue ? '-20%' : '110%',
+          y:
+            isFocused || hasValue
+              ? `-${topLevelOfLabel || '20'}%`
+              : `${bottomLevelOfLabel || 110}%`,
           scale: isFocused || hasValue ? 0.85 : 1,
           color:
             isFocused || hasValue

@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import styles from './page.module.scss';
@@ -9,14 +10,25 @@ import styles from './page.module.scss';
 import { MainLogo } from '@/components/icons';
 import { Button, Input } from '@/components/ui';
 import { useAuth } from '@/shared/hooks/UseAuth';
+import { rootStore } from '@/shared/stores';
 import { UserLogin } from '@/shared/types/User.types';
 
 export default function Login() {
   const { register, setError, handleSubmit } = useForm<UserLogin>({
     mode: 'onChange',
   });
+  useEffect(() => {
+    const getUserId = setTimeout(async () => {
+      const userId = await rootStore.userStore.getUserId();
+      if (userId) {
+        router.push(`/../../account/assets/${userId}`);
+      }
+    }, 500);
+
+    return () => clearTimeout(getUserId);
+  }, []);
   const router = useRouter();
-  const { setLogin } = useAuth<UserLogin>();
+  const { setLogin } = useAuth();
   const onRegistrationUser = async (data: UserLogin) => {
     const userId = await setLogin(data);
     router.push(`/../../account/assets/${userId}`);

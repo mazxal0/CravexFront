@@ -3,7 +3,7 @@
 import styles from './Header.module.scss';
 
 import { MainLogo, NotificationBell } from '@/components/icons';
-import { BurgerButton, SearchableSelect } from '@/components/ui';
+import { BurgerButton } from '@/components/ui';
 import { AvatarUserButton } from '@/shared/components';
 
 export const Header = () => {
@@ -14,20 +14,24 @@ export const Header = () => {
         CraveX
       </div>
 
-      <div className={styles.search}>
-        <SearchableSelect
-          placeholder={'Монеты, токены и мем-токены'}
-          options={[]}
-        />
-      </div>
+      {/*<div className={styles.search}>*/}
+      {/*  <SearchableSelect*/}
+      {/*    placeholder={'Монеты, токены и мем-токены'}*/}
+      {/*    options={[]}*/}
+      {/*  />*/}
+      {/*</div>*/}
 
       <div className={styles.user_container}>
-        <NotificationBell
-          width={27}
-          height={27}
-          color={'var(--button-primary-color)'}
-        />
-        <AvatarUserButton />
+        <div className={styles.image_icon}>
+          <NotificationBell
+            width={27}
+            height={27}
+            color={'var(--button-primary-color)'}
+          />
+        </div>
+        <div className={styles.image_icon}>
+          <AvatarUserButton />
+        </div>
       </div>
 
       <div className={styles.burger_button_container}>

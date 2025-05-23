@@ -4,16 +4,16 @@ import { FC, useEffect, useRef } from 'react';
 
 import styles from './StandardModal.module.scss';
 
-import { SearchableSelect } from '@/components/ui';
+import { Button } from '@/components/ui';
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm?: () => void;
   title: string;
-  children: any;
-  confirmText: string;
-  cancelText: string;
+  children?: any;
+  confirmText?: string;
+  cancelText?: string;
 }
 
 export const StandardModal: FC<ModalProps> = ({
@@ -22,8 +22,8 @@ export const StandardModal: FC<ModalProps> = ({
   onConfirm,
   title = 'Confirmation',
   children,
-  confirmText = 'Confirm',
-  cancelText = 'Cancel',
+  confirmText,
+  cancelText,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -40,7 +40,7 @@ export const StandardModal: FC<ModalProps> = ({
     }
     return () => {
       document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'auto'; // Разблокировка прокрутки
+      document.body.style.overflow = 'auto'; // Разблокировка прокрутки фо
     };
   }, [isOpen, onClose]);
 
@@ -69,20 +69,20 @@ export const StandardModal: FC<ModalProps> = ({
     >
       <div className={styles.modal} ref={modalRef} tabIndex={-1}>
         <h2 className={styles.title}>{title}</h2>
-        <div className={styles.content}>
-          <SearchableSelect options={children} />
-        </div>
+        <div className={styles.content}>{children}</div>
         <div className={styles.actions}>
-          <button className={styles.cancelButton} onClick={onClose}>
+          <Button className={styles.cancelButton} onClick={onClose}>
             {cancelText}
-          </button>
-          {onConfirm && (
-            <button className={styles.confirmButton} onClick={onConfirm}>
-              {confirmText}
-            </button>
-          )}
+          </Button>
+          {confirmText && <Button onClick={onConfirm}>{confirmText}</Button>}
         </div>
       </div>
     </div>
   );
 };
+
+// {children.map((coin, index) => (
+//             <Button key={index} formatType={'tile'}>
+//               {coin}
+//             </Button>
+//           ))}

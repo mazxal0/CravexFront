@@ -220,7 +220,7 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ data }) => {
       const step = Math.round(range / 5 / 100) * 100; // Округление шага до сотен
       chartRef.current = createChart(chartContainerRef.current, {
         layout: {
-          background: { type: ColorType.Solid, color: '#131419' },
+          background: { type: ColorType.Solid, color: '#293038' },
           textColor: '#FF9360',
           fontSize: 12,
         },

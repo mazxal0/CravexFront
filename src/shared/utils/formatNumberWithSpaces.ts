@@ -16,3 +16,10 @@ export function formatNumberWithSpaces(num: number, spaceChar: string = ' ') {
   const str = num.toString().replace(/\s/g, '');
   return str.replace(/\B(?=(\d{3})+(?!\d))/g, spaceChar);
 }
+
+export function formatNumberLength(num: any, length: number = 2) {
+  if (typeof num !== 'number') {
+    return '';
+  }
+  return num.toFixed(length).toString();
+}

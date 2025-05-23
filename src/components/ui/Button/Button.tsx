@@ -8,7 +8,7 @@ import { ButtonProps } from '@/components/ui/Button/ButtonProps';
 export const Button: FC<ButtonProps> = ({
   children,
   type = 'button',
-  formatType = 'typical',
+  formatType = 'primary',
   className,
   ...props
 }) => {

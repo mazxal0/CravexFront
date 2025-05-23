@@ -6,15 +6,42 @@ import React from 'react';
 import styles from '@/app/account/assets/[id]/[walletId]/page.module.scss';
 import ChartComponent from '@/components/ui/Chart/Chart';
 import { ButtonsGroup } from '@/shared/components/ButtonsGroup/ButtonsGroup';
-import { currentActivityStore } from '@/shared/stores/CurrentActivityStore';
+import { rootStore } from '@/shared/stores';
+import { formatNumberLength } from '@/shared/utils';
 
 export const ChartDataGroup = observer(() => {
   return (
     <div>
-      <div>
-        <h3>{currentActivityStore.currentAsset}</h3>
+      <div className={styles.heading_of_chart}>
+        <h3>
+          Current Asset: {rootStore.currentActivityStore.currentAsset.coinName}
+        </h3>
+        <span>
+          Amount:{' '}
+          {formatNumberLength(
+            rootStore.currentActivityStore.currentAsset.amount,
+          )}
+        </span>
+        <span>
+          Price:{' '}
+          {formatNumberLength(
+            rootStore.currentActivityStore.currentAsset.price,
+          )}
+        </span>
+        <span>
+          Volume:{' '}
+          {formatNumberLength(
+            rootStore.currentActivityStore.currentAsset.volume,
+          )}
+        </span>
+        <span>
+          market Cap:{' '}
+          {formatNumberLength(
+            rootStore.currentActivityStore.currentAsset.marketCap,
+          )}
+        </span>
       </div>
-      <ChartComponent data={currentActivityStore.prices} />
+      <ChartComponent data={rootStore.currentActivityStore.dataForChart} />
       <div className={styles.buttons_group_of_dating}>
         <ButtonsGroup
           buttonsProps={[

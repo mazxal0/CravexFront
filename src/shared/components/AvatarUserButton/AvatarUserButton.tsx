@@ -42,7 +42,7 @@ export const AvatarUserButton: FC = () => {
       {isOpenUserMenu && (
         <div className={styles.menu}>
           <div>
-            <Button formatType={'hoverButton'}>Внешний вид</Button>
+            <Button formatType={'outline'}>Внешний вид</Button>
           </div>
           <br />
           <div>Выйти</div>

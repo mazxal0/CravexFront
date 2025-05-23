@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 
-class ModalStore {
+export class ModalStore {
   private _isOpenAddingNewAsset: boolean = false;
 
   constructor() {

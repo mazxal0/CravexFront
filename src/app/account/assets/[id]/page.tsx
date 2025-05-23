@@ -21,7 +21,7 @@ export default function Assets() {
       <div className={styles.top_part}>
         <h2 className={styles.text_heading}>Your Wallets</h2>
         <div className={styles.buttons_container}>
-          <Button formatType={'hoverButton'} className={styles.button}>
+          <Button formatType={'outline'} className={styles.button}>
             Control
           </Button>
           <Button className={styles.button}>Add</Button>

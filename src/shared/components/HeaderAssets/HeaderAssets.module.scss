@@ -1,8 +1,9 @@
 .header_assets {
   padding: 40px;
-  background-color: var(--bg-secondary-color);
+  background-color: var(--bg-alternative-color);
   border-radius: 15px;
   width: 400px;
+  box-shadow: 0 4px 40px var(--box-shadow-color);
 }
 
 .text {

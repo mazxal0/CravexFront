@@ -28,4 +28,17 @@
   padding: 0 4px;
   color: var(--font-color);
   transform-origin: left center;
+  opacity: 1;
+}
+
+.bg-label-primary {
+  background-color: var(--bg-primary-color);
+}
+
+.bg-label-secondary {
+  background-color: var(--bg-secondary-color);
+}
+
+.bg-label-alternative {
+  background-color: var(--bg-alternative-color);
 }

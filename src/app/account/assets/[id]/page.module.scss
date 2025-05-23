@@ -16,14 +16,16 @@
 .text_heading {
   display: flex;
   justify-content: center;
+  align-items: center;
   flex: 1;
   position: relative;
+  font-size: 35px;
 }
 
 .buttons_container {
   display: flex;
   gap: 20px;
-
+  align-items: center;
 }
 
 .button {

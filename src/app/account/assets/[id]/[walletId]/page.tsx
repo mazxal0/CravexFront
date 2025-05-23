@@ -19,7 +19,7 @@ export default function Home() {
     <div className={styles.main}>
       <GeneralModalPage />
       <div className={styles.left_column}>
-        <HeaderAssets total_assets={14000.151} changing={2.15} />
+        <HeaderAssets changing={2.15} />
         <AssetsPanel walletId={walletId} />
       </div>
       <div className={styles.chart}>
