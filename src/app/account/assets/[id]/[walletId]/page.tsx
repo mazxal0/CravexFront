@@ -8,19 +8,20 @@ import {
   AssetsPanel,
   ChartDataGroup,
   GeneralModalPage,
-  HeaderAssets,
+  HeaderAssetsCard,
 } from '@/shared/components';
+import { rootStore } from '@/shared/stores';
 
 export default function Home() {
   const params = useParams();
-  const walletId = params.walletId as string;
+  rootStore.userStore.walletId = params.walletId as string;
 
   return (
     <div className={styles.main}>
       <GeneralModalPage />
       <div className={styles.left_column}>
-        <HeaderAssets changing={2.15} />
-        <AssetsPanel walletId={walletId} />
+        <HeaderAssetsCard changing={2.15} />
+        <AssetsPanel />
       </div>
       <div className={styles.chart}>
         <ChartDataGroup />

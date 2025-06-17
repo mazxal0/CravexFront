@@ -15,7 +15,6 @@
 .card_button {
   display: flex;
   align-items: center;
-
 }
 
 .card_container {
@@ -26,10 +25,18 @@
 
 .image_card {
   position: absolute;
-
+  border-radius: 50%;
+  background-color: var(--bg-primary-color);
 }
 
 .text_card {
   display: flex;
   margin: 0 auto;
+}
+
+.fix_data_container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  gap: 10px;
 }

@@ -29,7 +29,6 @@ export class CurrentActivityStore {
 
   async getPricesForChart() {
     try {
-      console.log(this.currentAsset.coinName);
       const response = await axios.get(
         `http://localhost:8080/coin/chart_data/${this.currentAsset.coinName}?vs_currency=usd&days=${this.dateOfChart}`,
       );

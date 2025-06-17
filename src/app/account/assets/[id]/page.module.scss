@@ -3,8 +3,8 @@
 .page {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: calc(100vh - #{$headerHeight});
+  height: 100%;
+  width: calc(100vw - #{$headerHeight});
   position: relative;
 }
 

@@ -16,8 +16,8 @@ export const Input: FC<InputProps> = ({
   value,
   id,
   classNameForLabel,
-  topLevelOfLabel,
-  bottomLevelOfLabel,
+  topLevelOfLabel = 20,
+  bottomLevelOfLabel = 100,
   backgroundLabel = 'primary',
   ...props
 }) => {
@@ -40,7 +40,7 @@ export const Input: FC<InputProps> = ({
         animate={{
           y:
             isFocused || hasValue
-              ? `-${topLevelOfLabel || '20'}%`
+              ? `-${topLevelOfLabel || 20}%`
               : `${bottomLevelOfLabel || 110}%`,
           scale: isFocused || hasValue ? 0.85 : 1,
           color:

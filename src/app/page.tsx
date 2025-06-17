@@ -14,7 +14,7 @@ export default function Home() {
         height: '100vh',
       }}
     >
-      <Link href={'account/auth/registration'}>
+      <Link href={'/auth/registration'}>
         <Button>Начать</Button>
       </Link>
     </div>

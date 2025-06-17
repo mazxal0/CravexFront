@@ -2,12 +2,7 @@ import { makeAutoObservable } from 'mobx';
 
 import api from '@/lib/axios';
 import { RootStore } from '@/shared/stores/RootStore';
-import {
-  type Asset,
-  type Coin,
-  type GetAxiosCoin,
-  type NewAddingAsset,
-} from '@/shared/types';
+import { type Asset, type Coin, type GetAxiosCoin } from '@/shared/types';
 
 export class WalletActivityStore {
   private rootStore: RootStore;
@@ -16,9 +11,7 @@ export class WalletActivityStore {
   private _currentAllWalletBalance: number = 0;
   private _allCryptoCoins: Coin[] = [];
 
-  // page adding new Coin:
-  private _currentPageAddingCoin: string = '1';
-  private _currentDataOfAddingCoin: NewAddingAsset = {};
+  private _editMode: boolean = false;
 
   constructor(rootStore: RootStore) {
     makeAutoObservable(this);
@@ -46,9 +39,13 @@ export class WalletActivityStore {
       const response = await api.get<GetAxiosCoin[]>(
         `${process.env.NEXT_PUBLIC_API_GET_ORDERED_ALL_COINS}?vs_currency=usd&order=market_cap_desc`,
       );
-
       this.allCryptoCoins = response.data.map((coin) => {
-        return { coinName: coin.name, coinId: coin.id, image: coin.image };
+        return {
+          coinName: coin.name,
+          coinId: coin.id,
+          symbol: coin.symbol,
+          image: coin.image,
+        };
       });
     } catch (e) {
       console.error(e);
@@ -79,16 +76,14 @@ export class WalletActivityStore {
     return this._allCryptoCoins;
   }
 
-  set currentPageAddingCoin(newCurrentPage) {
-    this._currentPageAddingCoin = newCurrentPage;
+  changeEditMode() {
+    this.editMode = !this.editMode;
   }
-  get currentPageAddingCoin() {
-    return this._currentPageAddingCoin;
+
+  set editMode(newMode: boolean) {
+    this._editMode = newMode;
   }
-  set currentDataOfAddingCoin(newCurrentDataOfAddingCoin: NewAddingAsset) {
-    this._currentDataOfAddingCoin = newCurrentDataOfAddingCoin;
-  }
-  get currentDataOfAddingCoin() {
-    return this._currentDataOfAddingCoin;
+  get editMode() {
+    return this._editMode;
   }
 }

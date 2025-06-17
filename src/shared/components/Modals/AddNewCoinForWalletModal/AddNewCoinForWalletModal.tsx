@@ -2,14 +2,15 @@
 import { observer } from 'mobx-react-lite';
 import Image from 'next/image';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 
 import style from './AddNewCoinForWalletModal.module.scss';
 
 import { Button, Input } from '@/components/ui';
+import api from '@/lib/axios';
 import { StandardModal } from '@/shared/components';
 import { rootStore } from '@/shared/stores';
-import { modalStore } from '@/shared/stores/ModalStore';
+import { Coin } from '@/shared/types';
 
 export const AddNewCoinForWalletModal = observer(() => {
   const router = useRouter();
@@ -21,21 +22,72 @@ export const AddNewCoinForWalletModal = observer(() => {
       rootStore.walletActivityStore.getAllCryptoCoins();
     };
     getAllCoins();
+
+    const params = new URLSearchParams(searchParams.toString());
+    if (params.get('add_coin_page')) {
+      rootStore.modalStore.isOpenAddingNewAsset = true;
+    }
+
+    return () => {
+      rootStore.modalStore.currentPageAddingCoin = '1';
+    };
   }, []);
 
   const onExit = async () => {
-    modalStore.isOpenAddingNewAsset = false;
     const params = new URLSearchParams(searchParams.toString());
-    params.delete('add_coin_page');
-
-    router.push(`${pathname}`);
+    if (rootStore.modalStore.currentPageAddingCoin === '1') {
+      rootStore.modalStore.isOpenAddingNewAsset = false;
+      rootStore.modalStore.currentPageAddingCoin = '1';
+      params.delete('add_coin_page');
+    } else {
+      console.log(
+        (parseInt(rootStore.modalStore.currentPageAddingCoin) - 1).toString(),
+      );
+      rootStore.modalStore.currentPageAddingCoin = (
+        parseInt(rootStore.modalStore.currentPageAddingCoin) - 1
+      ).toString();
+      params.set('add_coin_page', rootStore.modalStore.currentPageAddingCoin);
+    }
+    router.push(`${pathname}?${params.toString()}`);
   };
 
-  const onNextPage = async () => {
-    rootStore.walletActivityStore.currentPageAddingCoin = '2';
+  const onNextPage = async (coin: Coin) => {
+    rootStore.modalStore.currentPageAddingCoin = '2';
+    rootStore.modalStore.currentAddingCoin = {
+      ...coin,
+      coinName: coin.coinName,
+      price: 0,
+      amount: 0,
+    };
+    const price = await rootStore.modalStore.getCurrentDataOfAddingCoin();
     const params = new URLSearchParams(searchParams.toString());
     params.set('add_coin_page', '2');
     router.push(`${pathname}?${params.toString()}`);
+  };
+
+  const addNewAsset = async () => {
+    try {
+      const api_URL = `${process.env.NEXT_PUBLIC_API_ADD_COIN_FOR_WALLET}/${rootStore.userStore.walletId}`;
+      await api.post(api_URL, {
+        coinId: rootStore.modalStore.currentAddingCoin.coinId,
+        coinName: rootStore.modalStore.currentAddingCoin.coinName,
+        symbol: rootStore.modalStore.currentAddingCoin.symbol,
+        amount: parseInt(
+          rootStore.modalStore.currentAddingCoin.amount.toString(),
+        ),
+      });
+
+      await rootStore.walletActivityStore.getWalletAssets(
+        rootStore.userStore.walletId,
+      );
+
+      rootStore.modalStore.currentPageAddingCoin = '1';
+      rootStore.modalStore.isOpenAddingNewAsset = false;
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete('add_coin_page');
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const firstPage = (
@@ -47,7 +99,7 @@ export const AddNewCoinForWalletModal = observer(() => {
             key={coin.coinId}
             className={style.card_button}
             formatType={'tile'}
-            onClick={onNextPage}
+            onClick={() => onNextPage(coin)}
           >
             <div className={style.card_container}>
               <Image
@@ -56,9 +108,6 @@ export const AddNewCoinForWalletModal = observer(() => {
                 alt={coin.coinName || 'Coin'}
                 width={25}
                 height={25}
-                // onError={(e) => {
-                //   e.target.src = '/fallback-image.png';
-                // }}
                 loading="lazy"
               />
               <span className={style.text_card}>{coin.coinName}</span>
@@ -70,31 +119,41 @@ export const AddNewCoinForWalletModal = observer(() => {
 
   const secondPage = (
     <div>
+      <div className={style.fix_data_container}>
+        <h3>Coin name: {rootStore.modalStore.currentAddingCoin.coinId}</h3>
+        <h3>Current price: {rootStore.modalStore.currentAddingCoin.price}</h3>
+      </div>
       <Input
         label={'Amount'}
         bottomLevelOfLabel={50}
         topLevelOfLabel={75}
-        backgroundLabel={'secondary'}
+        backgroundLabel={'alternative'}
+        value={rootStore.modalStore.amountOfAddingCoin}
+        onChange={(event: ChangeEvent<HTMLInputElement>) => {
+          rootStore.modalStore.amountOfAddingCoin = event.target.value;
+        }}
       />
-      <Button>Сохранить актив</Button>
     </div>
   );
 
   const mainPage =
-    rootStore.walletActivityStore.currentPageAddingCoin === '1'
-      ? firstPage
-      : secondPage;
+    rootStore.modalStore.currentPageAddingCoin === '1' ? firstPage : secondPage;
 
   return (
     <StandardModal
-      isOpen={modalStore.isOpenAddingNewAsset}
+      isOpen={rootStore.modalStore.isOpenAddingNewAsset}
       onClose={onExit}
-      onConfirm={function (): void {
-        throw new Error('Function not implemented.');
-      }}
+      onConfirm={addNewAsset}
       title={'Добавить актив'}
       children={mainPage}
-      cancelText={'Закрыть'}
+      cancelText={
+        rootStore.modalStore.currentPageAddingCoin !== '1' ? 'Назад' : 'Закрыть'
+      }
+      confirmText={
+        rootStore.modalStore.currentPageAddingCoin === '2'
+          ? 'Сохранить актив'
+          : undefined
+      }
     />
   );
 });

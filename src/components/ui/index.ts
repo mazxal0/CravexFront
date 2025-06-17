@@ -5,3 +5,4 @@ export { Select } from '@/components/ui/Select/Select';
 export { Input } from '@/components/ui/Input/Input';
 export { BurgerButton } from '@/components/ui/BurgerButton/BurgerButton';
 export { ProgressBar } from '@/components/ui/ProgressBar/ProgressBar';
+export { Spinner } from '@/components/ui/Spinner/Spinner';

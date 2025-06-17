@@ -1,10 +1,11 @@
 'use client';
 
-import { FC, useEffect, useRef } from 'react';
+import { FC, useEffect } from 'react';
 
 import styles from './StandardModal.module.scss';
 
 import { Button } from '@/components/ui';
+import { useClickOutside } from '@/shared/hooks/useClickOutside';
 
 interface ModalProps {
   isOpen: boolean;
@@ -25,33 +26,18 @@ export const StandardModal: FC<ModalProps> = ({
   confirmText,
   cancelText,
 }) => {
-  const modalRef = useRef<HTMLDivElement>(null);
+  const modalRef = useClickOutside<HTMLDivElement>(onClose, isOpen);
 
   // Закрытие по клавише Esc
   useEffect(() => {
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        onClose();
-      }
-    };
     if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
       document.body.style.overflow = 'hidden'; // Блокировка прокрутки фона
     }
     return () => {
-      document.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = 'auto'; // Разблокировка прокрутки фо
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
-  // Закрытие по клику вне модального окна
-  const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (event.target === event.currentTarget) {
-      onClose();
-    }
-  };
-
-  // Фокус-ловушка (для accessibility)
   useEffect(() => {
     if (isOpen && modalRef.current) {
       modalRef.current.focus();
@@ -61,12 +47,7 @@ export const StandardModal: FC<ModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div
-      className={styles.overlay}
-      onClick={handleBackdropClick}
-      role="dialog"
-      aria-modal="true"
-    >
+    <div className={styles.overlay} role="dialog" aria-modal="true">
       <div className={styles.modal} ref={modalRef} tabIndex={-1}>
         <h2 className={styles.title}>{title}</h2>
         <div className={styles.content}>{children}</div>
@@ -85,4 +66,4 @@ export const StandardModal: FC<ModalProps> = ({
 //             <Button key={index} formatType={'tile'}>
 //               {coin}
 //             </Button>
-//           ))}
+// ))}

@@ -1,0 +1,74 @@
+.container {
+  background-color: transparent;
+  padding: 20px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 400px;
+  transition: all 400ms;
+  position: relative;
+
+  &:hover {
+    background-color: var(--card-color-hover);
+  }
+
+  recycle_bin {
+    cursor: pointer;
+  }
+
+  & * {
+    cursor: default;
+  }
+}
+
+.active {
+  background-color: var(--card-color-hover);
+}
+
+.image_box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.image {
+  display: flex;
+  flex-shrink: 1;
+  border-radius: 50%;
+  padding: 1px;
+  overflow: hidden;
+}
+
+.left_column {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.right_column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  margin-left: auto;
+}
+
+.title_ticket {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 3px;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.number_all_cost {
+  font-size: 18px;
+  letter-spacing: 0.4px;
+}
+
+.amount_ticket {
+  font-size: 15px;
+  color: var(--font-alternative-color);
+}

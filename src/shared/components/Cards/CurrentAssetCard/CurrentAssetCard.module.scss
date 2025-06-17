@@ -1,0 +1,45 @@
+.heading_of_chart {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--card-bg-color);
+  margin-bottom: 15px;
+  border-radius: 15px;
+  padding: 10px 30px;
+  box-shadow: 0 4px 40px var(--box-shadow-color);
+  overflow: hidden;
+  gap: 5px;
+}
+
+.header_part {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.text_header {
+  font-size: 30px
+}
+
+.text_standard {
+  //background-color: var(--card-color-hover);
+  //padding: 15px;
+  border-radius: 15px;
+  font-size: 20px;
+  //color: var(--accent-color);
+}
+
+.recycle_bin {
+  border-radius: 10px;
+  display: flex;
+  width: 50px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden;
+  padding: 10px;
+  //background-color: var(--error-color);
+  transition: all 200ms;
+  &:hover {
+    //background-color: var(--error--hover-color);
+  }
+}

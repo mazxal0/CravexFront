@@ -1,6 +1,7 @@
 import { LineData } from 'lightweight-charts';
 
 export interface Asset {
+  id: string;
   coinId: string;
   coinName: string;
   coinSymbol: string;
