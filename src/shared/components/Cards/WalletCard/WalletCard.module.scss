@@ -1,44 +1,57 @@
 .card {
   display: flex;
   flex-direction: column;
-  width: 200px;
+  width: 100%;
   //border: 2px solid var(--border-color);
   border-radius: 10px;
   padding: 15px 20px;
   max-height: 180px;
   background-color: var(--card-bg-color);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-
+  position: relative;
+  border: 2px solid var(--card-bg-border-color);
 
   transition: all 200ms;
   &:hover {
-    //transform: scale(1.01);
-    box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+    border: 2px solid var(--card-bg-border-color-hover);
+    //transform: translateY(-1px);
+    //transform: translateY(-2px); // легкий подъём
   }
 }
 
+.container_name {
+  display: flex;
+  gap: 5px;
+}
+
 .name {
-  text-align: center;
-  font-size: 16px;
-  border-bottom: 1px dashed var(--border-color);
+  display: flex;
+  text-align: start;
+  font-size: 20px;
   margin-bottom: 10px;
   padding-bottom: 7px;
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.change {
+  border: 1px solid var(--card-bg-border-color);
+  background-color: var(--card-color-hover);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 3px 5px 5px 5px;
 }
 
 .sums_container {
   display: flex;
   gap: 10px;
-  align-items: center;
-  justify-content: center;
+  justify-content: start;
 }
 
 .total_sum {
   font-size: 28px;
-
-}
-
-.change {
-
 }
 
 .dominate_container {
@@ -63,4 +76,13 @@
 
 .progress_bar_container {
   margin-top: 15px;
+}
+
+.dots_menu {
+  background-color: var(--card-bg-color);
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 5px;
+  top: 35px;
 }

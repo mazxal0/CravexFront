@@ -1,73 +1,103 @@
 'use client';
+import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/navigation';
 import { FC, useEffect, useState } from 'react';
 
 import styles from './WalletCard.module.scss';
 
-import { ChangingWithChevron, ProgressBar } from '@/components/ui';
+import { ChangingWithChevron, DotsButton } from '@/components/ui';
+import api from '@/lib/axios';
+import { DropTabMenu } from '@/shared/components';
 import { WalletCardProps } from '@/shared/components/Cards/WalletCard/WalletCard.props';
+import { rootStore } from '@/shared/stores';
 import { userStore } from '@/shared/stores/User.store';
 
-export const WalletCard: FC<WalletCardProps> = ({
-  id,
-  name = 'wallet',
-  totalSum = 0,
-  changing = 0,
-  dominateAssetName = 'void',
-  dominateAssetInPercent = 0,
-}) => {
-  const [color, setColor] = useState<
-    'var(--success-color)' | 'var(--error-color)'
-  >('var(--success-color)');
+export const WalletCard: FC<WalletCardProps> = observer(
+  ({
+    id,
+    index,
+    name = 'wallet',
+    totalSum = 0,
+    changing = 0,
+    dominateAssetName = 'void',
+    dominateAssetInPercent = 0,
+  }) => {
+    const [color, setColor] = useState<
+      'var(--success-color)' | 'var(--error-color)'
+    >('var(--success-color)');
 
-  useEffect(() => {
-    if (changing < 0) {
-      changing *= -1;
-      setColor('var(--error-color)');
-    }
-  }, []);
+    const [isOpenDropMenu, setOpenDropMenu] = useState<boolean>(false);
+    const [isDelete, setDelete] = useState<boolean>(false);
 
-  const router = useRouter();
+    useEffect(() => {
+      if (changing < 0) {
+        changing *= -1;
+        setColor('var(--error-color)');
+      }
+    }, []);
 
-  const onClickWallet = () => {
-    router.push(`${userStore.userId}/${id}`);
-  };
+    const router = useRouter();
 
-  return (
-    <div className={styles.card} onClick={onClickWallet}>
-      <span className={styles.name}>{name}</span>
-      <div className={styles.sums_container}>
-        <span className={styles.total_sum}>${totalSum}</span>
-        <ChangingWithChevron type={'mark'} changing={changing} color={color} />
-      </div>
-      <svg width="130" height="40" viewBox="0 0 130 40">
-        <polyline
-          points="0,35 15,25 30,30 45,15 60,20 75,10 90,25 105,15 120,30 130,20"
-          fill="none"
-          stroke="#4CAF50"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeDasharray="1000"
-          strokeDashoffset="1000"
-        >
-          <animate
-            attributeName="stroke-dashoffset"
-            values="1000;0"
-            dur="1.5s"
-            fill="freeze"
+    const onClickWallet = () => {
+      router.push(`${userStore.userId}/${id}`);
+    };
+
+    const isEditing = () => {};
+
+    const deleteWallet = async () => {
+      await api.delete(`${process.env.NEXT_PUBLIC_API_DELETE_WALLET}/${id}`);
+      rootStore.walletsPageManagerStore.wallets =
+        rootStore.walletsPageManagerStore.wallets.filter(
+          (wallet) => wallet.id !== id,
+        );
+    };
+
+    return (
+      <div className={styles.card} onClick={onClickWallet}>
+        {isOpenDropMenu && (
+          <DropTabMenu
+            items={[
+              {
+                text: 'Редактировать',
+                callback: (e) => {
+                  e.stopPropagation();
+                  isEditing();
+                },
+              },
+              {
+                text: 'Удалить',
+                callback: async (e) => {
+                  e.stopPropagation();
+                  await deleteWallet();
+                },
+              },
+            ]}
           />
-        </polyline>
-      </svg>
-      <div className={styles.dominate_container}>
-        <span className={styles.dominate_name}>{dominateAssetName}</span>
-        <span className={styles.dominate_change}>
-          {dominateAssetInPercent}% dominate
-        </span>
+        )}
+        <div className={styles.container_name}>
+          <div className={styles.name}>{name}</div>
+          <div className={styles.change}>
+            <ChangingWithChevron
+              type={'mark'}
+              changing={changing + '/ 24h'}
+              color={color}
+            />
+          </div>
+        </div>
+
+        <div className={styles.sums_container}>
+          <span className={styles.total_sum}>${totalSum}</span>
+        </div>
+
+        <DotsButton isOpening={isOpenDropMenu} setIsOpening={setOpenDropMenu} />
+
+        {/*<div className={styles.dominate_container}>*/}
+        {/*  <span className={styles.dominate_name}>{dominateAssetName}</span>*/}
+        {/*  <span className={styles.dominate_change}>*/}
+        {/*    {dominateAssetInPercent}% dominate*/}
+        {/*  </span>*/}
+        {/*</div>*/}
       </div>
-      <div className={styles.progress_bar_container}>
-        <ProgressBar progress={dominateAssetInPercent} />
-      </div>
-    </div>
-  );
-};
+    );
+  },
+);

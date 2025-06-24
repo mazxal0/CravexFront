@@ -8,4 +8,6 @@ export interface InputProps extends HTMLMotionProps<'input'> {
   topLevelOfLabel?: number;
   bottomLevelOfLabel?: number;
   backgroundLabel?: 'primary' | 'secondary' | 'alternative';
+  formatSize?: 'sm' | 'md' | 'lg' | 'xl';
+  formValue?: string;
 }

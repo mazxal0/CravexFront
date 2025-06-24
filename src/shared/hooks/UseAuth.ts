@@ -1,6 +1,6 @@
 'use client';
 import api from '@/lib/axios';
-import { userStore } from '@/shared/stores/User.store';
+import { rootStore } from '@/shared/stores/RootStore';
 import { UserLogin, UserRegistration } from '@/shared/types/User.types';
 
 export const useAuth = () => {
@@ -19,7 +19,7 @@ export const useAuth = () => {
 
       if (!success) throw new Error('something was wrong :(');
 
-      userStore.setAccessToken(accessToken);
+      rootStore.userStore.setAccessToken(accessToken);
 
       return userId;
     } catch (error) {
@@ -40,7 +40,7 @@ export const useAuth = () => {
       const { userId, success, accessToken } = response.data;
 
       if (!success) throw new Error('something was wrong :(');
-      userStore.setAccessToken(accessToken);
+      rootStore.userStore.setAccessToken(accessToken);
       return userId;
     } catch (error) {
       // console.log(error);
@@ -54,8 +54,8 @@ export const useAuth = () => {
       const response = await api.post(api_url);
       const { accessToken, success, id } = response.data;
       if (!success) throw new Error('something was wrong :(');
-      userStore.userId = id;
-      userStore.setAccessToken(accessToken);
+      rootStore.userStore.userId = id;
+      rootStore.userStore.setAccessToken(accessToken);
       // window.location.href = `/account/assets/${id}`;
       return false;
     } catch (error) {

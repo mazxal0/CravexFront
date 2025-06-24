@@ -1,12 +1,11 @@
 'use client';
 import { observer } from 'mobx-react-lite';
-import Image from 'next/image';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ChangeEvent, useEffect } from 'react';
 
 import style from './AddNewCoinForWalletModal.module.scss';
 
-import { Button, Input } from '@/components/ui';
+import { Input, List } from '@/components/ui';
 import api from '@/lib/axios';
 import { StandardModal } from '@/shared/components';
 import { rootStore } from '@/shared/stores';
@@ -19,7 +18,7 @@ export const AddNewCoinForWalletModal = observer(() => {
 
   useEffect(() => {
     const getAllCoins = async () => {
-      rootStore.walletActivityStore.getAllCryptoCoins();
+      await rootStore.walletActivityStore.getAllCryptoCoins();
     };
     getAllCoins();
 
@@ -90,32 +89,116 @@ export const AddNewCoinForWalletModal = observer(() => {
     }
   };
 
+  const onSearch = async (query: string) => {
+    console.log('QWEQWERQWRQW');
+    query = query.trim();
+    if (query.length === 0) {
+      console.log('opa');
+      await rootStore.walletActivityStore.getAllCryptoCoins();
+      return;
+    }
+
+    const url = process.env.NEXT_PUBLIC_API_QUERY_COINS;
+    const response = await api.get(url, {
+      params: { query },
+    });
+    rootStore.walletActivityStore.cryptoCoins = response.data.coins.map(
+      (coin: any) => {
+        return {
+          coinId: coin.id,
+          coinName: coin.name,
+          symbol: coin.symbol || coin.api_symbol,
+          image: coin.large || coin.thumb,
+        };
+      },
+    );
+  };
+
   const firstPage = (
-    <div className={style.children}>
-      {rootStore.walletActivityStore.allCryptoCoins
+    <List
+      ListElements={rootStore.walletActivityStore.cryptoCoins
         ?.slice(0, 15)
-        .map((coin) => (
-          <Button
-            key={coin.coinId}
-            className={style.card_button}
-            formatType={'tile'}
-            onClick={() => onNextPage(coin)}
-          >
-            <div className={style.card_container}>
-              <Image
-                className={style.image_card}
-                src={coin.image || '/fallback-image.png'}
-                alt={coin.coinName || 'Coin'}
-                width={25}
-                height={25}
-                loading="lazy"
-              />
-              <span className={style.text_card}>{coin.coinName}</span>
-            </div>
-          </Button>
-        ))}
-    </div>
+        .map((el) => {
+          return {
+            text: el.coinName,
+            imageUrl: el.image,
+            onClick: () => onNextPage(el),
+          };
+        })}
+      onSearch={onSearch}
+      onHandleChange={rootStore.walletActivityStore.setQueryCryptoCoins}
+      value={rootStore.walletActivityStore.queryCryptoCoins}
+    />
   );
+  {
+    /*<SearchableSelect options={[]} />*/
+  }
+  {
+    /*{rootStore.walletActivityStore.allCryptoCoins*/
+  }
+  {
+    /*  ?.slice(0, 15)*/
+  }
+  {
+    /*  .map((coin) => (*/
+  }
+  {
+    /*    <Button*/
+  }
+  {
+    /*      key={coin.coinId}*/
+  }
+  {
+    /*      className={style.card_button}*/
+  }
+  {
+    /*      formatType={'tile'}*/
+  }
+  {
+    /*      onClick={() => onNextPage(coin)}*/
+  }
+  {
+    /*    >*/
+  }
+  {
+    /*      <div className={style.card_container}>*/
+  }
+  {
+    /*        <Image*/
+  }
+  {
+    /*          className={style.image_card}*/
+  }
+  {
+    /*          src={coin.image || '/fallback-image.png'}*/
+  }
+  {
+    /*          alt={coin.coinName || 'Coin'}*/
+  }
+  {
+    /*          width={25}*/
+  }
+  {
+    /*          height={25}*/
+  }
+  {
+    /*          loading="lazy"*/
+  }
+  {
+    /*        />*/
+  }
+  {
+    /*        <span className={style.text_card}>{coin.coinName}</span>*/
+  }
+  {
+    /*      </div>*/
+  }
+  {
+    /*    </Button>*/
+  }
+  {
+    /*  ))}*/
+  }
 
   const secondPage = (
     <div>

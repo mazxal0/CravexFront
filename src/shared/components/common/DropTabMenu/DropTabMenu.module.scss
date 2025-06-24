@@ -1,0 +1,20 @@
+.container {
+  background-color: var(--card-bg-color);
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 5px;
+  top: 40px;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid var(--card-bg-border-color);
+  z-index: 999;
+}
+
+.item {
+  padding: 15px;
+  &:hover {
+    cursor: pointer;
+    background-color: var(--card-color-hover);
+  }
+}

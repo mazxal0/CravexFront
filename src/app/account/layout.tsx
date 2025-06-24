@@ -21,10 +21,10 @@ export default function AccountLayout({
       try {
         const isError = await auth();
         if (isError) {
-          redirect('/account/auth/login');
+          redirect('auth/login');
         }
       } catch (_) {
-        redirect('/account/auth/login');
+        redirect('auth/login');
       } finally {
         setIsLoaded(true);
       }

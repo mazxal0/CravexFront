@@ -66,7 +66,7 @@ export const AssetCard: FC<AssetCardProps> = ({
       </div>
       <div className={styles.right_column}>
         <span className={styles.number_all_cost}>
-          ${formatNumberWithSpaces(price * amount, '\u200A')}
+          ${formatNumberWithSpaces(price * (Number(amount) | 0), '\u200A')}
         </span>
         <ChangingWithChevron
           type={'mark'}

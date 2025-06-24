@@ -6,3 +6,7 @@ export { Input } from '@/components/ui/Input/Input';
 export { BurgerButton } from '@/components/ui/BurgerButton/BurgerButton';
 export { ProgressBar } from '@/components/ui/ProgressBar/ProgressBar';
 export { Spinner } from '@/components/ui/Spinner/Spinner';
+export { DotsButton } from '@/components/ui/DotsButton/DotsButton';
+export { SwitchButton } from '@/components/ui/SwitchButton/SwitchButton';
+export { List } from '@/components/ui/List/List';
+export { ControlInput } from '@/components/ui/ControlInput/ControlInput';

@@ -8,7 +8,7 @@ import { Chevron } from '@/components/icons';
 
 interface Props {
   color: 'var(--success-color)' | 'var(--error-color)';
-  changing: number;
+  changing: number | string;
   type: 'chevron' | 'mark';
 }
 
@@ -30,7 +30,7 @@ export const ChangingWithChevron = ({ color, changing, type }: Props) => {
         />
       )}
       {type === 'mark' && color === 'var(--success-color)' ? '+' : '-'}
-      {changing}%
+      {changing.toString().split('')[0]}% {changing.toString().slice(1)}
     </span>
   );
 };

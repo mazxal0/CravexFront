@@ -1,17 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import styles from './CurrentAssetCard.module.scss';
 
-import { DotsIcon } from '@/components/icons';
-import { Button } from '@/components/ui';
+import { DotsButton } from '@/components/ui';
+import { DropTabMenu } from '@/shared/components';
 import { rootStore } from '@/shared/stores';
 import { formatNumberLength } from '@/shared/utils';
 
 export const CurrentAssetCard = () => {
+  const [isOpenDotsMenu, setIsOpenDotsMenu] = useState<boolean>(false);
+
   const onDeleteCurrentAssetFromWallet = async () => {};
 
   return (
     <div className={styles.heading_of_chart}>
+      {isOpenDotsMenu && (
+        <DropTabMenu
+          className={styles.drop_tab_menu}
+          items={[
+            {
+              text: 'Закрыть меню',
+              callback: () => {
+                setIsOpenDotsMenu(false);
+              },
+            },
+            { text: 'Удалить', callback: onDeleteCurrentAssetFromWallet },
+          ]}
+        />
+      )}
       <div className={styles.header_part}>
         <h3 className={styles.text_header}>
           Current Asset: {rootStore.currentActivityStore.currentAsset.coinName}
@@ -19,16 +35,15 @@ export const CurrentAssetCard = () => {
         <span className={styles.text_standard}>
           Amount:{' '}
           {formatNumberLength(
-            rootStore.currentActivityStore.currentAsset.amount,
+            Number(rootStore.currentActivityStore.currentAsset.amount),
           )}
         </span>
-        <Button
-          formatType={'outline'}
-          className={styles.recycle_bin}
-          onClick={onDeleteCurrentAssetFromWallet}
-        >
-          <DotsIcon height={20} width={20} />
-        </Button>
+        <div className={styles.dots_container}>
+          <DotsButton
+            isOpening={isOpenDotsMenu}
+            setIsOpening={setIsOpenDotsMenu}
+          />
+        </div>
       </div>
       <span className={styles.text_standard}>
         Price:{' '}

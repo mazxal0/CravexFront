@@ -16,6 +16,7 @@ export default function Login() {
   const { register, setError, handleSubmit } = useForm<UserLogin>({
     mode: 'onChange',
   });
+
   useEffect(() => {
     const getUserId = setTimeout(async () => {
       const userId = await rootStore.userStore.getUserId();
@@ -44,6 +45,7 @@ export default function Login() {
           <h2 className={styles.heading}>Sign In</h2>
           <Input
             className={styles.input_search}
+            formatSize={'sm'}
             label={'email'}
             {...register('email', {
               required: true,
@@ -59,7 +61,7 @@ export default function Login() {
 
           <Button
             className={styles.form_button}
-            // onClick={() => console.log('opa')}
+            formatSize={'sm'}
             type={'submit'}
           >
             Login

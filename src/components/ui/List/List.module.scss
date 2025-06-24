@@ -1,0 +1,46 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  //justify-content: center;
+
+  max-height: 320px; /* или сколько тебе нужно */
+  overflow-y: scroll;
+  padding: 10px 0;
+  padding-inline: 10px;
+  //scroll-padding-top: 8px;
+  //scroll-padding-bottom: 8px;
+
+  /* Стили для WebKit (Chrome, Safari, Edge) */
+  &::-webkit-scrollbar {
+    //background: var(--bg-secondary-color); // Используйте ваши переменные
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--bg-secondary-color); // Используйте ваши переменные
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 3px;
+    transition: background 0.2s;
+
+    &:hover {
+      background: var(--primary-color);
+    }
+  }
+}
+
+
+.list .element {
+  display: flex;
+  gap: 15px;
+  padding: 15px;
+  border-radius: 5px;
+  transition: background-color 300ms;
+
+  &:hover {
+    background-color: var(--card-color-hover);
+  }
+}

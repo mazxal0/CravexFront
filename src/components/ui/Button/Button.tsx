@@ -9,13 +9,19 @@ export const Button: FC<ButtonProps> = ({
   children,
   type = 'button',
   formatType = 'primary',
+  formatSize = 'sm',
   className,
   ...props
 }) => {
   return (
     <button
       type={type}
-      className={clsx(styles.button, styles[formatType], className)}
+      className={clsx(
+        styles.button,
+        styles[formatType],
+        styles[formatSize],
+        className,
+      )}
       {...props}
     >
       {children}

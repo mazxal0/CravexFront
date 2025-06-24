@@ -2,8 +2,10 @@
   display: flex;
   width: 100vw;
   position: relative;
-  overflow: hidden;
-  height: 92vh;
+  overflow: auto;
+  //height: 100vh;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 .container {
@@ -17,7 +19,7 @@
 }
 
 .down_heading {
-  margin-bottom: 100px;
+  //margin-bottom: 50px;
 }
 
 .form {
@@ -29,11 +31,13 @@
 .heading {
   display: flex;
   justify-content: center;
-  margin-bottom: 50px;
+  align-items: center;
+  margin-bottom: 30px;
+  font-size: 40px;
 }
 
 .form_button {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .heading {
@@ -43,7 +47,7 @@
 .text_login_in {
   display: flex;
   justify-content: center;
-  font-size: 13px;
+  font-size: 17px;
   margin-top: 15px;
 }
 
@@ -52,5 +56,5 @@
 }
 
 .input_search {
-  margin: 10px 0;
+  margin: 15px 0;
 }

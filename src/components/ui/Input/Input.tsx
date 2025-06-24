@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { FC, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 
 import clsx from 'clsx';
 
@@ -12,19 +12,42 @@ import { InputProps } from '@/components/ui/Input/Input.props';
 export const Input: FC<InputProps> = ({
   label,
   className,
-  onChange,
-  value,
+  value = '',
+  onChange = () => {},
   id,
   classNameForLabel,
-  topLevelOfLabel = 20,
-  bottomLevelOfLabel = 100,
+  topLevelOfLabel = 15,
+  bottomLevelOfLabel = 95,
   backgroundLabel = 'primary',
+  formatSize = 'sm',
+  onFocus,
+  onBlur,
   ...props
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isFocused, setIsFocused] = useState(false);
+  const [internalValue, setInternalValue] = useState(value);
 
-  const hasValue = !!value;
+  useEffect(() => {
+    setInternalValue(value);
+  }, [value]);
+
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    setIsFocused(true);
+    onFocus?.(e);
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    setIsFocused(false);
+    onBlur?.(e);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInternalValue(e.target.value);
+    onChange?.(e);
+  };
+
+  const hasValue = !!internalValue;
   const inputId = id || label;
 
   return (
@@ -35,13 +58,14 @@ export const Input: FC<InputProps> = ({
           classNameForLabel,
           styles.label,
           styles[`bg-label-${backgroundLabel}`],
+          styles[formatSize],
         )}
-        initial={{ y: '50%', scale: 1 }}
+        initial={{ y: `${bottomLevelOfLabel}%`, scale: 1 }}
         animate={{
           y:
             isFocused || hasValue
-              ? `-${topLevelOfLabel || 20}%`
-              : `${bottomLevelOfLabel || 110}%`,
+              ? `-${topLevelOfLabel}%`
+              : `${bottomLevelOfLabel}%`,
           scale: isFocused || hasValue ? 0.85 : 1,
           color:
             isFocused || hasValue
@@ -62,10 +86,10 @@ export const Input: FC<InputProps> = ({
         id={inputId}
         ref={inputRef}
         className={clsx(className, styles.input)}
-        value={value}
-        onChange={onChange}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
+        value={internalValue}
+        onChange={handleChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         whileFocus={{
           borderColor: 'var(--focus-blue-color)',
           boxShadow: '0 0 0 2px rgba(74, 108, 247, 0.2)',

@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: calc(100vw - #{$headerHeight});
+  width: calc(100vw - #{$headerWidth});
   position: relative;
 }
 

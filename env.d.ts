@@ -12,8 +12,12 @@ declare namespace NodeJS {
     readonly NEXT_PUBLIC_API_GET_ORDERED_ALL_COINS: string;
     readonly NEXT_PUBLIC_API_GET_COIN_DATA: string;
     readonly NEXT_PUBLIC_API_GET_COIN_DATA_BY_ID: string;
+    readonly NEXT_PUBLIC_API_QUERY_COINS: string;
 
     readonly NEXT_PUBLIC_API_ADD_COIN_FOR_WALLET: string;
     readonly NEXT_PUBLIC_API_DELETE_COIN_FROM_WALLET: string;
+
+    readonly NEXT_PUBLIC_API_ADD_NEW_WALLET: string;
+    readonly NEXT_PUBLIC_API_DELETE_WALLET: string;
   }
 }

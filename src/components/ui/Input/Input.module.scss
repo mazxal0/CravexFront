@@ -7,10 +7,10 @@
   width: 100%;
   background-color: transparent;
   color: var(--font-color);
-  padding: 12px;
+  padding: 15px 20px;
   border-radius: 5px;
   border: 1px solid var(--blue-color);
-  font-size: 16px;
+  font-size: 20px;
   transition: all 0.3s ease;
 
   &:focus {
@@ -20,7 +20,7 @@
 
 .label {
   position: absolute;
-  font-size: 13px;
+  font-size: 18px;
   left: 12px;
   top: 4px;
   pointer-events: none;
@@ -41,4 +41,19 @@
 
 .bg-label-alternative {
   background-color: var(--bg-alternative-color);
+}
+
+//.sm {
+//  font-size: 16px;
+//  padding: 12px;
+//}
+
+.md {
+  font-size: 20px;
+  padding: 15px 15px;
+}
+
+.lg {
+  font-size: 24px;
+  padding: 15px 20px;
 }

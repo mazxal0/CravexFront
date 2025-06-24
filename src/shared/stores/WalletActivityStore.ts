@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, toJS } from 'mobx';
 
 import api from '@/lib/axios';
 import { RootStore } from '@/shared/stores/RootStore';
@@ -9,7 +9,8 @@ export class WalletActivityStore {
 
   private _walletAssets: Asset[] = [];
   private _currentAllWalletBalance: number = 0;
-  private _allCryptoCoins: Coin[] = [];
+  private _cryptoCoins: Coin[] = [];
+  private _queryCryptoCoins: string = '';
 
   private _editMode: boolean = false;
 
@@ -24,11 +25,21 @@ export class WalletActivityStore {
         `${process.env.NEXT_PUBLIC_API_GET_WALLET_ASSETS}/${walletId}`,
       );
 
-      // console.log(response.data);
+      const plainData = {
+        suma: response.data.suma,
+        assets: toJS(response.data.assets),
+      };
 
-      this.currentAllWalletBalance = response.data.suma;
-      this.walletAssets = response.data.assets;
-      this.rootStore.currentActivityStore.currentAsset = this.walletAssets[0];
+      this.currentAllWalletBalance = plainData.suma;
+      this.walletAssets = plainData.assets;
+      this.rootStore.currentActivityStore.currentAsset = toJS(
+        this.walletAssets[0],
+      );
+      // console.log(
+      //   'opa',
+      //   this.walletAssets,
+      //   // this.rootStore.currentActivityStore.currentAsset,
+      // );
     } catch (e) {
       console.error(e);
     }
@@ -39,7 +50,7 @@ export class WalletActivityStore {
       const response = await api.get<GetAxiosCoin[]>(
         `${process.env.NEXT_PUBLIC_API_GET_ORDERED_ALL_COINS}?vs_currency=usd&order=market_cap_desc`,
       );
-      this.allCryptoCoins = response.data.map((coin) => {
+      this.cryptoCoins = response.data.map((coin) => {
         return {
           coinName: coin.name,
           coinId: coin.id,
@@ -69,11 +80,11 @@ export class WalletActivityStore {
     return this._currentAllWalletBalance;
   }
 
-  set allCryptoCoins(newCryptoCoins: Coin[]) {
-    this._allCryptoCoins = newCryptoCoins;
+  set cryptoCoins(newCryptoCoins: Coin[]) {
+    this._cryptoCoins = newCryptoCoins;
   }
-  get allCryptoCoins() {
-    return this._allCryptoCoins;
+  get cryptoCoins() {
+    return this._cryptoCoins;
   }
 
   changeEditMode() {
@@ -86,4 +97,15 @@ export class WalletActivityStore {
   get editMode() {
     return this._editMode;
   }
+
+  set queryCryptoCoins(newQuery: string) {
+    this._queryCryptoCoins = newQuery;
+  }
+  get queryCryptoCoins() {
+    return this._queryCryptoCoins;
+  }
+
+  setQueryCryptoCoins = (newQuery: string) => {
+    this.queryCryptoCoins = newQuery;
+  };
 }
