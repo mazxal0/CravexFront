@@ -1,4 +1,4 @@
-export interface WalletPreview {
+export interface WalletPreviewType {
   id: string;
   name?: string;
   totalBalance?: number;

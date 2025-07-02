@@ -1,0 +1,64 @@
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
+
+.navbar {
+  background-color: var(--card-bg-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+  height: $horizontalNavBarHeight;
+  padding: 15px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  margin-bottom: $horizontalNavBarHeight;
+  border-bottom: 1px solid var(--card-bg-border-color);
+  z-index: 999;
+}
+
+.mobile_navbar {
+  position: fixed;
+  bottom: 0;
+  z-index: 999;
+  border-top: 2px solid var(--card-bg-border-color);
+  display: none;
+  justify-content: space-between;
+  width: 100%;
+  background-color: var(--card-bg-color);
+  padding: 10px 40px;
+  gap: 15px;
+
+  @include respond(xs) {
+    padding: 15px 15px;
+    font-size: 14px;
+  }
+}
+
+.button_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@include respond(sm) {
+  .navbar {
+    display: none;
+  }
+  .mobile_navbar {
+    display: flex;
+  }
+}
+
+.link {
+  color: var(--font-color);
+  transition: color 0.2s;
+
+  &:hover {
+    color: var(--link-primary-hover-color);
+  }
+}
+
+.active {
+  color: var(--link-primary-color) !important;
+}

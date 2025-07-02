@@ -1,10 +1,10 @@
 export { AvatarUserButton, DropTabMenu } from '@/shared/components/common';
-export { Header } from '@/shared/components/layout';
+export { Header, HorizontalNavBar } from '@/shared/components/layout';
 export { ButtonsGroup, ChartDataGroup } from '@/shared/components/group';
 export {
   AssetsPanel,
   WalletsPanel,
-  HistoryPanel,
+  TransactionPanel,
 } from '@/shared/components/Panels';
 export {
   GeneralModalPage,

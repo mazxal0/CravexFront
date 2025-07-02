@@ -1,7 +1,7 @@
-import axios from 'axios';
 import { LineData } from 'lightweight-charts';
 import { makeAutoObservable } from 'mobx';
 
+import api from '@/lib/axios';
 import { type Asset, type CurrentAsset } from '@/shared/types';
 import { DateForChart } from '@/shared/types/ChartData.types';
 
@@ -11,7 +11,7 @@ export class CurrentActivityStore {
   private _currentAsset: CurrentAsset = {
     coinId: '',
     coinName: '',
-    coinSymbol: '',
+    symbol: '',
     amount: 0,
     price: 0,
     logoUrl: '',
@@ -21,6 +21,7 @@ export class CurrentActivityStore {
     prices: [],
     marketCaps: [],
     volumes: [],
+    isOpenChart: false,
   };
 
   public constructor() {
@@ -29,8 +30,9 @@ export class CurrentActivityStore {
 
   async getPricesForChart() {
     try {
-      const response = await axios.get(
-        `http://localhost:8080/coin/chart_data/${this.currentAsset.coinName}?vs_currency=usd&days=${this.dateOfChart}`,
+      const response = await api.get(
+        `/coin/chart_data/${this.currentAsset.coinName}`,
+        { params: { vs_currency: 'usd', days: this.dateOfChart } },
       );
       const data = response.data;
 
@@ -42,7 +44,7 @@ export class CurrentActivityStore {
         marketCaps: data.marketCaps,
         marketCap: data.marketCaps[data.marketCaps.length - 1].value,
       };
-      this.dataForChart = this.currentAsset?.prices || [];
+      this.dataForChart = this.currentAsset?.prices;
     } catch (er) {
       console.error(er);
     }

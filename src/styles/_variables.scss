@@ -1,1 +1,13 @@
-$headerWidth: 150px;
+$headerWidth: 120px;
+$horizontalNavBarHeight: 50px;
+
+$breakpoints: (
+  xs: 480px,
+  sm: 768px,
+  md: 1024px,
+  lg: 1280px,
+  xl: 1440px,
+);
+
+// Пример как использовать
+// @use 'path' as *; обычно path = '@/styles/variables'

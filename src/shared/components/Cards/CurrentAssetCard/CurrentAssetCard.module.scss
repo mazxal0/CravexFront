@@ -1,3 +1,5 @@
+@use '@/styles/mixins' as *;
+
 .heading_of_chart {
   display: flex;
   flex-direction: column;
@@ -8,26 +10,110 @@
   box-shadow: 0 4px 40px var(--box-shadow-color);
   overflow: hidden;
   gap: 5px;
+
+  @include respond(md) {
+    width: 100%;
+  }
+}
+
+.icon_image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.mini_size {
+  margin-left: 15px;
+  margin-bottom: 5px;
+  font-size: 16px;
+  background-color: var(--card-color-hover);
+  border-radius: 5px;
+  padding: 5px;
+  //box-shadow: 0 0 2px black ;
 }
 
 .header_part {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  //justify-content: space-between;
+  gap: 25px;
   position: relative;
   padding-right: 50px;
 }
 
 .text_header {
-  font-size: 30px
+  display: flex;
+  align-items: center;
+  font-size: 30px;
+  position: relative;
+  height: 40px;
+}
+
+.second_currency {
+  display: flex;
+  align-items: end;
+  padding-bottom: 2px;
+  justify-content: start;
+  height: 100%;
+  position: relative;
+  font-size: 20px;
+  opacity: 0.7;
+}
+
+.metrics {
+  display: grid;
+  gap: 5px;
+  grid-template-columns: repeat(3, 1fr);
+
+  grid-template-rows: auto auto;
+
+  > * {
+    &:nth-child(1) {
+      grid-column: span 2;
+    }
+    &:nth-child(2) {
+      grid-column: span 1;
+    }
+    &:nth-child(3),
+    &:nth-child(4),
+    &:nth-child(5) {
+      grid-column: span 1; // Каждый занимает 1 колонку
+    }
+  }
+}
+
+.low_metrics {
+  .heading {
+    font-size: 14px !important;
+  }
+  .price_text {
+    display: flex;
+    font-size: 18px !important;
+  }
 }
 
 .text_standard {
   //background-color: var(--card-color-hover);
   //padding: 15px;
   border-radius: 15px;
-  font-size: 20px;
+  font-size: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
   //color: var(--accent-color);
+
+  .heading {
+    opacity: 0.6;
+    font-size: 18px;
+  }
+}
+
+.amount {
+  display: flex;
+  gap: 10px;
 }
 
 .recycle_bin {
@@ -56,3 +142,19 @@
   top: 70px;
   right: 40px;
 }
+
+.back_arrow {
+  display: none;
+
+  @include respond(md) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--border-color-header);
+    padding: 5px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+  }
+}
+

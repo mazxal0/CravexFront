@@ -1,3 +1,5 @@
+@use '@/styles/mixins' as *;
+
 .container {
   background-color: transparent;
   padding: 20px 20px;
@@ -19,10 +21,15 @@
   & * {
     cursor: default;
   }
+
+  @include respond(md) {
+    width: 100%;
+  }
 }
 
 .active {
   background-color: var(--card-color-hover);
+  pointer-events: none;
 }
 
 .image_box {

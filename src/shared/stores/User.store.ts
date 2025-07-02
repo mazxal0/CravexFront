@@ -1,21 +1,25 @@
 import { makeAutoObservable } from 'mobx';
 
-import api from '@/lib/axios';
-
 export class UserStore {
-  public accessToken: string = '';
+  private _accessToken: string = '';
 
   private _userId: string | null = null;
   private _walletId: string = '';
 
   constructor() {
     makeAutoObservable(this);
+    this._userId = this.loadFromStorage('userId');
+    this._accessToken = this.loadFromStorage('accessToken');
   }
 
-  set userId(newUserId: string | null) {
+  set userId(newUserId: string) {
     this._userId = newUserId;
+    this.saveToStorage('userId', newUserId);
   }
-  get userId() {
+  get userId(): string | null {
+    if (!this._userId) {
+      this.loadFromStorage('userId');
+    }
     return this._userId;
   }
 
@@ -26,34 +30,34 @@ export class UserStore {
     return this._walletId;
   }
 
-  setAccessToken(newAccessToken: string) {
-    this.accessToken = newAccessToken;
+  set accessToken(newAccessToken: string) {
+    this._accessToken = newAccessToken;
+    this.saveToStorage('accessToken', newAccessToken);
+  }
+
+  get accessToken() {
+    if (!this._userId) {
+      this.loadFromStorage('accessToken');
+    }
+    return this._accessToken;
   }
 
   clearAccessToken() {
-    this.accessToken = '';
+    this._accessToken = '';
     this._userId = null;
   }
 
-  get isLoggedIn() {
-    return !!this.accessToken;
+  private saveToStorage(key: string, data: string) {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(key, JSON.stringify(data));
+    }
   }
-
-  public async getUserId() {
-    try {
-      const api_url = process.env.NEXT_PUBLIC_API_URL_GET_ME;
-      // console.log(this.accessToken);
-      const response = await api.get(api_url, {
-        headers: { Authorization: `Bearer ${this.accessToken}` },
-      });
-      const userId = response.data.userId;
-      if (!userId) throw new Error('something was wrong :(');
-      // console.log('id', userId);
-      this.userId = userId;
-      return userId;
-    } catch (error) {
-      // console.log(error);
-      return undefined;
+  private loadFromStorage(key: string) {
+    if (typeof window !== 'undefined') {
+      const data = localStorage.getItem(key);
+      if (data) {
+        return JSON.parse(data);
+      }
     }
   }
 }

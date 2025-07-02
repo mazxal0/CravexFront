@@ -5,11 +5,10 @@ import { FC, useEffect, useState } from 'react';
 
 import styles from './WalletCard.module.scss';
 
-import { ChangingWithChevron, DotsButton } from '@/components/ui';
-import api from '@/lib/axios';
+import { DotsIcon } from '@/components/icons';
+import { ChangingWithChevron, MenuButton } from '@/components/ui';
 import { DropTabMenu } from '@/shared/components';
 import { WalletCardProps } from '@/shared/components/Cards/WalletCard/WalletCard.props';
-import { rootStore } from '@/shared/stores';
 import { userStore } from '@/shared/stores/User.store';
 
 export const WalletCard: FC<WalletCardProps> = observer(
@@ -17,10 +16,11 @@ export const WalletCard: FC<WalletCardProps> = observer(
     id,
     index,
     name = 'wallet',
-    totalSum = 0,
+    totalBalance = 0,
     changing = 0,
     dominateAssetName = 'void',
     dominateAssetInPercent = 0,
+    deleteWallet,
   }) => {
     const [color, setColor] = useState<
       'var(--success-color)' | 'var(--error-color)'
@@ -44,13 +44,13 @@ export const WalletCard: FC<WalletCardProps> = observer(
 
     const isEditing = () => {};
 
-    const deleteWallet = async () => {
-      await api.delete(`${process.env.NEXT_PUBLIC_API_DELETE_WALLET}/${id}`);
-      rootStore.walletsPageManagerStore.wallets =
-        rootStore.walletsPageManagerStore.wallets.filter(
-          (wallet) => wallet.id !== id,
-        );
-    };
+    // const deleteWallet = async () => {
+    //   await api.delete(`${process.env.NEXT_PUBLIC_API_DELETE_WALLET}/${id}`);
+    //   rootStore.walletsPageManagerStore.wallets =
+    //     rootStore.walletsPageManagerStore.wallets.filter(
+    //       (wallet) => wallet.id !== id,
+    //     );
+    // };
 
     return (
       <div className={styles.card} onClick={onClickWallet}>
@@ -68,7 +68,7 @@ export const WalletCard: FC<WalletCardProps> = observer(
                 text: 'Удалить',
                 callback: async (e) => {
                   e.stopPropagation();
-                  await deleteWallet();
+                  await deleteWallet(id);
                 },
               },
             ]}
@@ -86,10 +86,13 @@ export const WalletCard: FC<WalletCardProps> = observer(
         </div>
 
         <div className={styles.sums_container}>
-          <span className={styles.total_sum}>${totalSum}</span>
+          <span className={styles.total_sum}>${totalBalance}</span>
         </div>
 
-        <DotsButton isOpening={isOpenDropMenu} setIsOpening={setOpenDropMenu} />
+        <MenuButton
+          imageElement={<DotsIcon />}
+          setIsOpening={setOpenDropMenu}
+        />
 
         {/*<div className={styles.dominate_container}>*/}
         {/*  <span className={styles.dominate_name}>{dominateAssetName}</span>*/}

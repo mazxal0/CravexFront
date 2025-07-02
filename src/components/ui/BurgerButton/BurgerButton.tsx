@@ -1,17 +1,20 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { FC } from 'react';
 
 import styles from './BurgerButton.module.scss';
 
-export const BurgerButton = () => {
-  const [isOpenButton, setIsOpenButton] = useState<boolean>();
+import { BurgerButtonProps } from '@/components/ui/BurgerButton/BurgerButton.props';
 
+export const BurgerButton: FC<BurgerButtonProps> = ({
+  onClick,
+  isOpenButton,
+}) => {
   return (
     <button
       className={styles.burger_button}
-      onClick={() => setIsOpenButton((prev) => !prev)}
+      onClick={() => onClick((prev) => !prev)}
     >
       <motion.div
         className={styles.burger}

@@ -10,7 +10,9 @@ export const Button: FC<ButtonProps> = ({
   type = 'button',
   formatType = 'primary',
   formatSize = 'sm',
+  active,
   className,
+  disabled,
   ...props
 }) => {
   return (
@@ -20,6 +22,8 @@ export const Button: FC<ButtonProps> = ({
         styles.button,
         styles[formatType],
         styles[formatSize],
+        active && styles.active,
+        disabled && styles.disabled,
         className,
       )}
       {...props}

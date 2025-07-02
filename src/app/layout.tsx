@@ -4,6 +4,8 @@ import { ReactNode } from 'react';
 import type { Metadata } from 'next';
 
 import './globals.scss';
+import { Providers } from '@/app/provider';
+import 'react-loading-skeleton/dist/skeleton.css'; // Импорт глобальных CSS здесь, в server-лейауте
 
 const inter = Manrope({
   subsets: ['latin'],
@@ -25,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased main_app`}>
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

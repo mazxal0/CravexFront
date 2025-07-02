@@ -61,4 +61,9 @@ export class ModalStore {
       console.log(error);
     }
   }
+
+  resetData() {
+    this.currentPageAddingCoin = '0';
+    this.isOpenAddingNewAsset = false;
+  }
 }

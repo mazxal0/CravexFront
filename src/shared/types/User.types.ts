@@ -5,9 +5,35 @@ export interface UserRegistration {
   confirmPassword: string;
 }
 
-export interface UserLogin {
+export interface UserLoginType {
   email: string;
   password: string;
 }
 
-export interface User {}
+export interface UserLoginRequestGet {
+  requires2FA: boolean;
+  userId: string;
+  message: string;
+  telegramLink: string;
+}
+
+export interface UserRegistrationRequestGet {
+  success: boolean;
+  userId: string;
+  telegramLink: string;
+  message: string;
+}
+
+export interface UserTypeGet {
+  email: string;
+  username: string;
+  telegramUser: {
+    telegramUsername: string;
+  };
+}
+
+export interface UserType {
+  email: string;
+  username: string;
+  telegram: string;
+}

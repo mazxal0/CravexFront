@@ -12,14 +12,27 @@
 //   // Соединяем части пробелами
 //   return parts.join(' ');
 // }
-export function formatNumberWithSpaces(num: number, spaceChar: string = ' ') {
+export function formatNumberWithSpaces(
+  num: number,
+  spaceChar: string = '\u00A0',
+): string {
   const str = num.toString().replace(/\s/g, '');
-  return str.replace(/\B(?=(\d{3})+(?!\d))/g, spaceChar);
+
+  // Разделяем целую и дробную части
+  const parts = str.split('.');
+  const integerPart = parts[0];
+  const decimalPart = parts[1] ? `.${parts[1]}` : '';
+
+  // Форматируем только целую часть
+  const formattedInteger = integerPart.replace(
+    /\B(?=(\d{3})+(?!\d))/g,
+    spaceChar,
+  );
+
+  // Возвращаем объединённый результат
+  return formattedInteger + decimalPart;
 }
 
-export function formatNumberLength(num: any, length: number = 2) {
-  if (typeof num !== 'number') {
-    return '';
-  }
-  return num.toFixed(length).toString();
+export function formatNumberLength(num: number, length: number = 2) {
+  return num.toFixed(length);
 }

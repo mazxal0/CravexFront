@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 
 import styles from './StandardModal.module.scss';
 
@@ -16,7 +16,6 @@ interface ModalProps {
   confirmText?: string;
   cancelText?: string;
 }
-
 export const StandardModal: FC<ModalProps> = ({
   isOpen,
   onClose,
@@ -26,23 +25,7 @@ export const StandardModal: FC<ModalProps> = ({
   confirmText,
   cancelText,
 }) => {
-  const modalRef = useClickOutside<HTMLDivElement>(onClose, isOpen);
-
-  // Закрытие по клавише Esc
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden'; // Блокировка прокрутки фона
-    }
-    return () => {
-      document.body.style.overflow = 'auto'; // Разблокировка прокрутки фо
-    };
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (isOpen && modalRef.current) {
-      modalRef.current.focus();
-    }
-  }, [isOpen]);
+  const modalRef = useClickOutside<HTMLDivElement>(() => onClose, isOpen, true);
 
   if (!isOpen) return null;
 
@@ -53,7 +36,7 @@ export const StandardModal: FC<ModalProps> = ({
         <div className={styles.content}>{children}</div>
         <div className={styles.actions}>
           <Button className={styles.cancelButton} onClick={onClose}>
-            {cancelText}
+            {cancelText || 'Cancel'}
           </Button>
           {confirmText && <Button onClick={onConfirm}>{confirmText}</Button>}
         </div>
@@ -61,9 +44,3 @@ export const StandardModal: FC<ModalProps> = ({
     </div>
   );
 };
-
-// {children.map((coin, index) => (
-//             <Button key={index} formatType={'tile'}>
-//               {coin}
-//             </Button>
-// ))}

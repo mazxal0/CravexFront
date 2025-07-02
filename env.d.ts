@@ -1,9 +1,12 @@
 declare namespace NodeJS {
   interface ProcessEnv {
     readonly NEXT_PUBLIC_API_URL: string;
+    readonly NEXT_PUBLIC_FRONTEND_URL: string;
+
     readonly NEXT_PUBLIC_API_URL_REGISTRATION: string;
     readonly NEXT_PUBLIC_API_URL_LOGIN: string;
     readonly NEXT_PUBLIC_API_URL_AUTH: string;
+    readonly NEXT_PUBLIC_API_URL_VERIFICATION_TO_TG_CODE: string;
     readonly NEXT_PUBLIC_API_URL_LOG_OUT: string;
     readonly NEXT_PUBLIC_API_URL_GET_ME: string;
     readonly NEXT_PUBLIC_API_URL_GET_ALL_WALLETS: string;
@@ -19,5 +22,7 @@ declare namespace NodeJS {
 
     readonly NEXT_PUBLIC_API_ADD_NEW_WALLET: string;
     readonly NEXT_PUBLIC_API_DELETE_WALLET: string;
+
+    readonly NEXT_PUBLIC_API_GET_TRANSACTION_FOR_ONE_ASSET: string;
   }
 }

@@ -250,11 +250,25 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ data }) => {
         lineWidth: 2,
         priceFormat: {
           type: 'price',
-          // precision: 2, // Без десятичных знаков
+          precision: 6, // Без десятичных знаков
+          minMove: 0.000001,
           // minMove: step || 1000, // Динамический шаг или 1000 по умолчанию
         },
       });
-
+      chartRef.current.applyOptions({
+        localization: {
+          priceFormatter: (price: number) => {
+            // Округляем до 2-3 знаков (можно настроить под свои нужды)
+            if (price >= 1000) {
+              return price.toFixed(0); // Для больших чисел — без дробной части
+            } else if (price >= 1) {
+              return price.toFixed(2); // Для чисел 1-1000 — 2 знака
+            } else {
+              return price.toFixed(3); // Для чисел <1 — 3 знака
+            }
+          },
+        },
+      });
       seriesRef.current.setData(data);
 
       const resizeObserver = new ResizeObserver(() => {

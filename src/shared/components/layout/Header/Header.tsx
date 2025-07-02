@@ -5,26 +5,28 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FC, useEffect, useRef, useState } from 'react';
 
+import clsx from 'clsx';
+
 import styles from './Header.module.scss';
 
-import { MainLogo, UserAvatarIcon, WalletIcon } from '@/components/icons';
+import {
+  MagnifierIcon,
+  MainLogo,
+  SettingsIcon,
+  UserAvatarIcon,
+  WalletIcon,
+} from '@/components/icons';
 import { IconProps } from '@/components/icons/IconProps';
 import { Button } from '@/components/ui';
 import api from '@/lib/axios';
 import { rootStore } from '@/shared/stores';
 
 export const Header = () => {
-  const [id, setId] = useState<string | null>(null);
+  const id = rootStore.userStore.userId;
   const [isOpenHeader, setIsOpenHeader] = useState<boolean>(false);
   const router = useRouter();
   const headerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const getId = async () => {
-      setId(await rootStore.userStore.getUserId());
-    };
-    getId();
-  }, []);
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
       if (
@@ -63,7 +65,6 @@ export const Header = () => {
         animate={{
           opacity: isOpenHeader ? 1 : 0,
           maxWidth: isOpenHeader ? 200 : 0,
-          // marginLeft: isOpenHeader ? 10 : -20,
         }}
         transition={{ duration: 0.3 }}
         style={{
@@ -85,7 +86,13 @@ export const Header = () => {
     fontSize: number = 16,
   ) {
     return (
-      <Link href={link} style={{ width: '100%' }}>
+      <Link
+        onClick={() => {
+          setIsOpenHeader(false);
+        }}
+        href={link}
+        style={{ width: '100%' }}
+      >
         <motion.div
           layout
           className={styles.link}
@@ -94,14 +101,12 @@ export const Header = () => {
             paddingLeft: isOpenHeader ? 10 : 15,
           }}
           transition={{
-            // gap: { duration: 0.3 },
             duration: 0.3,
           }}
         >
           <div style={{ width: '30px', height: '30px' }}>
             <IconTSX width={30} height={30} color={'white'} />
           </div>
-
           {headerText(text, fontSize)}
         </motion.div>
       </Link>
@@ -109,58 +114,60 @@ export const Header = () => {
   }
 
   return (
-    <motion.div
-      className={styles.main_header}
-      ref={headerRef}
-      animate={{ width: isOpenHeader ? 300 : 120 }}
-      transition={{ duration: 0.4 }}
-    >
-      <div className={styles.logo_part} onClick={openHeader}>
-        <div style={{ width: '50px', height: '50px' }}>
-          <MainLogo width={50} height={50} />
-        </div>
-        {headerText('CraveX', 30)}
-      </div>
-
-      <div className={styles.icons}>
-        {elementLink(`/account/assets/${id}`, 'Wallets', WalletIcon)}
-        {elementLink(`/account/${id}`, 'Profile', UserAvatarIcon)}
-      </div>
-
-      {/*<div className={styles.search}>*/}
-      {/*  <SearchableSelect*/}
-      {/*    placeholder={'Монеты, токены и мем-токены'}*/}
-      {/*    options={[]}*/}
-      {/*  />*/}
-      {/*</div>*/}
-
-      {/*<div className={styles.user_container}>*/}
-      {/*  <div className={styles.image_icon}>*/}
-      {/*    <NotificationBell*/}
-      {/*      width={27}*/}
-      {/*      height={27}*/}
-      {/*      color={'var(--button-primary-color)'}*/}
-      {/*    />*/}
-      {/*  </div>*/}
-      {/*  <div className={styles.image_icon}>*/}
-      {/*    <AvatarUserButton />*/}
-      {/*  </div>*/}
-      {/*</div>*/}
-
-      {/*<div className={styles.burger_button_container}>*/}
-      {/*  <BurgerButton />*/}
-      {/*</div>*/}
+    <>
       <motion.div
-        className={styles.button_container}
-        // animate={{ maxWidth: isOpenHeader ? '100%' : '0px' }}
-        animate={{
-          // maxWidth: isOpenHeader ? '100%' : '0px',
-          opacity: isOpenHeader ? 1 : 0,
-        }}
+        className={clsx(styles.main_header, styles.desktop)}
+        ref={headerRef}
+        animate={{ width: isOpenHeader ? 300 : 120 }}
         transition={{ duration: 0.4 }}
       >
-        <Button onClick={onExit}>Log out</Button>
+        <div className={styles.logo_part} onClick={openHeader}>
+          <div style={{ width: '50px', height: '50px' }}>
+            <MainLogo width={50} height={50} />
+          </div>
+          {headerText('CraveX', 30)}
+        </div>
+
+        <div className={styles.icons}>
+          {elementLink(`/account/assets/${id}`, 'Wallets', WalletIcon)}
+          {elementLink(`/account/${id}`, 'Profile', UserAvatarIcon)}
+          {elementLink(`/account/settings/${id}`, 'Settings', SettingsIcon)}
+          {elementLink('/info/coins', 'Coins', MagnifierIcon)}
+        </div>
+        <motion.div
+          className={styles.button_container}
+          animate={{
+            opacity: isOpenHeader ? 1 : 0,
+          }}
+          transition={{ duration: 0.4 }}
+        >
+          <Button onClick={onExit}>Log out</Button>
+        </motion.div>
       </motion.div>
-    </motion.div>
+      <div className={styles.mobile_header}>
+        <div className={styles.icons}>
+          <Link className={styles.icon} href={`/account/assets/${id}`}>
+            <WalletIcon height={30} width={30} color={'var(--primary-color)'} />
+            Wallets
+          </Link>
+          <Link className={styles.icon} href={`/account/${id}`}>
+            <UserAvatarIcon
+              height={30}
+              width={30}
+              color={'var(--primary-color)'}
+            />
+            Profile
+          </Link>
+          <Link className={styles.icon} href={'/info/coins'}>
+            <MagnifierIcon
+              height={30}
+              width={30}
+              color={'var(--primary-color)'}
+            />
+            Coins
+          </Link>
+        </div>
+      </div>
+    </>
   );
 };

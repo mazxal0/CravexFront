@@ -7,4 +7,5 @@ type ButtonProps = {
 
 export interface ButtonsGroupProps {
   buttonsProps: ButtonProps[];
+  onClick: (value: any) => void;
 }

@@ -1,5 +1,10 @@
-@use '../../styles/variables' as *;
-
+@use '@/styles/variables' as *;
+@use '@/styles/mixins' as *;
 .layout {
-  margin-left: #{$headerWidth}
+  margin-left: #{$headerWidth};
+
+  @include respond(md) {
+    margin-left: 0;
+    margin-bottom: #{$headerWidth};
+  }
 }

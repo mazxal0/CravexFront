@@ -1,0 +1,49 @@
+@use '@/styles/mixins' as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 100px 0;
+}
+
+.button_send_code {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 80px 0;
+
+  @include respond(sm) {
+    margin-top: 120px;
+  }
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  width: 300px !important;
+
+  @include respond(xs) {
+    font-size: 14px !important;
+    width: 250px !important;
+  }
+}
+
+.codeInput {
+}
+
+.heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 30px 20px;
+  margin-bottom: 100px;
+  & h2 {
+    width: 400px;
+    @include respond(xs) {
+      font-size: 18px;
+    }
+  }
+}

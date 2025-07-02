@@ -1,3 +1,1 @@
-export interface HeaderAssetsCardProps {
-  changing: number;
-}
+export interface HeaderAssetsCardProps {}

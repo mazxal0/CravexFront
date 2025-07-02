@@ -20,7 +20,7 @@
   --font-alternative-color: #9CA3AF;
   --font-black-color: #9191913F;
   --success-color: #10B981;
-  --error-color: #883b31;
+  --error-color: #a83a2a;
   --error--hover-color: #aa301c;
 
   --chart-line-color: #FF9360;
@@ -45,6 +45,11 @@
 }
 
 .dark {
+  --bg-primary-color: #dcd8d8;
+  --bg-secondary-color: black;
+  --bg-alternative-color: red;
+
+  --font-color: black
 }
 
 * {

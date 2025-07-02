@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 
 import clsx from 'clsx';
 
@@ -9,7 +9,11 @@ import styles from './AssetCard.module.scss';
 
 import { ChangingWithChevron } from '@/components/ui';
 import { AssetCardProps } from '@/shared/components/Cards/AssetCard/AssetCard.Props';
-import { formatNumberWithSpaces } from '@/shared/utils/formatNumberWithSpaces';
+import { useColorOfGrowing } from '@/shared/hooks';
+import {
+  formatNumberLength,
+  formatNumberWithSpaces,
+} from '@/shared/utils/formatNumberWithSpaces';
 
 export const AssetCard: FC<AssetCardProps> = ({
   title,
@@ -17,19 +21,12 @@ export const AssetCard: FC<AssetCardProps> = ({
   price,
   changing,
   amount,
+  active,
   logoUrl,
   className,
   ...props
 }) => {
-  const [colorOfGrowing, setColorOfGrowing] = useState<
-    'var(--success-color)' | 'var(--error-color)'
-  >('var(--success-color)');
-
-  useEffect(() => {
-    if (changing < 0) {
-      setColorOfGrowing('var(--error-color)');
-    }
-  }, [changing]);
+  const { color } = useColorOfGrowing(changing);
 
   const fallbackImage = '/fallback.png'; // должен лежать в папке public
 
@@ -45,7 +42,11 @@ export const AssetCard: FC<AssetCardProps> = ({
   const safeLogoUrl = isValidUrl(logoUrl) ? logoUrl! : fallbackImage;
 
   return (
-    <div className={clsx(styles.container, className)} {...props}>
+    <div
+      aria-disabled={active}
+      className={clsx(styles.container, active && styles.active, className)}
+      {...props}
+    >
       <div className={styles.left_column}>
         <div className={styles.image_box}>
           <Image
@@ -66,13 +67,13 @@ export const AssetCard: FC<AssetCardProps> = ({
       </div>
       <div className={styles.right_column}>
         <span className={styles.number_all_cost}>
-          ${formatNumberWithSpaces(price * (Number(amount) | 0), '\u200A')}
+          $
+          {formatNumberWithSpaces(
+            Number(formatNumberLength(price * (amount | 0), 2)),
+            '\u200A',
+          )}
         </span>
-        <ChangingWithChevron
-          type={'mark'}
-          color={colorOfGrowing}
-          changing={changing}
-        />
+        <ChangingWithChevron type={'mark'} color={color} changing={changing} />
       </div>
     </div>
   );

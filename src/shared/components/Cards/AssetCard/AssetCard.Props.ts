@@ -6,5 +6,6 @@ export interface AssetCardProps extends HTMLAttributes<HTMLDivElement> {
   changing: number;
   ticket: string;
   amount: number;
+  active: boolean;
   logoUrl?: string;
 }

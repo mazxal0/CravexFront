@@ -5,3 +5,6 @@ export { NotificationBell } from '@/components/icons/NotificationBell';
 export { WalletIcon } from '@/components/icons/Wallet.icon';
 export { RecycleBinIcon } from '@/components/icons/RecycleBin.icon';
 export { DotsIcon } from '@/components/icons/Dots.icon';
+export { ShareIcon } from '@/components/icons/Share.icon';
+export { SettingsIcon } from '@/components/icons/Settings.icon';
+export { MagnifierIcon } from '@/components/icons/Magnifier.icon';

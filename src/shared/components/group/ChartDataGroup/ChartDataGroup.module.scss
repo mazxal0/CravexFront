@@ -1,6 +1,15 @@
 .buttons_group_of_dating {
   display: flex;
   gap: 10px;
-  justify-content: center;
+  justify-content: flex-start;
   margin: 10px 0;
+}
+
+.chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 500px;
+  background-color: var(--card-bg-color);
 }

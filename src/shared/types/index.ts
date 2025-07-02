@@ -3,7 +3,14 @@ export {
   type NewAddingAsset,
   type CurrentAsset,
 } from './Asset.type';
-export { type DateForChart } from './ChartData.types';
-export { type Coin, type GetAxiosCoin } from './Coin.types';
-export { type WalletPreview } from './Wallet.types';
-export { type User, type UserLogin, type UserRegistration } from './User.types';
+export type { DateForChart } from './ChartData.types';
+export type { Coin, GetAxiosCoin } from './Coin.types';
+export type { WalletPreviewType } from './Wallet.types';
+export type {
+  UserType,
+  UserLoginType,
+  UserRegistration,
+  UserLoginRequestGet,
+  UserRegistrationRequestGet,
+  UserTypeGet,
+} from './User.types';

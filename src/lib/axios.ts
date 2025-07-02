@@ -1,3 +1,4 @@
+'use client';
 import axios from 'axios';
 
 import { rootStore } from '@/shared/stores';
@@ -45,7 +46,7 @@ api.interceptors.response.use(
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
-      !originalRequest.url?.includes('/auth/auth')
+      !originalRequest.url?.includes('/auth/refresh')
     ) {
       originalRequest._retry = true;
 
@@ -63,14 +64,14 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const refreshResponse = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/auth/auth`,
+        const refreshResponse = await api.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
           {},
           { withCredentials: true },
         );
         const newAccessToken = refreshResponse.data.accessToken;
 
-        rootStore.userStore.setAccessToken(newAccessToken);
+        rootStore.userStore.accessToken = newAccessToken;
         processQueue(null, newAccessToken);
 
         originalRequest.headers = originalRequest.headers ?? {};

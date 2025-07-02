@@ -1,42 +1,44 @@
-import { RefObject, useCallback, useEffect, useRef } from 'react';
+'use client';
+import { useCallback, useEffect, useRef } from 'react';
+
+const useStableClick = (handler: (e: MouseEvent) => void) => {
+  const handlerRef = useRef(handler);
+  const lastClickTime = useRef(0);
+
+  useEffect(() => {
+    handlerRef.current = handler;
+  }, [handler]);
+
+  const stableHandler = useCallback((e: MouseEvent) => {
+    const now = Date.now();
+    if (now - lastClickTime.current < 300) return;
+    lastClickTime.current = now;
+    handlerRef.current(e);
+  }, []);
+
+  return stableHandler;
+};
 
 export const useClickOutside = <T extends HTMLElement>(
   callback: () => void,
   isEnabled: boolean = false,
-): RefObject<T | null> => {
-  const objRef = useRef<T | null>(null);
-
-  const handleClick = useCallback(
-    (event: MouseEvent | KeyboardEvent) => {
-      if (
-        event.type === 'mousedown' &&
-        isEnabled &&
-        objRef.current &&
-        objRef.current.contains(event.target as Node)
-      ) {
-        callback();
-      }
-
-      if (
-        event.type === 'keydown' &&
-        (event as KeyboardEvent).key === 'Escape' &&
-        isEnabled
-      ) {
-        callback();
-      }
-    },
-    [callback, isEnabled],
-  );
+  isFixed: boolean = true,
+) => {
+  const ref = useRef<T>(null);
+  const stableCallback = useStableClick(() => callback());
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClick);
-    document.addEventListener('keydown', handleClick);
+    if (!isEnabled) return;
 
-    return () => {
-      document.removeEventListener('mousedown', handleClick);
-      document.removeEventListener('keydown', handleClick);
+    const handleClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        stableCallback(e);
+      }
     };
-  }, []);
 
-  return objRef;
+    document.addEventListener('click', handleClick, true);
+    return () => document.removeEventListener('click', handleClick, true);
+  }, [isEnabled, stableCallback]);
+
+  return ref;
 };

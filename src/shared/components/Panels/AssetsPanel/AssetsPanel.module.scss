@@ -1,7 +1,13 @@
+@use '@/styles/mixins' as *;
+
 .main_part {
   display: flex;
   flex-direction: column;
 
+  @include respond(md) {
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .assets_container {
@@ -11,6 +17,14 @@
   border-radius: 10px;
   box-shadow: 0 4px 40px var(--box-shadow-color);
   overflow: hidden;
+
+  @include respond(md) {
+    width: 600px;
+  }
+
+  @include respond(sm) {
+    width: 80vw;
+  }
 }
 
 .border_top {
@@ -24,5 +38,23 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
+
+  @include respond(md) {
+    margin-top: 50px;
+    flex-direction: row;
+    width: 80vw;
+  }
+  @include respond(xs) {
+    flex-direction: column;
+  }
+}
+
+.button {
+  @include respond(md) {
+    width: 100%;
+  }
+  @include respond(sm) {
+    width: 100%;
+  }
 }

@@ -4,7 +4,7 @@ export interface Asset {
   coinId: string;
   id: string;
   coinName: string;
-  coinSymbol: string;
+  symbol: string;
   price: number;
   logoUrl: string;
   changing: number;
@@ -23,4 +23,5 @@ export interface CurrentAsset extends Partial<Asset> {
   prices: LineData[];
   marketCaps: LineData[];
   volumes: LineData[];
+  isOpenChart?: boolean;
 }

@@ -2,37 +2,47 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import styles from './page.module.scss';
 
 import { Button, Input } from '@/components/ui';
-import { useAuth } from '@/shared/hooks/UseAuth';
+import { useMutationRequest } from '@/shared/hooks';
 import { rootStore } from '@/shared/stores';
-import { UserRegistration } from '@/shared/types/User.types';
+import {
+  UserRegistration,
+  UserRegistrationRequestGet,
+} from '@/shared/types/User.types';
 
 export default function Registration() {
-  const { register, setError, handleSubmit } = useForm<UserRegistration>({
-    mode: 'onChange',
+  const { register, setError, handleSubmit, watch } = useForm<UserRegistration>(
+    {
+      mode: 'onChange',
+    },
+  );
+
+  // const {} = useLocalStorage<string>({ defaultValue: '', key: 'userId' });
+
+  const { mutate, isPending } = useMutationRequest<
+    UserRegistrationRequestGet,
+    UserRegistration
+  >({
+    apiUrl: process.env.NEXT_PUBLIC_API_URL_REGISTRATION,
+    method: 'post',
   });
 
-  useEffect(() => {
-    const getUserId = setTimeout(async () => {
-      const userId = await rootStore.userStore.getUserId();
-      if (userId) {
-        router.push(`/../../account/assets/${userId}`);
-      }
-    }, 500);
-
-    return () => clearTimeout(getUserId);
-  }, []);
-
   const router = useRouter();
-  const { setRegistration } = useAuth();
   const onRegistrationUser = async (data: UserRegistration) => {
-    const userId = await setRegistration(data);
-    router.push(`/../../account/assets/${userId}`);
+    mutate(data, {
+      onSuccess: async ({
+        telegramLink,
+        userId,
+      }: UserRegistrationRequestGet) => {
+        const encodedLink = encodeURIComponent(telegramLink);
+        rootStore.userStore.userId = userId;
+        router.push(`./verification?tg_link=${encodedLink}`);
+      },
+    });
   };
 
   return (
@@ -50,6 +60,7 @@ export default function Registration() {
             {...register('email', {
               required: true,
             })}
+            value={watch().email || ''}
           />
           <Input
             className={styles.input_search}
@@ -57,6 +68,7 @@ export default function Registration() {
             {...register('username', {
               required: true,
             })}
+            value={watch().username || ''}
           />
           <Input
             className={styles.input_search}
@@ -64,6 +76,7 @@ export default function Registration() {
             {...register('password', {
               required: true,
             })}
+            value={watch().password || ''}
           />
           <Input
             className={styles.input_search}
@@ -71,6 +84,7 @@ export default function Registration() {
             {...register('confirmPassword', {
               required: true,
             })}
+            value={watch().confirmPassword || ''}
           />
 
           <Button

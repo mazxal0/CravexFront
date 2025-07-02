@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import clsx from 'clsx';
 
@@ -8,29 +8,51 @@ import { Chevron } from '@/components/icons';
 
 interface Props {
   color: 'var(--success-color)' | 'var(--error-color)';
-  changing: number | string;
+  changing: number | string | ReactNode;
   type: 'chevron' | 'mark';
+  className?: string;
 }
 
-export const ChangingWithChevron = ({ color, changing, type }: Props) => {
-  return (
-    <span
-      className={clsx(
-        color === 'var(--success-color)'
-          ? styles.grow_up_number
-          : styles.grow_down_number,
-      )}
-    >
-      {type === 'chevron' && (
-        <Chevron
-          height={10}
-          width={10}
-          color={color}
-          direction={color === 'var(--success-color)' ? 'top' : 'bottom'}
-        />
-      )}
-      {type === 'mark' && color === 'var(--success-color)' ? '+' : '-'}
-      {changing.toString().split('')[0]}% {changing.toString().slice(1)}
-    </span>
-  );
+export const ChangingWithChevron = ({
+  color,
+  changing,
+  type,
+  className,
+}: Props) => {
+  if (typeof changing === 'string' || typeof changing === 'number') {
+    return (
+      <span
+        className={clsx(
+          className,
+          color === 'var(--success-color)'
+            ? styles.grow_up_number
+            : styles.grow_down_number,
+        )}
+      >
+        {type === 'chevron' && (
+          <Chevron
+            height={10}
+            width={10}
+            color={color}
+            direction={color === 'var(--success-color)' ? 'top' : 'bottom'}
+          />
+        )}
+        {type === 'mark' && color === 'var(--success-color)' ? '+' : '-'}
+        {changing}%{' '}
+      </span>
+    );
+  } else {
+    return (
+      <span
+        className={clsx(
+          className,
+          color === 'var(--success-color)'
+            ? styles.grow_up_number
+            : styles.grow_down_number,
+        )}
+      >
+        {changing}
+      </span>
+    );
+  }
 };
