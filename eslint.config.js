@@ -43,7 +43,7 @@ export default [
     },
     rules: {
       // Кодстайл
-      quotes: ['error', 'single'],
+      quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }],
       semi: ['error', 'always'],
       'object-curly-spacing': ['error', 'always'],
 

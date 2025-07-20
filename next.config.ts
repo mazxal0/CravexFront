@@ -2,10 +2,13 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   images: {
-    domains: [
-      'img.icons8.com',
-      'coin-images.coingecko.com',
-      'ru.wikipedia.org',
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'coin-images.coingecko.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };

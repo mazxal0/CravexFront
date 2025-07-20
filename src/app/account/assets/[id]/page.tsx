@@ -3,6 +3,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { useEffect } from 'react';
 
+import clsx from 'clsx';
+
 import styles from './page.module.scss';
 
 import { Button } from '@/components/ui';
@@ -59,7 +61,7 @@ export default function Assets() {
     <div className={styles.page}>
       <div className={styles.top_part}>
         <h2 className={styles.text_heading}>Your Wallets</h2>
-        <div className={styles.buttons_container}>
+        <div className={clsx(styles.desktop, styles.buttons_container)}>
           <Button formatType={'outline'} className={styles.button}>
             Control
           </Button>
@@ -73,6 +75,16 @@ export default function Assets() {
         isLoading={isLoading}
         deleteWallet={deleteWallet}
       />
+      <div className={styles.mobile_buttons}>
+        <div className={clsx(styles.mobile, styles.buttons_container)}>
+          <Button formatType={'outline'} className={styles.button}>
+            Control
+          </Button>
+          <Button className={styles.button} onClick={onAddWallet}>
+            Add
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }

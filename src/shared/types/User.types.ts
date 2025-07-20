@@ -5,11 +5,6 @@ export interface UserRegistration {
   confirmPassword: string;
 }
 
-export interface UserLoginType {
-  email: string;
-  password: string;
-}
-
 export interface UserLoginRequestGet {
   requires2FA: boolean;
   userId: string;
@@ -30,6 +25,7 @@ export interface UserTypeGet {
   telegramUser: {
     telegramUsername: string;
   };
+  isEmailVerified: boolean;
 }
 
 export interface UserType {

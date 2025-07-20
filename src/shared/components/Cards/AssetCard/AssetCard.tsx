@@ -1,5 +1,6 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import React, { FC } from 'react';
 
@@ -10,10 +11,7 @@ import styles from './AssetCard.module.scss';
 import { ChangingWithChevron } from '@/components/ui';
 import { AssetCardProps } from '@/shared/components/Cards/AssetCard/AssetCard.Props';
 import { useColorOfGrowing } from '@/shared/hooks';
-import {
-  formatNumberLength,
-  formatNumberWithSpaces,
-} from '@/shared/utils/formatNumberWithSpaces';
+import { formatNumberWithSpaces } from '@/shared/utils/formatNumberWithSpaces';
 
 export const AssetCard: FC<AssetCardProps> = ({
   title,
@@ -23,6 +21,7 @@ export const AssetCard: FC<AssetCardProps> = ({
   amount,
   active,
   logoUrl,
+  totalSum,
   className,
   ...props
 }) => {
@@ -42,9 +41,14 @@ export const AssetCard: FC<AssetCardProps> = ({
   const safeLogoUrl = isValidUrl(logoUrl) ? logoUrl! : fallbackImage;
 
   return (
-    <div
+    <motion.div
       aria-disabled={active}
       className={clsx(styles.container, active && styles.active, className)}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, maxHeight: 0 }}
+      transition={{ duration: 0.3 }}
+      layout
       {...props}
     >
       <div className={styles.left_column}>
@@ -67,14 +71,10 @@ export const AssetCard: FC<AssetCardProps> = ({
       </div>
       <div className={styles.right_column}>
         <span className={styles.number_all_cost}>
-          $
-          {formatNumberWithSpaces(
-            Number(formatNumberLength(price * (amount | 0), 2)),
-            '\u200A',
-          )}
+          ${formatNumberWithSpaces(Number(totalSum | 0), '\u200A')}
         </span>
         <ChangingWithChevron type={'mark'} color={color} changing={changing} />
       </div>
-    </div>
+    </motion.div>
   );
 };

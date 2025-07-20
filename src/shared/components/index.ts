@@ -1,5 +1,5 @@
 export { AvatarUserButton, DropTabMenu } from '@/shared/components/common';
-export { Header, HorizontalNavBar } from '@/shared/components/layout';
+export { Footer, Header, HorizontalNavBar } from '@/shared/components/layout';
 export { ButtonsGroup, ChartDataGroup } from '@/shared/components/group';
 export {
   AssetsPanel,
@@ -10,6 +10,8 @@ export {
   GeneralModalPage,
   StandardModal,
   AddNewCoinForWalletModal,
+  TransactionModal,
+  CreatingTransactionModal,
 } from '@/shared/components/Modals';
 export {
   AssetCard,

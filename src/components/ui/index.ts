@@ -13,3 +13,7 @@ export { ControlInput } from '@/components/ui/ControlInput/ControlInput';
 export { CodeInput } from '@/components/ui/CodeInput/CodeInput';
 export { QRCode } from '@/components/ui/QRCode/QRCode';
 export { SkeletonEl } from '@/components/ui/Skeleton/Skeleton';
+export { CustomDateTimePicker } from '@/components/ui/DatePicker/DatePicker';
+export { ErrorText } from './Text';
+export { Checkbox } from './CheckBox/CheckBox';
+export { PasswordInput } from './PasswordInput/PasswordInput';

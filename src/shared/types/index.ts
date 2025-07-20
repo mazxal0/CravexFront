@@ -14,3 +14,10 @@ export type {
   UserRegistrationRequestGet,
   UserTypeGet,
 } from './User.types';
+export type {
+  Transaction,
+  CreateTransaction,
+  TransactionTypes,
+  SendCreatingTransaction,
+  GetCreatingTransaction,
+} from './Transaction.types';

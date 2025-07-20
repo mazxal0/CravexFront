@@ -1,4 +1,4 @@
-import { FC, MouseEvent, useCallback } from 'react';
+import { FC, MouseEvent } from 'react';
 
 import styles from './MenuButton.module.scss';
 
@@ -8,15 +8,11 @@ export const MenuButton: FC<MenuButtonProps> = ({
   setIsOpening,
   imageElement,
 }) => {
-  const onOpenMenu = useCallback(
-    (e: MouseEvent<HTMLDivElement>) => {
-      e.stopPropagation();
-      e.preventDefault();
-      setIsOpening((prev) => !prev);
-    },
-    [setIsOpening],
-  );
-
+  const onOpenMenu = (e: MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setIsOpening((prev) => !prev);
+  };
   return (
     <div className={styles.dots} onClick={onOpenMenu}>
       {imageElement}

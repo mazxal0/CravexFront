@@ -12,7 +12,6 @@ import styles from './Header.module.scss';
 import {
   MagnifierIcon,
   MainLogo,
-  SettingsIcon,
   UserAvatarIcon,
   WalletIcon,
 } from '@/components/icons';
@@ -131,7 +130,7 @@ export const Header = () => {
         <div className={styles.icons}>
           {elementLink(`/account/assets/${id}`, 'Wallets', WalletIcon)}
           {elementLink(`/account/${id}`, 'Profile', UserAvatarIcon)}
-          {elementLink(`/account/settings/${id}`, 'Settings', SettingsIcon)}
+          {/*{elementLink(`/account/settings/${id}`, 'Settings', SettingsIcon)}*/}
           {elementLink('/info/coins', 'Coins', MagnifierIcon)}
         </div>
         <motion.div

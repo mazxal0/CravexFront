@@ -3,7 +3,6 @@
   width: 100vw;
   position: relative;
   overflow: auto;
-  //height: 100vh;
   padding-top: 50px;
   padding-bottom: 50px;
 }
@@ -18,14 +17,11 @@
   justify-content: center;
 }
 
-.down_heading {
-  //margin-bottom: 50px;
-}
-
 .form {
   display: flex;
   flex-direction: column;
   width: 350px;
+  gap: 15px;
 }
 
 .heading {
@@ -37,7 +33,7 @@
 }
 
 .form_button {
-  margin-top: 20px;
+  margin-top: 40px;
 }
 
 .heading {
@@ -55,6 +51,3 @@
   margin-left: 6px;
 }
 
-.input_search {
-  margin: 15px 0;
-}

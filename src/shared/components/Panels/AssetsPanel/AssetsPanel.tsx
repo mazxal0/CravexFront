@@ -1,4 +1,5 @@
 'use client';
+import { AnimatePresence } from 'framer-motion';
 import { debounce } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -15,65 +16,86 @@ import { Asset } from '@/shared/types';
 
 interface AssetsPanelProps {
   isLoading?: boolean;
+  isControl?: boolean;
 }
 
-export const AssetsPanel = observer(({ isLoading }: AssetsPanelProps) => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+export const AssetsPanel = observer(
+  ({ isLoading, isControl = true }: AssetsPanelProps) => {
+    const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
 
-  const addNewCoin = async () => {
-    rootStore.modalStore.isOpenAddingNewAsset = true;
-    const params = new URLSearchParams(searchParams.toString());
-    params.set('add_coin_page', '1');
-    router.push(`${pathname}?${params.toString()}`);
-    rootStore.modalStore.currentPageAddingCoin = '1';
-  };
+    const addNewCoin = async () => {
+      rootStore.modalStore.isOpenAddingNewAsset = true;
+      const params = new URLSearchParams(searchParams.toString());
+      params.set('type', 'choosing');
+      router.replace(`${pathname}?${params.toString()}`, {
+        scroll: false,
+      });
+    };
 
-  const debouncedChoiceAsset = useCallback(
-    debounce((asset: Asset) => {
-      rootStore.currentActivityStore.currentAsset = asset;
-      rootStore.currentActivityStore.currentAsset.isOpenChart = true;
-      console.log('opas');
-    }, 300),
-    [],
-  );
+    const openModalForCreatingTransaction = () => {
+      rootStore.modalStore.isOpenCreatingTransactionModal = true;
+    };
 
-  if (isLoading) return <SkeletonEl height={60} count={5} />;
+    const debouncedChoiceAsset = useCallback(
+      debounce((asset: Asset) => {
+        rootStore.currentActivityStore.currentAsset = asset;
+        rootStore.currentActivityStore.currentAsset.isOpenChart = true;
+      }, 300),
+      [],
+    );
 
-  return (
-    <div className={styles.main_part}>
-      <div className={styles.assets_container}>
-        {rootStore.walletActivityStore.walletAssets.map((asset, index) => (
-          <AssetCard
-            key={asset.id}
-            active={
-              rootStore.currentActivityStore.currentAsset.coinId ===
-              asset.coinId
-            }
-            title={asset.coinName}
-            price={asset.price}
-            changing={asset.changing}
-            ticket={asset.symbol}
-            amount={asset.amount}
-            logoUrl={asset.logoUrl}
-            className={clsx(
-              index !== 0 && styles.border_top,
-              rootStore.currentActivityStore.currentAsset.coinId ===
-                asset.coinId && styles.active,
-            )}
-            onClick={() => debouncedChoiceAsset(asset)}
-          />
-        ))}
+    return (
+      <div className={styles.main_part}>
+        <div className={styles.assets_container}>
+          {isLoading ? (
+            <SkeletonEl height={60} count={5} />
+          ) : (
+            <AnimatePresence mode={'popLayout'}>
+              {rootStore.walletActivityStore.walletAssets.map(
+                (asset, index) => (
+                  <AssetCard
+                    key={asset.id}
+                    active={
+                      !rootStore.isMobile &&
+                      rootStore.currentActivityStore.currentAsset.coinId ===
+                        asset.coinId
+                    }
+                    title={asset.coinName}
+                    price={asset.price}
+                    changing={asset.changing}
+                    ticket={asset.symbol}
+                    amount={asset.amount}
+                    totalSum={asset.totalSum}
+                    logoUrl={asset.logoUrl}
+                    className={clsx(
+                      index !== 0 && styles.border_top,
+                      rootStore.currentActivityStore.currentAsset.coinId ===
+                        asset.coinId && styles.active,
+                    )}
+                    onClick={() => debouncedChoiceAsset(asset)}
+                  />
+                ),
+              )}
+            </AnimatePresence>
+          )}
+        </div>
+        {isControl && (
+          <div className={styles.button_container}>
+            <Button className={styles.button} onClick={addNewCoin}>
+              New asset
+            </Button>
+            <Button
+              className={styles.button}
+              formatType={'tile'}
+              onClick={openModalForCreatingTransaction}
+            >
+              Create transaction
+            </Button>
+          </div>
+        )}
       </div>
-      <div className={styles.button_container}>
-        <Button className={styles.button} onClick={addNewCoin}>
-          New asset
-        </Button>
-        <Button className={styles.button} formatType={'tile'}>
-          Create transaction
-        </Button>
-      </div>
-    </div>
-  );
-});
+    );
+  },
+);

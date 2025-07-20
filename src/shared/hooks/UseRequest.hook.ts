@@ -1,10 +1,4 @@
-import {
-  MutationFunction,
-  useMutation,
-  UseMutationOptions,
-  useQuery,
-  UseQueryOptions,
-} from '@tanstack/react-query';
+import { useMutation, useQuery, UseQueryOptions } from '@tanstack/react-query';
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import api from '@/lib/axios';
@@ -29,6 +23,7 @@ export const useQueryRequest = <T = any>({
   const queryKey = params
     ? [nameOfCache, apiUrl, params]
     : [nameOfCache, apiUrl];
+  // console.log('KEYS:', queryKey);
   return useQuery<T, AxiosError>({
     queryKey,
     queryFn: async (): Promise<T> => {
@@ -47,52 +42,89 @@ export const useQueryRequest = <T = any>({
     ...queryOptions,
   });
 };
-
-interface UseMutationHookProps<TDataGet = any, TDataSend = any> {
-  apiUrl: string;
-  method?: 'post' | 'put' | 'patch' | 'delete';
-  config?: AxiosRequestConfig;
-  mutationOptions?: Omit<
-    UseMutationOptions<TDataGet, AxiosError, TDataSend>,
-    'mutationFn'
-  >;
-  onSuccessCallback?: (data: TDataGet, variables: TDataSend) => void;
-  onErrorCallback?: (error: AxiosError, variables: TDataSend) => void;
-}
+//
+// interface UseMutationHookProps<TDataGet = any, TDataSend = any> {
+//   apiUrl?: string; // Сделаем необязательным, так как может быть динамическим
+//   method?: 'post' | 'put' | 'patch' | 'delete';
+//   config?: AxiosRequestConfig;
+//   mutationOptions?: Omit<
+//     UseMutationOptions<TDataGet, AxiosError, TDataSend>,
+//     'mutationFn'
+//   >;
+//   onSuccessCallback?: (data: TDataGet, variables: TDataSend) => void;
+//   onErrorCallback?: (error: AxiosError, variables: TDataSend) => void;
+// }
+//
+// export const useMutationRequest = <TDataGet = any, TDataSend = any>({
+//   apiUrl = '',
+//   method = 'post',
+//   config = {},
+//   mutationOptions = {},
+//   onErrorCallback,
+// }: UseMutationHookProps<TDataGet, TDataSend> = {}) => {
+//   return useMutation<TDataGet, AxiosError, TDataSend>({
+//     mutationFn: async (variables: any) => {
+//       const url = variables?.url ? `${apiUrl}${variables.url}` : apiUrl;
+//       const data = variables?.data || variables;
+//
+//       const requestConfig = {
+//         ...config,
+//         headers: {
+//           'Content-Type': 'application/json',
+//           ...config.headers,
+//         },
+//       };
+//
+//       // Убрали try/catch → ошибка пойдёт в onError
+//       const response = await api[method](url, data, requestConfig);
+//       return response.data;
+//     },
+//     ...mutationOptions,
+//   });
+// };
+type MutationVariables<TDataSend> = {
+  apiUrl?: string; // Теперь необязательный
+  data: TDataSend;
+};
 
 export const useMutationRequest = <TDataGet = any, TDataSend = any>({
-  apiUrl,
+  defaultApiUrl = '', // URL по умолчанию (можно не задавать)
   method = 'post',
   config = {},
   mutationOptions = {},
-  onSuccessCallback,
-  onErrorCallback,
-}: UseMutationHookProps<TDataGet, TDataSend>) => {
-  const mutationFn: MutationFunction<TDataGet, TDataSend> = async (
-    variables,
-  ) => {
-    const response: AxiosResponse<TDataGet> = await api[method](
-      apiUrl,
-      variables,
-      config,
-    );
-    return response.data;
-  };
+}: {
+  defaultApiUrl?: string;
+  method?: 'get' | 'post' | 'put' | 'delete' | 'patch';
+  config?: AxiosRequestConfig;
+  mutationOptions?: any;
+} = {}) => {
+  return useMutation<
+    TDataGet,
+    AxiosError<TDataGet>,
+    MutationVariables<TDataSend> // Принимает { apiUrl?, data }
+  >({
+    mutationFn: async (variables) => {
+      const apiUrl = variables.apiUrl ?? defaultApiUrl;
 
-  return useMutation<TDataGet, AxiosError, TDataSend>({
-    mutationFn,
+      if (!apiUrl) {
+        throw new Error('API URL is required. Provide it in hook or mutate.');
+      }
+
+      const requestConfig: AxiosRequestConfig = {
+        ...config,
+        headers: {
+          'Content-Type': 'application/json',
+          ...config.headers,
+        },
+      };
+
+      const response = await api[method]<TDataGet>(
+        apiUrl,
+        variables.data,
+        requestConfig,
+      );
+      return response.data;
+    },
     ...mutationOptions,
-    onSuccess: (data: TDataGet, variables: TDataSend, context?: unknown) => {
-      if (onSuccessCallback) {
-        onSuccessCallback(data, variables);
-      }
-      mutationOptions.onSuccess?.(data, variables, context);
-    },
-    onError: (error: AxiosError, variables: TDataSend, context?: unknown) => {
-      if (onErrorCallback) {
-        onErrorCallback(error, variables);
-      }
-      mutationOptions.onError?.(error, variables, context);
-    },
   });
 };

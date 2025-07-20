@@ -53,13 +53,14 @@ export const ChartDataGroup = observer(() => {
       <div className={styles.buttons_group_of_dating}>
         <ButtonsGroup
           buttonsProps={[
-            { text: '1D', value: '1' },
-            { text: '7D', value: '7' },
-            { text: '14D', value: '14' },
-            { text: '1M', value: '30' },
-            { text: '1Y', value: '365' },
+            { text: 'D', value: '1' },
+            { text: 'W', value: '7' },
+            { text: '2W', value: '14' },
+            { text: 'M', value: '30' },
+            { text: 'Y', value: '365' },
             { text: 'All', value: 'max' },
           ]}
+          activeValue={rootStore.currentActivityStore.dateOfChart}
           onClick={(value: DateForChart) => {
             rootStore.currentActivityStore.dateOfChart = value;
           }}

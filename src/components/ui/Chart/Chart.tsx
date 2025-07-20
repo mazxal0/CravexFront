@@ -183,8 +183,122 @@
 // };
 //
 // export default LineChart;
-'use client';
+// 'use client';
+//
+// import {
+//   ColorType,
+//   createChart,
+//   IChartApi,
+//   ISeriesApi,
+//   LineData,
+//   LineSeries,
+// } from 'lightweight-charts';
+// import React, { useEffect, useRef } from 'react';
+//
+// import styles from './Chart.module.scss';
+//
+// interface ChartComponentProps {
+//   data: LineData[];
+// }
+//
+// const ChartComponent: React.FC<ChartComponentProps> = ({ data }) => {
+//   const chartContainerRef = useRef<HTMLDivElement>(null);
+//   const chartRef = useRef<IChartApi | null>(null);
+//   const seriesRef = useRef<ISeriesApi<'Line'> | null>(null);
+//
+//   useEffect(() => {
+//     if (chartContainerRef.current) {
+//       // Динамическое вычисление minValue и maxValue
+//       const values = data.map((item) => item.value);
+//       const min = Math.min(...values);
+//       const max = Math.max(...values);
+//       const range = max - min;
+//       // Округление до "круглых" чисел и добавление отступов (10% от диапазона)
+//       const minValue = Math.floor(min / 1000) * 1000 - range * 0.1;
+//       const maxValue = Math.ceil(max / 1000) * 1000 + range * 0.1;
+//       // Вычисление шага для ~5 меток
+//       const step = Math.round(range / 5 / 100) * 100; // Округление шага до сотен
+//       chartRef.current = createChart(chartContainerRef.current, {
+//         layout: {
+//           background: { type: ColorType.Solid, color: '#293038' },
+//           textColor: '#FF9360',
+//           fontSize: 12,
+//         },
+//         timeScale: {
+//           timeVisible: true,
+//           secondsVisible: false,
+//         },
+//         grid: {
+//           vertLines: { visible: false },
+//           horzLines: { visible: false },
+//         },
+//       });
+//       // Настройка ценовой шкалы (оси Y)
+//       chartRef.current.priceScale('right').applyOptions({
+//         autoScale: true, // Автоматическое масштабирование
+//         scaleMargins: {
+//           top: 0.1, // Отступ сверху
+//           bottom: 0.1, // Отступ снизу
+//         },
+//         ticksVisible: true, // Показывать деления
+//         entireTextOnly: true,
+//       });
+//
+//       // Настройка серии с priceFormat для ~5 делений
+//       seriesRef.current = chartRef.current.addSeries(LineSeries, {
+//         color: '#FF9360',
+//         lineWidth: 2,
+//         priceFormat: {
+//           type: 'price',
+//           precision: 6, // Без десятичных знаков
+//           minMove: 0.000001,
+//           // minMove: step || 1000, // Динамический шаг или 1000 по умолчанию
+//         },
+//       });
+//       chartRef.current.applyOptions({
+//         localization: {
+//           priceFormatter: (price: number) => {
+//             // Округляем до 2-3 знаков (можно настроить под свои нужды)
+//             if (price >= 1000) {
+//               return price.toFixed(0); // Для больших чисел — без дробной части
+//             } else if (price >= 1) {
+//               return price.toFixed(2); // Для чисел 1-1000 — 2 знака
+//             } else {
+//               return price.toFixed(3); // Для чисел <1 — 3 знака
+//             }
+//           },
+//         },
+//       });
+//       seriesRef.current.setData(data);
+//
+//       const resizeObserver = new ResizeObserver(() => {
+//         if (chartRef.current && chartContainerRef.current) {
+//           chartRef.current.resize(chartContainerRef.current.clientWidth, 500);
+//         }
+//       });
+//       resizeObserver.observe(chartContainerRef.current);
+//
+//       return () => {
+//         resizeObserver.disconnect();
+//         if (chartRef.current) {
+//           chartRef.current.remove();
+//         }
+//       };
+//     }
+//   }, []);
+//
+//   useEffect(() => {
+//     if (seriesRef.current && data) {
+//       seriesRef.current.setData(data);
+//     }
+//   }, [data]);
+//
+//   return <div ref={chartContainerRef} className={styles.chart_div} />;
+// };
+//
+// export default ChartComponent;
 
+'use client';
 import {
   ColorType,
   createChart,
@@ -197,103 +311,207 @@ import React, { useEffect, useRef } from 'react';
 
 import styles from './Chart.module.scss';
 
-interface ChartComponentProps {
+interface LineChartProps {
   data: LineData[];
+  width?: number;
+  height?: number;
 }
 
-const ChartComponent: React.FC<ChartComponentProps> = ({ data }) => {
+const LineChart: React.FC<LineChartProps> = ({
+  data,
+  width = '100%',
+  height = 500,
+}) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<IChartApi | null>(null);
   const seriesRef = useRef<ISeriesApi<'Line'> | null>(null);
 
   useEffect(() => {
-    if (chartContainerRef.current) {
-      // Динамическое вычисление minValue и maxValue
-      const values = data.map((item) => item.value);
-      const min = Math.min(...values);
-      const max = Math.max(...values);
-      const range = max - min;
-      // Округление до "круглых" чисел и добавление отступов (10% от диапазона)
-      const minValue = Math.floor(min / 1000) * 1000 - range * 0.1;
-      const maxValue = Math.ceil(max / 1000) * 1000 + range * 0.1;
-      // Вычисление шага для ~5 меток
-      const step = Math.round(range / 5 / 100) * 100; // Округление шага до сотен
-      chartRef.current = createChart(chartContainerRef.current, {
-        layout: {
-          background: { type: ColorType.Solid, color: '#293038' },
-          textColor: '#FF9360',
-          fontSize: 12,
-        },
-        timeScale: {
-          timeVisible: true,
-          secondsVisible: false,
-        },
-        grid: {
-          vertLines: { visible: false },
-          horzLines: { visible: false },
-        },
-      });
-      // Настройка ценовой шкалы (оси Y)
-      chartRef.current.priceScale('right').applyOptions({
-        autoScale: true, // Автоматическое масштабирование
-        scaleMargins: {
-          top: 0.1, // Отступ сверху
-          bottom: 0.1, // Отступ снизу
-        },
-        ticksVisible: true, // Показывать деления
-        entireTextOnly: true,
-      });
+    if (!chartContainerRef.current) return;
 
-      // Настройка серии с priceFormat для ~5 делений
-      seriesRef.current = chartRef.current.addSeries(LineSeries, {
-        color: '#FF9360',
-        lineWidth: 2,
-        priceFormat: {
-          type: 'price',
-          precision: 6, // Без десятичных знаков
-          minMove: 0.000001,
-          // minMove: step || 1000, // Динамический шаг или 1000 по умолчанию
-        },
-      });
-      chartRef.current.applyOptions({
-        localization: {
-          priceFormatter: (price: number) => {
-            // Округляем до 2-3 знаков (можно настроить под свои нужды)
-            if (price >= 1000) {
-              return price.toFixed(0); // Для больших чисел — без дробной части
-            } else if (price >= 1) {
-              return price.toFixed(2); // Для чисел 1-1000 — 2 знака
-            } else {
-              return price.toFixed(3); // Для чисел <1 — 3 знака
-            }
-          },
-        },
-      });
-      seriesRef.current.setData(data);
+    chartRef.current = createChart(chartContainerRef.current, {
+      layout: {
+        background: { type: ColorType.Solid, color: '#293038' },
+        textColor: '#FF9360',
+        fontSize: 12,
+      },
+      width: chartContainerRef.current.clientWidth,
+      height,
+      timeScale: {
+        timeVisible: true,
+        secondsVisible: false,
+      },
+      grid: {
+        vertLines: { visible: false },
+        horzLines: { visible: false },
+      },
+    });
 
-      const resizeObserver = new ResizeObserver(() => {
-        if (chartRef.current && chartContainerRef.current) {
-          chartRef.current.resize(chartContainerRef.current.clientWidth, 500);
-        }
-      });
-      resizeObserver.observe(chartContainerRef.current);
+    seriesRef.current = chartRef.current.addSeries(LineSeries, {
+      color: '#FF9360',
+      lineWidth: 2,
+      lineType: 2,
+    });
 
-      return () => {
-        resizeObserver.disconnect();
-        if (chartRef.current) {
-          chartRef.current.remove();
-        }
-      };
-    }
+    return () => {
+      if (chartRef.current) {
+        chartRef.current.remove();
+      }
+    };
   }, []);
 
   useEffect(() => {
-    if (seriesRef.current && data) {
+    if (seriesRef.current && data.length > 0) {
       seriesRef.current.setData(data);
+      chartRef.current?.timeScale().fitContent();
     }
   }, [data]);
 
-  return <div ref={chartContainerRef} className={styles.chart_div} />;
+  return <div className={styles.chart_div} ref={chartContainerRef} />;
 };
 
-export default ChartComponent;
+export default LineChart;
+
+// 'use client';
+//
+// import {
+//   CandlestickData,
+//   CandlestickSeries,
+//   ColorType,
+//   createChart,
+//   IChartApi,
+//   ISeriesApi,
+//   LineData,
+//   LineSeries,
+// } from 'lightweight-charts';
+// import React, { useEffect, useRef, useState } from 'react';
+//
+// import styles from './Chart.module.scss';
+//
+// interface ChartComponentProps {
+//   data?: LineData[] | CandlestickData[];
+// }
+//
+// const ChartComponent: React.FC<ChartComponentProps> = ({ data = [] }) => {
+//   const [chartType, setChartType] = useState<'line' | 'candlestick'>('line');
+//   const chartContainerRef = useRef<HTMLDivElement>(null);
+//   const chartRef = useRef<IChartApi | null>(null);
+//   const seriesRef = useRef<
+//     ISeriesApi<'Line'> | ISeriesApi<'Candlestick'> | null
+//   >(null);
+//   const [initialized, setInitialized] = useState(false);
+//
+//   // Инициализация графика
+//   useEffect(() => {
+//     if (!chartContainerRef.current) return;
+//
+//     try {
+//       chartRef.current = createChart(chartContainerRef.current, {
+//         layout: {
+//           background: { type: ColorType.Solid, color: '#293038' },
+//           textColor: '#FF9360',
+//           fontSize: 12,
+//         },
+//         width: chartContainerRef.current.clientWidth,
+//         height: 500,
+//         timeScale: {
+//           timeVisible: true,
+//           secondsVisible: false,
+//         },
+//         grid: {
+//           vertLines: { visible: false },
+//           horzLines: { visible: false },
+//         },
+//       });
+//
+//       setInitialized(true);
+//     } catch (error) {
+//       console.error('Error initializing chart:', error);
+//     }
+//
+//     return () => {
+//       if (chartRef.current) {
+//         chartRef.current.remove();
+//         chartRef.current = null;
+//       }
+//     };
+//   }, []);
+//
+//   // Обновление данных и типа графика
+//   useEffect(() => {
+//     if (!initialized || !chartRef.current || data.length === 0) return;
+//
+//     try {
+//       // Удаляем старую серию
+//       if (seriesRef.current) {
+//         chartRef.current.removeSeries(seriesRef.current);
+//         seriesRef.current = null;
+//       }
+//
+//       // Создаем новую серию
+//       if (chartType === 'line') {
+//         seriesRef.current = chartRef.current.addSeries(LineSeries, {
+//           color: '#FF9360',
+//           lineWidth: 2,
+//           lineType: 2, // LineType.WithSteps
+//         });
+//         (seriesRef.current as ISeriesApi<'Line'>).setData(data as LineData[]);
+//       } else {
+//         seriesRef.current = chartRef.current.addSeries(CandlestickSeries, {
+//           upColor: '#26a69a',
+//           downColor: '#ef5350',
+//           borderVisible: false,
+//           wickUpColor: '#26a69a',
+//           wickDownColor: '#ef5350',
+//         });
+//         (seriesRef.current as ISeriesApi<'Candlestick'>).setData(
+//           data as CandlestickData[],
+//         );
+//       }
+//
+//       chartRef.current.timeScale().fitContent();
+//     } catch (error) {
+//       console.error('Error updating chart:', error);
+//     }
+//   }, [chartType, data, initialized]);
+//
+//   // Обработка ресайза
+//   useEffect(() => {
+//     if (!initialized || !chartContainerRef.current) return;
+//
+//     const resizeObserver = new ResizeObserver(() => {
+//       if (chartRef.current && chartContainerRef.current) {
+//         chartRef.current.resize(chartContainerRef.current.clientWidth, 500);
+//       }
+//     });
+//
+//     resizeObserver.observe(chartContainerRef.current);
+//     return () => resizeObserver.disconnect();
+//   }, [initialized]);
+//
+//   return (
+//     <div className={styles.chart_container}>
+//       <div className={styles.chart_controls}>
+//         <button
+//           onClick={() => setChartType('line')}
+//           className={chartType === 'line' ? styles.active : ''}
+//         >
+//           Линия
+//         </button>
+//         <button
+//           onClick={() => setChartType('candlestick')}
+//           className={chartType === 'candlestick' ? styles.active : ''}
+//         >
+//           Свечи
+//         </button>
+//       </div>
+//       <div
+//         ref={chartContainerRef}
+//         className={styles.chart_div}
+//         style={{ height: '500px' }}
+//       />
+//     </div>
+//   );
+// };
+//
+// export default ChartComponent;

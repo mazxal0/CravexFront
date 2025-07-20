@@ -1,5 +1,15 @@
-import { ReactNode, SelectHTMLAttributes } from 'react';
+export type SelectOption =
+  | string
+  | {
+      label: string;
+      value: any;
+    };
 
-export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
-  options: Array<string | ReactNode>;
-}
+export type SelectProps = {
+  options: SelectOption[];
+  label: string;
+  value?: SelectOption;
+  onChange?: (value: any) => void;
+  className?: string;
+  name?: string;
+};

@@ -1,0 +1,18 @@
+.modal_page {
+  z-index: 999;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.text_component {
+  display: flex;
+  flex-direction: column;
+}
+
+.text {
+  font-size: 15px;
+}

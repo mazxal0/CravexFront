@@ -6,38 +6,43 @@ import styles from './TransactionCard.module.scss';
 
 import { MagnifierIcon } from '@/components/icons';
 import { TransactionCardProps } from '@/shared/components/Cards/TransactionCard/TransactionCard.props';
+import { formatDate } from '@/shared/utils';
 
 export const TransactionCard: FC<TransactionCardProps> = ({
   date,
-  address,
+  addressTo,
   price,
   type,
   amount,
   asset,
+  onClick,
 }) => {
-  const realDate = typeof date === 'string' ? new Date(date) : date;
-
-  const formatted = realDate
-    .toLocaleString('en-US', {
-      year: 'numeric',
-      month: 'short', // “Jun”
-      day: 'numeric', // 28
-      hour: '2-digit', // 14
-      minute: '2-digit', // 32
-      hour12: false, // 24-hour clock
-    })
-    .replace(',', ''); // remove the comma after the date
-
   return (
-    <div className={styles.card}>
-      <div className={styles.element}>{formatted}</div>
-      <div className={styles.element}>{type}</div>
-      <div className={styles.element}>{asset?.coin?.name}</div>
-      <div className={styles.element}>{amount}</div>
-      <div className={styles.element}>{price * amount}</div>
-      <div className={clsx(styles.element, styles.centered)}>
-        <MagnifierIcon color={'var(--primary-color)'} />
+    <>
+      <div className={clsx(styles.desktop, styles.card)}>
+        <div className={styles.element}>{formatDate(date)}</div>
+        <div className={styles.element}>{type}</div>
+        <div className={styles.element}>{asset?.coin?.name}</div>
+        <div className={styles.element}>{amount}</div>
+        <div className={styles.element}>{price * amount}</div>
+        <div
+          className={clsx(styles.element, styles.centered)}
+          onClick={onClick}
+        >
+          <MagnifierIcon color={'var(--primary-color)'} />
+        </div>
       </div>
-    </div>
+      <div className={clsx(styles.mobile, styles.card)} onClick={onClick}>
+        <div className={styles.element}>{formatDate(date)}</div>
+        <div className={styles.element}>{type}</div>
+        <div className={styles.element}>
+          {amount}
+          {' ' + asset?.coin?.symbol}
+        </div>
+        {/*<div className={clsx(styles.element, styles.centered)}>*/}
+        {/*  <MagnifierIcon color={'var(--primary-color)'} />*/}
+        {/*</div>*/}
+      </div>
+    </>
   );
 };

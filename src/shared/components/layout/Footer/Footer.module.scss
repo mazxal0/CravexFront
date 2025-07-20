@@ -1,0 +1,138 @@
+@use '@/styles/mixins' as *;
+
+.footer {
+  background-color: var(--card-bg-color);
+  color: var(--font-color);
+  padding: 3rem 1rem 1rem;
+  font-size: 0.95rem;
+
+  @include respond(sm) {
+    display: none;
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--card-bg-border-color);
+}
+
+.container_logo {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.container_logo_with_social {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  h3, h4 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 0;
+    color: var(--font-alternative-color);
+    line-height: 1.4;
+  }
+}
+
+/* Логотип растягиваем на два столбца */
+.logo {
+  flex-direction: row;
+  align-items: center;
+  grid-column: span 2;
+  gap: 1rem;
+
+  h3 {
+    font-size: 1.25rem;
+  }
+}
+
+/* Ссылки */
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    margin-bottom: 0.5rem;
+
+    a {
+      color: var(--font-color);
+      text-decoration: none;
+      transition: color 200ms;
+
+      &:hover,
+      &.active {
+        color: var(--link-primary-hover-color);
+      }
+    }
+  }
+}
+
+/* Ссылка mailto */
+.link {
+  color: var(--link-primary-color);
+  text-decoration: underline;
+  transition: color 200ms;
+
+  &:hover {
+    color: var(--link-primary-hover-color);
+  }
+}
+
+/* Социальные иконки */
+.social {
+  display: flex;
+  gap: 0.75rem;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: var(--card-bg-color);
+    border-radius: 0.5rem;
+    transition: background-color 200ms, transform 200ms;
+
+    &:hover {
+      background-color: var(--accent-color);
+      transform: scale(1.1);
+    }
+
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      fill: var(--primary-color);
+    }
+  }
+}
+
+/* Нижняя полоса */
+.bottom {
+  padding: 1rem 0;
+  text-align: center;
+
+  p {
+    margin: 0;
+    color: var(--font-alternative-color);
+    font-size: 0.85rem;
+  }
+}

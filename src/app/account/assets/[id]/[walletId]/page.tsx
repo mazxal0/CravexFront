@@ -2,7 +2,7 @@
 
 import { observer } from 'mobx-react-lite';
 import { useParams } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import styles from './page.module.scss';
 
@@ -33,6 +33,7 @@ interface MobilePartOfPageProps {
 const MobilePartOfPage = observer(({ isLoading }: MobilePartOfPageProps) => {
   return (
     <div className={styles.mobile}>
+      <GeneralModalPage />
       {rootStore.currentActivityStore.currentAsset.isOpenChart ? (
         <div className={styles.chart}>
           <CurrentAssetCard />
@@ -41,7 +42,6 @@ const MobilePartOfPage = observer(({ isLoading }: MobilePartOfPageProps) => {
         </div>
       ) : (
         <>
-          <GeneralModalPage />
           <HeaderAssetsCard />
           <AssetsPanel isLoading={isLoading} />
         </>
@@ -61,6 +61,10 @@ export default function Home() {
     additionQueryFn: rootStore.walletActivityStore.getWalletAssets,
   });
 
+  useEffect(() => {
+    rootStore.userStore.isControl = true;
+  }, []);
+
   return (
     <>
       <div className={styles.main}>
@@ -69,13 +73,12 @@ export default function Home() {
           <HeaderAssetsCard />
           <AssetsPanel isLoading={assets.isLoading} />
           <div className={styles.qr_code}>
-            {/*<div className={styles.qr_code_text}>Share Your Wallet</div>*/}
             <ReactiveQRCode walletId={walletId} />
           </div>
         </div>
         <div className={styles.chart}>
           <CurrentAssetCard />
-          <ChartDataGroup />
+          {rootStore.currentActivityStore.currentAsset && <ChartDataGroup />}
           <TransactionPanel />
         </div>
       </div>

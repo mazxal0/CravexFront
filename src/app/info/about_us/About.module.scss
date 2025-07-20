@@ -1,0 +1,105 @@
+/* Базовые секции */
+.hero {
+  background: url('../../../../public/craveX.svg') center/cover no-repeat;
+  padding: 100px 20px;
+  text-align: center;
+  color: var(--font-color);
+}
+.heading {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+.subheading {
+  font-size: 1.25rem;
+  opacity: 0.8;
+}
+
+/* Контейнер всех секций */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+
+/* Общие стили для секций */
+.section {
+  margin-bottom: 4rem;
+}
+.section_title {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+.paragraph {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--font-color);
+}
+
+/* Карточки Why Choose Us */
+.cards {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+.card {
+  background: var(--card-bg-color);
+  border: 1px solid var(--card-bg-border-color);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  text-align: center;
+  transition: transform 0.2s;
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
+.card-icon {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+.card_title {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+}
+.card_text {
+  font-size: 0.95rem;
+  color: var(--font-alternative-color);
+}
+
+/* Таймлайн How It Works */
+.timeline {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.timelineStep {
+  flex: 1 1 120px;
+  text-align: center;
+}
+.stepNumber {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.5rem;
+  font-weight: bold;
+}
+.stepText {
+  font-size: 0.9rem;
+  color: var(--font-color);
+}
+
+/* Секция контактов */
+.link {
+  color: var(--button-primary-color);
+  text-decoration: underline;
+  &:hover {
+    color: var(--button-primary-hover-color);
+  }
+}

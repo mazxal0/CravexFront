@@ -18,6 +18,19 @@ export class RootStore {
     this.walletActivityStore = new WalletActivityStore(this);
     this.currentActivityStore = new CurrentActivityStore();
     this.modalStore = new ModalStore();
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', this.handleResize);
+    }
+  }
+
+  private _width = typeof window !== 'undefined' ? window.innerWidth : 1024;
+
+  private handleResize = () => {
+    this._width = window.innerWidth;
+  };
+
+  get isMobile() {
+    return this._width <= 768;
   }
 }
 

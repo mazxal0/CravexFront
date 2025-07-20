@@ -1,0 +1,25 @@
+.iconButton {
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  /* По желанию: эффект при наведении и активном клике */
+  transition: opacity 150ms ease;
+  &:hover {
+    opacity: 0.8;
+  }
+  &:active {
+    opacity: 0.6;
+  }
+
+  /* Чтобы иконка унаследовала цвет текста */
+  color: inherit;
+
+  /* Размер кнопки можно регулировать */
+  width: 2.5rem;
+  height: 2.5rem;
+}

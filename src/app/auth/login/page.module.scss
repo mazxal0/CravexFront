@@ -25,6 +25,7 @@
   display: flex;
   flex-direction: column;
   width: 350px;
+  gap: 20px;
 }
 
 .heading {
@@ -52,5 +53,5 @@
 }
 
 .input_search {
-  margin: 15px 0;
+  //margin: 15px 0;
 }

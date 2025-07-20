@@ -1,4 +1,8 @@
 .button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
   border: none;
   border-radius: 5px;
   width: 100%;
@@ -7,11 +11,21 @@
   box-shadow: 0 5px 5px var(--shadow-color);
 }
 
+.icon {
+  position: absolute;
+  left: 15px;
+}
+
+.text {
+  margin: auto 0;
+}
+
 .disabled {
   opacity: 0.85;
   pointer-events: none;
 }
 
+// Основные типы кнопок
 .primary {
   background-color: var(--button-primary-color);
 
@@ -25,7 +39,8 @@
   border: 1px solid var(--button-primary-color);
 
   &:hover {
-    background-color: var(--button-primary-color);
+    background-color: var(--button-primary-hover-color);
+    opacity: 0.9;
   }
 }
 
@@ -38,7 +53,7 @@
 
   &:hover {
     border: 1px solid var(--card-bg-border-color-hover);
-    color: var(--card-bg-border-color-hover)
+    color: var(--card-bg-border-color-hover);
   }
 }
 
@@ -58,17 +73,55 @@
   }
 }
 
+// Размеры кнопок
 .sm {
-  font-size: 17px;
-  padding: 15px;
+  font-size: 16px;
+  padding: 12px;
 }
 
 .md {
-  font-size: 20px;
-  padding: 15px 15px;
+  font-size: 18px;
+  padding: 12px 15px;
 }
 
 .lg {
   font-size: 24px;
   padding: 15px 20px;
+}
+
+// Цветовые варианты
+.red-color {
+  &.primary {
+    background-color: var(--error-color);
+
+    &:hover {
+      background-color: var(--error--hover-color);
+    }
+  }
+
+  &.outline {
+    border-color: var(--error-color);
+    color: var(--error-color);
+
+    &:hover {
+      background-color: var(--error-color);
+      color: white;
+    }
+  }
+}
+
+.green-color {
+  &.primary {
+    background-color: var(--success-color);
+  }
+
+  &.outline {
+    border-color: var(--success-color);
+    color: var(--success-color);
+
+    &:hover {
+      background-color: var(--success-color);
+      color: white;
+    }
+  }
 }

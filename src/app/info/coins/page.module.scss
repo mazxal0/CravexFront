@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 100px 50px;
+
+}
+
+.list {
+  padding: 0 200px;
+}
+
+.custom_list {
+  overflow-y: visible !important;
+}

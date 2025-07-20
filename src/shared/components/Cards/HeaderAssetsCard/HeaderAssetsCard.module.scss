@@ -14,6 +14,7 @@
     position: relative;
     margin: 50px auto;
     width: 80vw;
+    padding: 15px 30px 30px 30px;
   }
 
   @include respond(sm) {
@@ -24,12 +25,20 @@
 .text {
   font-size: 20px;
   letter-spacing: 0.5px;
+
+  @include respond(md) {
+    font-size: 16px;
+  }
 }
 
 .total_balance {
   font-size: 40px;
   display: flex;
   gap: 15px;
+
+  @include respond(md) {
+    font-size: 30px;
+  }
 }
 
 .share {
@@ -38,12 +47,12 @@
   right: 10px;
 
   @include respond(md) {
-    display: none;
+
   }
 }
 
 @include respond(md) {
   .drop_tab_menu_mobile {
-    display: none;
+
   }
 }

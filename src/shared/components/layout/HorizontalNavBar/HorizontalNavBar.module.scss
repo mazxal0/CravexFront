@@ -15,6 +15,13 @@
   margin-bottom: $horizontalNavBarHeight;
   border-bottom: 1px solid var(--card-bg-border-color);
   z-index: 999;
+  margin-right: auto;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .mobile_navbar {

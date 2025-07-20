@@ -11,12 +11,14 @@ interface CodeInputProps {
   length?: number;
   onComplete?: (code: string) => void;
   classname?: string;
+  extendedOnClick?: () => void;
 }
 
 export const CodeInput = ({
   length = 6,
   onComplete,
   classname,
+  extendedOnClick,
 }: CodeInputProps) => {
   const [code, setCode] = useState<string[]>(Array(length).fill(''));
   const [error, setError] = useState(false);
@@ -24,6 +26,8 @@ export const CodeInput = ({
 
   const handleChange = (value: string, index: number) => {
     // Разрешаем только одну цифру или пустую строку
+    if (extendedOnClick) extendedOnClick();
+
     if (!/^[0-9]?$/.test(value)) {
       setError(true);
       return;

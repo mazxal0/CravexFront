@@ -6,6 +6,10 @@ export interface ListProps extends HTMLAttributes<HTMLDivElement> {
   onHandleChange: (query: string) => void;
   value: string;
   isLoading: boolean;
+  placeholder?: string;
+  classname?: string;
+  isScrolling?: boolean;
+  maxWidth?: number;
 }
 
 export interface ListElement {

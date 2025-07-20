@@ -19,6 +19,36 @@ const useStableClick = (handler: (e: MouseEvent) => void) => {
   return stableHandler;
 };
 
+// export const useClickOutside = <T extends HTMLElement>(
+//   callback: () => void,
+//   isEnabled: boolean = true,
+// ) => {
+//   const ref = useRef<T>(null);
+//   const stableCallback = useStableClick((e: MouseEvent) => {
+//     // Улучшенная проверка с учетом всех возможных случаев
+//     if (
+//       ref.current &&
+//       e.target instanceof Node &&
+//       !ref.current.contains(e.target) &&
+//       e.target !== ref.current
+//     ) {
+//       console.log('opa');
+//       callback();
+//     }
+//   });
+//
+//   useEffect(() => {
+//     if (!isEnabled) return;
+//
+//     // Используем capture phase + mousedown для более точного отслеживания
+//     document.addEventListener('mousedown', stableCallback, true);
+//     return () => {
+//       document.removeEventListener('mousedown', stableCallback, true);
+//     };
+//   }, [isEnabled, stableCallback]);
+//
+//   return ref;
+// };
 export const useClickOutside = <T extends HTMLElement>(
   callback: () => void,
   isEnabled: boolean = false,

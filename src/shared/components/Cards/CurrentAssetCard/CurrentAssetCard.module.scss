@@ -10,10 +10,6 @@
   box-shadow: 0 4px 40px var(--box-shadow-color);
   overflow: hidden;
   gap: 5px;
-
-  @include respond(md) {
-    width: 100%;
-  }
 }
 
 .icon_image {
@@ -23,6 +19,10 @@
   align-items: center;
   border-radius: 50%;
   overflow: hidden;
+
+  @include respond(md) {
+    margin: 0 auto;
+  }
 }
 
 .mini_size {
@@ -32,13 +32,11 @@
   background-color: var(--card-color-hover);
   border-radius: 5px;
   padding: 5px;
-  //box-shadow: 0 0 2px black ;
 }
 
 .header_part {
   display: flex;
   align-items: center;
-  //justify-content: space-between;
   gap: 25px;
   position: relative;
   padding-right: 50px;
@@ -50,13 +48,21 @@
   font-size: 30px;
   position: relative;
   height: 40px;
+
+  @include respond(md) {
+    font-size: 20px;
+    height: auto;
+    justify-content: start;
+    margin-bottom: 0;
+  }
 }
 
 .second_currency {
   display: flex;
+  justify-content: center;
   align-items: end;
-  padding-bottom: 2px;
-  justify-content: start;
+  margin-bottom: 0.3rem;
+
   height: 100%;
   position: relative;
   font-size: 20px;
@@ -65,6 +71,7 @@
 
 .metrics {
   display: grid;
+  align-items: end;
   gap: 5px;
   grid-template-columns: repeat(3, 1fr);
 
@@ -72,7 +79,7 @@
 
   > * {
     &:nth-child(1) {
-      grid-column: span 2;
+      grid-column: 2 / span 2;
     }
     &:nth-child(2) {
       grid-column: span 1;
@@ -80,12 +87,28 @@
     &:nth-child(3),
     &:nth-child(4),
     &:nth-child(5) {
-      grid-column: span 1; // Каждый занимает 1 колонку
+      grid-column: span 1;
+    }
+  }
+
+  @include respond(md) {
+    padding: 30px 0;
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 20px;
+    column-gap: 15px;
+
+    > * {
+      &:nth-child(1) {
+        grid-column: span 1;
+      }
     }
   }
 }
 
 .low_metrics {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   .heading {
     font-size: 14px !important;
   }
@@ -96,18 +119,19 @@
 }
 
 .text_standard {
-  //background-color: var(--card-color-hover);
-  //padding: 15px;
   border-radius: 15px;
   font-size: 22px;
   display: flex;
   flex-direction: column;
   align-items: start;
-  //color: var(--accent-color);
 
   .heading {
     opacity: 0.6;
     font-size: 18px;
+  }
+
+  @include respond(md) {
+    align-items: center;
   }
 }
 
@@ -151,10 +175,24 @@
     justify-content: center;
     align-items: center;
     background-color: var(--border-color-header);
-    padding: 5px;
     border-radius: 50%;
     width: 40px;
     height: 40px;
   }
 }
 
+.mobile {
+  display: none;
+
+  @include respond(md) {
+    display: flex;
+  }
+}
+
+.desktop {
+  display: flex;
+
+  @include respond(md) {
+    display: none;
+  }
+}

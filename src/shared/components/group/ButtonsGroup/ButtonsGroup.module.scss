@@ -1,6 +1,16 @@
+@use '@/styles/mixins' as *;
+
 .buttons_group {
   display: flex;
   gap: 10px;
   justify-content: center;
   margin: 10px 0;
+}
+
+.button {
+
+  @include respond(md) {
+    padding: 10px !important;
+    font-size: 14px !important;
+  }
 }

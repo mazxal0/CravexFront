@@ -1,7 +1,17 @@
 'use client';
 
-import { AddNewCoinForWalletModal } from '@/shared/components';
+import {
+  AddNewCoinForWalletModal,
+  CreatingTransactionModal,
+  TransactionModal,
+} from '@/shared/components';
 
 export const GeneralModalPage = () => {
-  return <AddNewCoinForWalletModal />;
+  return (
+    <>
+      <AddNewCoinForWalletModal />
+      <TransactionModal />
+      <CreatingTransactionModal />
+    </>
+  );
 };

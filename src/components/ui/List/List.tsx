@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import { FC } from 'react';
 
+import clsx from 'clsx';
+
 import styles from './List.module.scss';
 
 import { ControlInput, SkeletonEl } from '@/components/ui';
@@ -12,19 +14,35 @@ export const List: FC<ListProps> = ({
   onHandleChange,
   value,
   isLoading,
+  placeholder,
+  isScrolling,
+  maxWidth,
+  classname,
   ...props
 }) => {
   return (
-    <div {...props} className={styles.list}>
+    <div
+      style={{
+        overflowY: isScrolling ? 'scroll' : 'visible',
+        maxWidth: isScrolling ? maxWidth || 320 : '100%',
+      }}
+      className={clsx(styles.list, classname)}
+      {...props}
+    >
       <ControlInput
         delay={1000}
         onSearch={onSearch}
         onHandleChange={onHandleChange}
         value={value}
+        placeholder={placeholder}
+        label={'search'}
+        backgroundLabel={'alternative'}
+        formatSize={'sm'}
+        className={styles.control_input}
       />
       {isLoading ? (
         <SkeletonEl count={10} height={45} />
-      ) : (
+      ) : ListElements.length ? (
         ListElements.map((element, index) => (
           <div key={index} className={styles.element} onClick={element.onClick}>
             {element.imageUrl ? (
@@ -49,6 +67,8 @@ export const List: FC<ListProps> = ({
             <span>{element.text}</span>
           </div>
         ))
+      ) : (
+        <div className={styles.empty}>Empty</div>
       )}
     </div>
   );

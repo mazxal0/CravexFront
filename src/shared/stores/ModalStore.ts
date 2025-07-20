@@ -13,6 +13,7 @@ export class ModalStore {
     price: 0,
     amount: '',
   };
+  private _isOpenCreatingTransactionModal: boolean = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -23,13 +24,6 @@ export class ModalStore {
   }
   set isOpenAddingNewAsset(newState: boolean) {
     this._isOpenAddingNewAsset = newState;
-  }
-
-  set currentPageAddingCoin(numberPage: string) {
-    this._currentPageAddingCoin = numberPage;
-  }
-  get currentPageAddingCoin(): string {
-    return this._currentPageAddingCoin;
   }
 
   set currentAddingCoin(AddingCoin: AddingCoin) {
@@ -63,7 +57,13 @@ export class ModalStore {
   }
 
   resetData() {
-    this.currentPageAddingCoin = '0';
     this.isOpenAddingNewAsset = false;
+  }
+
+  set isOpenCreatingTransactionModal(newState: boolean) {
+    this._isOpenCreatingTransactionModal = newState;
+  }
+  get isOpenCreatingTransactionModal() {
+    return this._isOpenCreatingTransactionModal;
   }
 }

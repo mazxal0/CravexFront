@@ -2,6 +2,14 @@ import { FC } from 'react';
 
 import { IconProps } from '@/components/icons/IconProps';
 
+const styles = {
+  icon: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+};
+
 export const RecycleBinIcon: FC<IconProps> = ({ width, height, color }) => {
   return (
     <svg
@@ -11,6 +19,11 @@ export const RecycleBinIcon: FC<IconProps> = ({ width, height, color }) => {
       width={width}
       height={height}
       viewBox="0 0 50 50"
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
     >
       <path
         fill={color}

@@ -13,7 +13,7 @@ import { useColorOfGrowing } from '@/shared/hooks';
 import { rootStore } from '@/shared/stores';
 import {
   calculateTotalPortfolioChange,
-  formatNumberLength,
+  formatLengthNumber,
   formatNumberWithSpaces,
 } from '@/shared/utils';
 
@@ -36,13 +36,11 @@ export const HeaderAssetsCard: FC<HeaderAssetsCardProps> = observer(() => {
       <ChangingWithChevron
         type={'mark'}
         color={color}
-        changing={formatNumberLength(
-          calculateTotalPortfolioChange(
-            rootStore.walletActivityStore.walletAssets,
-          ),
+        changing={formatLengthNumber(
+          rootStore.walletActivityStore.currentTotalChanging,
+          3,
         )}
       />
-      <span> / 24h</span>
       <div className={styles.share}>
         <MenuButton
           setIsOpening={setIsOpenWalletMenu}
@@ -130,7 +128,7 @@ export const HeaderAssetsCard: FC<HeaderAssetsCardProps> = observer(() => {
             },
           ]}
           top={70}
-          right={'-35%'}
+          right={20}
         />
       )}
     </div>

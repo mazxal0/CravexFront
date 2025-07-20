@@ -8,6 +8,7 @@ export class WalletActivityStore {
 
   private _walletAssets: Asset[] = [];
   private _currentAllWalletBalance: number = 0;
+  private _currentTotalChanging: number = 0;
   private _queryCryptoCoins: string = '';
 
   constructor(rootStore: RootStore) {
@@ -18,10 +19,13 @@ export class WalletActivityStore {
   public getWalletAssets = async (data: any) => {
     try {
       this.currentAllWalletBalance = data.totalSum;
+      this.currentTotalChanging = data.totalChange;
       this.walletAssets = toJS(data.assets);
-      this.rootStore.currentActivityStore.currentAsset = toJS(
-        this.walletAssets[0],
-      );
+      if (!this.rootStore.isMobile) {
+        this.rootStore.currentActivityStore.currentAsset = toJS(
+          this.walletAssets[0],
+        );
+      }
     } catch (e) {
       console.error(e);
     }
@@ -61,6 +65,13 @@ export class WalletActivityStore {
   }
   get currentAllWalletBalance() {
     return this._currentAllWalletBalance;
+  }
+
+  set currentTotalChanging(newTotalChanging: number) {
+    this._currentTotalChanging = newTotalChanging;
+  }
+  get currentTotalChanging() {
+    return this._currentTotalChanging;
   }
 
   set queryCryptoCoins(newQuery: string) {

@@ -32,7 +32,3 @@ export function formatNumberWithSpaces(
   // Возвращаем объединённый результат
   return formattedInteger + decimalPart;
 }
-
-export function formatNumberLength(num: number, length: number = 2) {
-  return num.toFixed(length);
-}

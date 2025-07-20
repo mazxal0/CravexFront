@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 import styles from './layout.module.scss';
 
-import { HorizontalNavBar } from '@/shared/components'; // Импорт глобальных CSS здесь, в server-лейауте
+import { Footer, HorizontalNavBar } from '@/shared/components';
 
 export default function RootLayout({
   children,
@@ -13,6 +13,7 @@ export default function RootLayout({
     <>
       <HorizontalNavBar />
       <div className={styles.page_layout}>{children}</div>
+      <Footer />
     </>
   );
 }

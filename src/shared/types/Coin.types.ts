@@ -10,6 +10,7 @@ export interface GetAxiosCoin {
   name: string;
   symbol: string;
   image: string;
+  price: number;
 }
 
 export interface AddingCoin extends Coin {

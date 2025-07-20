@@ -4,6 +4,7 @@ import { makeAutoObservable } from 'mobx';
 import api from '@/lib/axios';
 import { type Asset, type CurrentAsset } from '@/shared/types';
 import { DateForChart } from '@/shared/types/ChartData.types';
+import { Transaction } from '@/shared/types/Transaction.types';
 
 export class CurrentActivityStore {
   private _dateOfChart: DateForChart = '1';
@@ -18,11 +19,13 @@ export class CurrentActivityStore {
     changing: 0,
     volume: 0,
     marketCap: 0,
+    totalSum: 0,
     prices: [],
     marketCaps: [],
     volumes: [],
     isOpenChart: false,
   };
+  private _currentTransaction: Transaction | undefined = undefined;
 
   public constructor() {
     makeAutoObservable(this);
@@ -30,6 +33,9 @@ export class CurrentActivityStore {
 
   async getPricesForChart() {
     try {
+      if (typeof this.currentAsset.coinName === 'undefined') {
+        return [];
+      }
       const response = await api.get(
         `/coin/chart_data/${this.currentAsset.coinName}`,
         { params: { vs_currency: 'usd', days: this.dateOfChart } },
@@ -84,6 +90,13 @@ export class CurrentActivityStore {
   }
   get dataForChart() {
     return this._dataForChart;
+  }
+
+  set currentTransaction(newTransaction: Transaction | undefined) {
+    this._currentTransaction = newTransaction;
+  }
+  get currentTransaction(): Transaction | undefined {
+    return this._currentTransaction;
   }
 }
 

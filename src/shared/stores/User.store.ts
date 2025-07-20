@@ -6,6 +6,8 @@ export class UserStore {
   private _userId: string | null = null;
   private _walletId: string = '';
 
+  private _isControl: boolean = false;
+
   constructor() {
     makeAutoObservable(this);
     this._userId = this.loadFromStorage('userId');
@@ -28,6 +30,13 @@ export class UserStore {
   }
   get walletId() {
     return this._walletId;
+  }
+
+  set isControl(newState: boolean) {
+    this._isControl = newState;
+  }
+  get isControl() {
+    return this._isControl;
   }
 
   set accessToken(newAccessToken: string) {

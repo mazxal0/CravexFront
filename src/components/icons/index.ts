@@ -8,3 +8,5 @@ export { DotsIcon } from '@/components/icons/Dots.icon';
 export { ShareIcon } from '@/components/icons/Share.icon';
 export { SettingsIcon } from '@/components/icons/Settings.icon';
 export { MagnifierIcon } from '@/components/icons/Magnifier.icon';
+export { TwitterIcon } from '@/components/icons/Twitter.icon';
+export { TelegramIcon } from '@/components/icons/Telegram.icon';

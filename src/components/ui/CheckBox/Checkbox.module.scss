@@ -1,0 +1,48 @@
+.container {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  padding: 0.5rem 0;
+  border-radius: 0.5rem;
+}
+
+.checkbox {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 0.25rem;
+  border: 1px solid var(--border-color);
+  background-color: transparent;
+  appearance: none;
+  position: relative;
+  outline: none;
+  transition: background-color 150ms, border-color 150ms;
+
+  &:checked {
+    background-color: var(--accent-color);
+    //border-color: var(--accent-color);
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0.2rem;
+      left: 0.45rem;
+      width: 0.25rem;
+      height: 0.5rem;
+      border: solid var(--primary-color);
+      border-width: 0 0.15rem 0.15rem 0;
+      transform: rotate(45deg);
+    }
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 1px var(--focus-blue-color);
+  }
+}
+
+.label {
+  color: var(--font-color);
+  font-family: 'Manrope', sans-serif;
+  font-size: 1rem;
+  margin-left: 15px;
+}

@@ -1,8 +1,21 @@
+@use '@/styles/mixins' as *;
+
 .card {
   display: grid;
   grid-template-columns: 1.3fr 1fr 1fr 1fr 1fr 0.5fr;
-  padding: 10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
   border-top: 1px solid var(--card-bg-border-color);
+  padding-inline: 15px;
+
+  @include respond(md) {
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+
+    :first-child {
+      margin-right: auto;
+    }
+  }
 }
 
 .element {
@@ -12,4 +25,19 @@
 .centered {
   display: flex;
   padding-left: 15px;
+}
+
+.desktop {
+  display: grid;
+  @include respond(md) {
+    display: none;
+  }
+}
+
+.mobile {
+  display: none;
+
+  @include respond(md) {
+    display: grid;
+  }
 }

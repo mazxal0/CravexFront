@@ -1,9 +1,10 @@
+@use '@/styles/mixins' as *;
+
 .container {
   display: flex;
   flex-direction: column;
   border-radius: 5px;
   background-color: var(--card-bg-color);
-  //padding: 15px 25px 30px 25px;
   position: relative;
 }
 
@@ -17,16 +18,26 @@
 .table {
   display: flex;
   flex-direction: column;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 10px 0;
+  //padding-inline: 25px;
   border-top: 2px solid var(--card-bg-border-color);
 }
 
 .header {
   display: grid;
   grid-template-columns: 1.3fr 1fr 1fr 1fr 1fr 0.5fr;
-  padding-inline: 10px;
-  padding-bottom: 5px;
+  align-items: center;
+  padding-bottom: 10px;
+  padding-inline: 15px;
+
+  @include respond(md) {
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+
+    :first-child {
+      margin-right: auto;
+    }
+  }
 }
 
 .loading {
@@ -44,3 +55,25 @@
   align-items: center;
   padding: 50px;
 }
+
+.buttons_container {
+  width: 300px;
+}
+
+.desktop {
+  display: flex;
+
+  @include respond(md) {
+    display: none;
+  }
+}
+
+.mobile {
+  display: none;
+
+  @include respond(md) {
+    display: flex;
+  }
+}
+
+

@@ -1,48 +1,80 @@
 'use client';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import styles from './page.module.scss';
 
-import { Button, Input } from '@/components/ui';
+import { registerSchema } from '@/app/auth/registration/register.schema';
+import { Button, ErrorText, Input, PasswordInput } from '@/components/ui';
 import { useMutationRequest } from '@/shared/hooks';
 import { rootStore } from '@/shared/stores';
 import {
   UserRegistration,
   UserRegistrationRequestGet,
 } from '@/shared/types/User.types';
+import { saveToStorage } from '@/shared/utils';
 
 export default function Registration() {
-  const { register, setError, handleSubmit, watch } = useForm<UserRegistration>(
-    {
-      mode: 'onChange',
-    },
-  );
+  const { mutate: authReq } = useMutationRequest({
+    defaultApiUrl: process.env.NEXT_PUBLIC_API_URL_AUTH,
+    method: 'post',
+  });
+  useEffect(() => {
+    const userId = rootStore.userStore.userId;
+    authReq(
+      { data: {} },
+      {
+        onSuccess: async (data) => {
+          if (userId) saveToStorage('userId', userId);
+          saveToStorage('accessToken', data.accessToken);
+          router.push(`./../account/assets/${userId}`);
+        },
+      },
+    );
+  }, []);
 
-  // const {} = useLocalStorage<string>({ defaultValue: '', key: 'userId' });
+  const {
+    register,
+    setError,
+    handleSubmit,
+    watch,
+    clearErrors,
+    formState: { errors },
+  } = useForm<UserRegistration>({
+    mode: 'onChange',
+    resolver: zodResolver(registerSchema),
+  });
 
   const { mutate, isPending } = useMutationRequest<
     UserRegistrationRequestGet,
     UserRegistration
   >({
-    apiUrl: process.env.NEXT_PUBLIC_API_URL_REGISTRATION,
+    defaultApiUrl: process.env.NEXT_PUBLIC_API_URL_REGISTRATION,
     method: 'post',
   });
 
   const router = useRouter();
   const onRegistrationUser = async (data: UserRegistration) => {
-    mutate(data, {
-      onSuccess: async ({
-        telegramLink,
-        userId,
-      }: UserRegistrationRequestGet) => {
-        const encodedLink = encodeURIComponent(telegramLink);
-        rootStore.userStore.userId = userId;
-        router.push(`./verification?tg_link=${encodedLink}`);
+    mutate(
+      { data },
+      {
+        onSuccess: async ({ userId, telegramLink }) => {
+          const encodedLink = encodeURIComponent(telegramLink);
+          rootStore.userStore.userId = userId;
+          router.push(`./verification?tg_link=${encodedLink}`);
+        },
+        onError: async (error) => {
+          setError('root', {
+            type: 'server',
+            message: error.response?.data.message,
+          });
+        },
       },
-    });
+    );
   };
 
   return (
@@ -55,43 +87,45 @@ export default function Registration() {
         >
           <h2 className={styles.heading}>Sign Up</h2>
           <Input
-            className={styles.input_search}
             label={'email'}
             {...register('email', {
               required: true,
             })}
             value={watch().email || ''}
+            formatSize={'sm'}
           />
           <Input
-            className={styles.input_search}
             label={'username'}
             {...register('username', {
               required: true,
             })}
             value={watch().username || ''}
+            formatSize={'sm'}
           />
-          <Input
-            className={styles.input_search}
+          <PasswordInput
             label={'password'}
             {...register('password', {
               required: true,
             })}
             value={watch().password || ''}
+            formatSize={'sm'}
           />
-          <Input
-            className={styles.input_search}
+          <PasswordInput
             label={'confirm password'}
             {...register('confirmPassword', {
               required: true,
             })}
             value={watch().confirmPassword || ''}
+            formatSize={'sm'}
           />
-
-          <Button
-            className={styles.form_button}
-            // onClick={() => console.log('opa')}
-            type={'submit'}
-          >
+          {errors.root && <ErrorText>{errors.root.message}</ErrorText>}
+          {errors.username && <ErrorText>{errors.username.message}</ErrorText>}
+          {errors.email && <ErrorText>{errors.email.message}</ErrorText>}
+          {errors.password && <ErrorText>{errors.password.message}</ErrorText>}
+          {errors.confirmPassword && (
+            <ErrorText>{errors.confirmPassword.message}</ErrorText>
+          )}
+          <Button className={styles.form_button} type={'submit'}>
             Create Account
           </Button>
           <p className={styles.text_login_in}>

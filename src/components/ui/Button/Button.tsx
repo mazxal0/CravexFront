@@ -10,9 +10,11 @@ export const Button: FC<ButtonProps> = ({
   type = 'button',
   formatType = 'primary',
   formatSize = 'sm',
+  color = 'primary-color',
   active,
   className,
   disabled,
+  Icon,
   ...props
 }) => {
   return (
@@ -22,13 +24,15 @@ export const Button: FC<ButtonProps> = ({
         styles.button,
         styles[formatType],
         styles[formatSize],
+        styles[color],
         active && styles.active,
         disabled && styles.disabled,
         className,
       )}
       {...props}
     >
-      {children}
+      {Icon && <div className={styles.icon}>{Icon}</div>}
+      <span className={styles.text}>{children}</span>
     </button>
   );
 };

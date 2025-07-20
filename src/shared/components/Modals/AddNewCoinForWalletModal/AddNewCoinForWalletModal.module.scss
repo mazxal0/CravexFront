@@ -26,3 +26,29 @@
   margin-bottom: 20px;
   gap: 10px;
 }
+
+.list {
+  overflow-y: scroll;
+  max-height: 320px;
+
+  /* Стили для WebKit (Chrome, Safari, Edge) */
+  &::-webkit-scrollbar {
+    //background: var(--bg-secondary-color); // Используйте ваши переменные
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--bg-secondary-color); // Используйте ваши переменные
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 3px;
+    transition: background 0.2s;
+
+    &:hover {
+      background: var(--primary-color);
+    }
+  }
+}
