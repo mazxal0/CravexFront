@@ -174,7 +174,9 @@ export default function Account() {
           )}
         </div>
         <div className={styles.bottom_container}>
-          <Button type={'submit'}>Сохранить</Button>
+          <Button formatSize={'md'} type={'submit'}>
+            Сохранить
+          </Button>
         </div>
       </form>
     </div>

@@ -146,21 +146,21 @@ export const Header = () => {
       <div className={styles.mobile_header}>
         <div className={styles.icons}>
           <Link className={styles.icon} href={`/account/assets/${id}`}>
-            <WalletIcon height={30} width={30} color={'var(--primary-color)'} />
+            <WalletIcon height={25} width={25} color={'var(--primary-color)'} />
             Wallets
           </Link>
           <Link className={styles.icon} href={`/account/${id}`}>
             <UserAvatarIcon
-              height={30}
-              width={30}
+              height={25}
+              width={25}
               color={'var(--primary-color)'}
             />
             Profile
           </Link>
           <Link className={styles.icon} href={'/info/coins'}>
             <MagnifierIcon
-              height={30}
-              width={30}
+              height={25}
+              width={25}
               color={'var(--primary-color)'}
             />
             Coins

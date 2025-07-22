@@ -29,7 +29,7 @@ export default function Login() {
     method: 'post',
   });
 
-  const onRegistrationUser = async (data: LoginSchema) => {
+  const onLoginUser = async (data: LoginSchema) => {
     mutate(
       { data },
       {
@@ -70,7 +70,7 @@ export default function Login() {
       <motion.div className={styles.container}>
         <form
           className={styles.form}
-          onSubmit={handleSubmit(onRegistrationUser)}
+          onSubmit={handleSubmit(onLoginUser)}
           noValidate
         >
           <h2 className={styles.heading}>Sign In</h2>

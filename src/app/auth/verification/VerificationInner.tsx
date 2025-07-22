@@ -27,7 +27,7 @@ export default function VerificationPage() {
 
   const encodedLink = searchParams.get('tg_link');
   const telegramLink = encodedLink ? decodeURIComponent(encodedLink) : null;
-  const requires2FA = searchParams.get('requires2FA');
+  const requires2FA = searchParams.get('requires2FA')?.toLowerCase() === 'true';
 
   const [error, setError] = useState<string | null>(null);
 
@@ -163,9 +163,7 @@ export default function VerificationPage() {
         {!requires2FA ? (
           <a href={telegramLink} target="_blank" rel="noopener noreferrer">
             <Button className={styles.button} onClick={onClick}>
-              {!requires2FA
-                ? 'Отправить код в телеграм бота'
-                : 'Повторно отправить код'}
+              Связать аккаунт
             </Button>
           </a>
         ) : (

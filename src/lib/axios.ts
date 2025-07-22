@@ -118,4 +118,6 @@ api.interceptors.response.use(
   },
 );
 
+api.defaults.timeout = 10_000;
+
 export default api;

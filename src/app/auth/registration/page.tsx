@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import styles from './page.module.scss';
@@ -19,11 +19,15 @@ import {
 import { saveToStorage } from '@/shared/utils';
 
 export default function Registration() {
+  const [isDisabledButtonRegistration, setIsDisabledButtonRegistration] =
+    useState<boolean>(false);
+
   const { mutate: authReq } = useMutationRequest({
     defaultApiUrl: process.env.NEXT_PUBLIC_API_URL_AUTH,
     method: 'post',
   });
   useEffect(() => {
+    setIsDisabledButtonRegistration(true);
     const userId = rootStore.userStore.userId;
     authReq(
       { data: {} },
@@ -32,6 +36,9 @@ export default function Registration() {
           if (userId) saveToStorage('userId', userId);
           saveToStorage('accessToken', data.accessToken);
           router.push(`./../account/assets/${userId}`);
+        },
+        onSettled: async () => {
+          setIsDisabledButtonRegistration(false);
         },
       },
     );
@@ -59,6 +66,7 @@ export default function Registration() {
 
   const router = useRouter();
   const onRegistrationUser = async (data: UserRegistration) => {
+    setIsDisabledButtonRegistration(true);
     mutate(
       { data },
       {
@@ -72,6 +80,7 @@ export default function Registration() {
             type: 'server',
             message: error.response?.data.message,
           });
+          setIsDisabledButtonRegistration(false);
         },
       },
     );
@@ -125,7 +134,11 @@ export default function Registration() {
           {errors.confirmPassword && (
             <ErrorText>{errors.confirmPassword.message}</ErrorText>
           )}
-          <Button className={styles.form_button} type={'submit'}>
+          <Button
+            disabled={isDisabledButtonRegistration}
+            className={styles.form_button}
+            type={'submit'}
+          >
             Create Account
           </Button>
           <p className={styles.text_login_in}>

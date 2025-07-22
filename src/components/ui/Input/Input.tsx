@@ -16,8 +16,8 @@ export const Input: FC<InputProps> = ({
   onChange,
   id,
   classNameForLabel,
-  topLevelOfLabel = 70,
-  bottomLevelOfLabel = 45,
+  topLevelOfLabel = 68,
+  bottomLevelOfLabel = 25,
   backgroundLabel = 'primary',
   formatSize = 'lg',
   onFocus,
@@ -42,6 +42,17 @@ export const Input: FC<InputProps> = ({
 
   const inputId = id || name || label;
 
+  const resBottomLevel =
+    formatSize === 'lg'
+      ? bottomLevelOfLabel
+      : formatSize === 'md'
+        ? bottomLevelOfLabel - 20
+        : formatSize === 'sm'
+          ? bottomLevelOfLabel - 50
+          : bottomLevelOfLabel + 25;
+
+  const resTopLevel = `-${topLevelOfLabel}%`;
+
   return (
     <div className={styles.input_container}>
       <motion.label
@@ -53,14 +64,7 @@ export const Input: FC<InputProps> = ({
           styles[`${formatSize}-label`],
         )}
         initial={{
-          y:
-            formatSize === 'lg'
-              ? `${bottomLevelOfLabel}%`
-              : formatSize === 'md'
-                ? `${bottomLevelOfLabel - 20}%`
-                : formatSize === 'sm'
-                  ? `${bottomLevelOfLabel - 50}%`
-                  : `${bottomLevelOfLabel + 25}%`,
+          y: `${resBottomLevel}%`,
           scale: 1,
         }}
         animate={{
