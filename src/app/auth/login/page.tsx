@@ -33,7 +33,7 @@ export default function Login() {
     mutate(
       { data },
       {
-        onSuccess: async ({ userId, telegramLink, requires2FA }) => {
+        onSuccess: ({ userId, telegramLink, requires2FA }) => {
           const telegramLinkEncodedLink = encodeURIComponent(telegramLink);
           rootStore.userStore.userId = userId;
           router.push(
