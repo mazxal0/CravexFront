@@ -30,5 +30,7 @@ declare namespace NodeJS {
     readonly NEXT_PUBLIC_API_GET_TRANSACTION_FOR_ONE_ASSET: string;
     readonly NEXT_PUBLIC_API_CREATE_TRANSACTION_FOR_ONE_ASSET: string;
     readonly NEXT_PUBLIC_API_DELETE_ONE_TRANSACTION: string;
+
+    readonly NEXT_PUBLIC_TELEGRAM_BOT_ID: string;
   }
 }

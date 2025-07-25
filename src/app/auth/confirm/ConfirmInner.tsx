@@ -22,7 +22,7 @@ export default function ConfirmInner() {
         { data: {} },
         {
           onSuccess: ({ userId }) => replace(`../account/assets/${userId}`),
-          onError: () => replace('../login'),
+          onError: () => replace('./login'),
         },
       );
     }

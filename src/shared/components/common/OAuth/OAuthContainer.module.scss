@@ -1,0 +1,37 @@
+
+.Oauth_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+  margin: 20px 0;
+}
+
+.line {
+  flex-grow: 1;
+  height: 1px;
+  background-color: #444; // или другой цвет линии
+  border: none;
+  width: 50px;
+}
+
+.oauth_text {
+  white-space: nowrap;
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.links_oauth {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  column-gap: 15px;
+  justify-content: center;
+}

@@ -1,4 +1,10 @@
-export { AvatarUserButton, DropTabMenu } from '@/shared/components/common';
+export {
+  AvatarUserButton,
+  DropTabMenu,
+  OAuthTelegram,
+  OAuthGoogle,
+  OAuthContainer,
+} from '@/shared/components/common';
 export { Footer, Header, HorizontalNavBar } from '@/shared/components/layout';
 export { ButtonsGroup, ChartDataGroup } from '@/shared/components/group';
 export {

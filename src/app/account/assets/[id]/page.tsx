@@ -1,7 +1,6 @@
 'use client';
 import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
-import { useEffect } from 'react';
 
 import clsx from 'clsx';
 
@@ -16,10 +15,7 @@ import { WalletPreviewType } from '@/shared/types/Wallet.types';
 
 export default function Assets() {
   const params = useParams() as Record<string, string>;
-  const { id } = params;
-  useEffect(() => {
-    rootStore.userStore.userId = id;
-  }, []);
+  const id = rootStore.userStore.userId;
 
   const queryClient = useQueryClient();
 

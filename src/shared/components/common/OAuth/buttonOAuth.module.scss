@@ -1,0 +1,19 @@
+.btn {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(184, 182, 182, 0.25);
+  border-radius: 10px;
+  padding: 0.5rem;
+  border: none;
+  transition: all 0.2s ease-in-out;
+
+  img {
+    filter: brightness(0) invert(1); // сделать иконку белой
+  }
+
+  &:hover {
+    background: rgba(115, 114, 114, 0.25)
+  }
+}
