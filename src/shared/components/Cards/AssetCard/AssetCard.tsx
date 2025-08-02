@@ -39,6 +39,7 @@ export const AssetCard: FC<AssetCardProps> = ({
   };
 
   const safeLogoUrl = isValidUrl(logoUrl) ? logoUrl! : fallbackImage;
+  // console.log('SES', price);
 
   return (
     <motion.div

@@ -3,15 +3,21 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import styles from './page.module.scss';
 
 import { registerSchema } from '@/app/auth/registration/register.schema';
-import { Button, ErrorText, Input, PasswordInput } from '@/components/ui';
+import {
+  Button,
+  ErrorText,
+  Input,
+  PasswordInput,
+  Spinner,
+} from '@/components/ui';
 import { OAuthContainer } from '@/shared/components';
-import { useMutationRequest } from '@/shared/hooks';
+import { useMutationRequest, useTelegramAutoAuth } from '@/shared/hooks';
 import { rootStore } from '@/shared/stores';
 import {
   UserRegistration,
@@ -20,26 +26,24 @@ import {
 import { saveToStorage } from '@/shared/utils';
 
 export const RegistrationForm = () => {
-  const [isDisabledButtonRegistration, setIsDisabledButtonRegistration] =
-    useState<boolean>(false);
+  const { isPending: isPendingTelegramAuthAuthorization } =
+    useTelegramAutoAuth();
 
   const { mutate: authReq } = useMutationRequest({
     defaultApiUrl: process.env.NEXT_PUBLIC_API_URL_AUTH,
     method: 'post',
   });
   useEffect(() => {
-    setIsDisabledButtonRegistration(true);
     const userId = rootStore.userStore.userId;
     authReq(
       { data: {} },
       {
         onSuccess: async (data) => {
-          if (userId) saveToStorage('userId', userId);
+          console.log('SE', data);
+          if (userId || data.userId)
+            saveToStorage('userId', userId || data.userId);
           saveToStorage('accessToken', data.accessToken);
           router.push(`./../account/assets/${userId}`);
-        },
-        onSettled: async () => {
-          setIsDisabledButtonRegistration(false);
         },
       },
     );
@@ -67,25 +71,26 @@ export const RegistrationForm = () => {
 
   const router = useRouter();
   const onRegistrationUser = async (data: UserRegistration) => {
-    setIsDisabledButtonRegistration(true);
     mutate(
       { data },
       {
         onSuccess: async ({ userId, telegramLink }) => {
           const encodedLink = encodeURIComponent(telegramLink);
           rootStore.userStore.userId = userId;
-          router.push(`./verification?tg_link=${encodedLink}`);
+          router.push(`auth/verification?tg_link=${encodedLink}`);
         },
         onError: async (error) => {
+          console.log('SEX', error);
           setError('root', {
             type: 'server',
             message: error.response?.data.message,
           });
-          setIsDisabledButtonRegistration(false);
         },
       },
     );
   };
+
+  if (isPendingTelegramAuthAuthorization || isPending) return <Spinner />;
 
   return (
     <div className={styles.page}>
@@ -135,11 +140,7 @@ export const RegistrationForm = () => {
           {errors.confirmPassword && (
             <ErrorText>{errors.confirmPassword.message}</ErrorText>
           )}
-          <Button
-            disabled={isDisabledButtonRegistration}
-            className={styles.form_button}
-            type={'submit'}
-          >
+          <Button className={styles.form_button} type={'submit'}>
             Create Account
           </Button>
           <p className={styles.text_login_in}>

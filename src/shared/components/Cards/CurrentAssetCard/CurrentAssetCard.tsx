@@ -13,7 +13,11 @@ import api from '@/lib/axios';
 import { DropTabMenu } from '@/shared/components';
 import { useColorOfGrowing } from '@/shared/hooks';
 import { rootStore } from '@/shared/stores';
-import { formatLengthNumber, formatNumberWithSpaces } from '@/shared/utils';
+import {
+  formatLengthNumber,
+  formatNumberWithSpaces,
+  formatWithSuffix,
+} from '@/shared/utils';
 
 interface CurrentAssetCardProps {
   isControl?: boolean;
@@ -23,7 +27,7 @@ export const CurrentAssetCard = observer(
   ({ isControl = true }: CurrentAssetCardProps) => {
     const [isOpenDotsMenu, setIsOpenDotsMenu] = useState<boolean>(false);
     const { color } = useColorOfGrowing(
-      rootStore.currentActivityStore.currentAsset.changing,
+      rootStore.currentActivityStore.currentAsset.change24hPercent,
     );
     const onDeleteCurrentAssetFromWallet = useCallback(async () => {
       try {
@@ -87,7 +91,7 @@ export const CurrentAssetCard = observer(
             )) || <SkeletonEl width={45} height={45} borderRadius={'50%'} />}
           </div>
           <div className={clsx(styles.desktop, styles.text_header)}>
-            {rootStore.currentActivityStore.currentAsset?.coinName || (
+            {rootStore.currentActivityStore.currentAsset?.name || (
               <SkeletonEl width={80} height={30} />
             )}{' '}
             <div className={styles.second_currency}>/usdt</div>
@@ -101,22 +105,26 @@ export const CurrentAssetCard = observer(
             </div>
           )}
         </div>
+
         <div className={styles.metrics}>
-          <div className={styles.text_standard}>
-            <div className={clsx(styles.mobile, styles.text_header)}>
-              {rootStore.currentActivityStore.currentAsset?.coinName || (
-                <SkeletonEl width={80} height={30} />
-              )}{' '}
-              <div className={styles.second_currency}>/usdt</div>
+          {rootStore.isMobile && (
+            <div className={styles.text_standard}>
+              <div className={clsx(styles.mobile, styles.text_header)}>
+                {rootStore.currentActivityStore.currentAsset?.name || (
+                  <SkeletonEl width={80} height={30} />
+                )}{' '}
+                <div className={styles.second_currency}>/usdt</div>
+              </div>
             </div>
-          </div>
+          )}
           <div className={styles.text_standard}>
             <div style={{ color: color }} className={styles.price_text}>
               {(
                 <>
                   {formatNumberWithSpaces(
                     formatLengthNumber(
-                      rootStore.currentActivityStore.currentAsset?.price || 0,
+                      rootStore.currentActivityStore.currentAsset
+                        ?.currentPrice || 0,
                     ),
                   )}
                   <span style={{ color }}>$</span>
@@ -129,7 +137,8 @@ export const CurrentAssetCard = observer(
                 color={color}
                 changing={
                   formatLengthNumber(
-                    rootStore.currentActivityStore.currentAsset?.changing,
+                    rootStore.currentActivityStore.currentAsset
+                      ?.change24hPercent,
                   )?.toString() || <SkeletonEl />
                 }
               />
@@ -164,18 +173,30 @@ export const CurrentAssetCard = observer(
           <div className={clsx(styles.low_metrics, styles.text_standard)}>
             <span className={styles.heading}>market cap</span>
             <div className={styles.price_text}>
-              {rootStore.currentActivityStore.currentAsset?.totalSum || 0}
+              {formatWithSuffix(
+                rootStore.currentActivityStore.currentAsset?.currentMarketCap,
+              ) || 0}
               <span className={styles.green_text}>$</span>
             </div>
           </div>
 
           <div className={clsx(styles.low_metrics, styles.text_standard)}>
-            <span className={styles.heading}>volumes</span>
+            <span className={styles.heading}>volume</span>
             <div className={styles.price_text}>
-              {rootStore.currentActivityStore.currentAsset?.totalSum || 0}
+              {formatWithSuffix(
+                rootStore.currentActivityStore.currentAsset?.currentVolume,
+              ) || 0}
               <span className={styles.green_text}>$</span>
             </div>
           </div>
+
+          {/*<div className={clsx(styles.low_metrics, styles.text_standard)}>*/}
+          {/*  <Link*/}
+          {/*    href={`/account/assets/${rootStore.userStore.userId}/${rootStore.userStore.walletId}/analytics/${rootStore.currentActivityStore.currentAsset?.id}`}*/}
+          {/*  >*/}
+          {/*    <Button width={100}>Подробнее</Button>*/}
+          {/*  </Link>*/}
+          {/*</div>*/}
         </div>
       </div>
     );

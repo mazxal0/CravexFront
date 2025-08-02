@@ -1,5 +1,5 @@
 export interface WalletCardProps {
-  id: string;
+  walletId: string;
   index: number;
   name?: string;
   totalBalance?: number;

@@ -3,11 +3,11 @@ import { LineData } from 'lightweight-charts';
 export interface Asset {
   coinId: string;
   id: string;
-  coinName: string;
+  name: string;
   symbol: string;
-  price: number;
+  currentPrice: number;
   logoUrl: string;
-  changing: number;
+  change24hPercent: number;
   amount: number;
   totalSum: number;
   walletId?: string;
@@ -26,11 +26,32 @@ export interface NewAddingAsset {
   amount?: number;
 }
 
-export interface CurrentAsset extends Partial<Asset> {
-  volume: number;
-  marketCap: number;
-  totalSum: number;
-  changing: number;
+export interface CurrentAsset extends Asset {
+  // Метрики из CoinDataType
+
+  currentMarketCap: number;
+  currentVolume: number;
+  fullyDilutedValuation: number;
+  marketCapRank: number;
+
+  circulatingSupply: number;
+  totalSupply: number;
+  maxSupply: number;
+
+  change7dPercent: number;
+  change14dPercent: number;
+  change30dPercent: number;
+  change60dPercent: number;
+  change1yPercent: number;
+
+  ath: number;
+  athDate: string;
+  atl: number;
+  atlDate: string;
+
+  lastUpdated: string;
+
+  // Данные для графика и флаг показа
   prices: LineData[];
   marketCaps: LineData[];
   volumes: LineData[];

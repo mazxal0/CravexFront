@@ -9,11 +9,12 @@ import { DotsIcon } from '@/components/icons';
 import { ChangingWithChevron, MenuButton } from '@/components/ui';
 import { DropTabMenu } from '@/shared/components';
 import { WalletCardProps } from '@/shared/components/Cards/WalletCard/WalletCard.props';
+import { rootStore } from '@/shared/stores';
 import { userStore } from '@/shared/stores/User.store';
 
 export const WalletCard: FC<WalletCardProps> = observer(
   ({
-    id,
+    walletId,
     index,
     name = 'wallet',
     totalBalance = 0,
@@ -39,7 +40,12 @@ export const WalletCard: FC<WalletCardProps> = observer(
     const router = useRouter();
 
     const onClickWallet = () => {
-      router.push(`${userStore.userId}/${id}`);
+      router.push(`${userStore.userId}/${walletId}`);
+    };
+
+    const toTotalLink = async () => {
+      console.log(walletId);
+      router.push(`${rootStore.userStore.userId}/${walletId}/analytics`);
     };
 
     const isEditing = () => {};
@@ -68,7 +74,14 @@ export const WalletCard: FC<WalletCardProps> = observer(
                 text: 'Удалить',
                 callback: async (e) => {
                   e.stopPropagation();
-                  await deleteWallet(id);
+                  deleteWallet(walletId);
+                },
+              },
+              {
+                text: 'Детальная аналитика',
+                callback: async (e) => {
+                  e.stopPropagation();
+                  await toTotalLink();
                 },
               },
             ]}

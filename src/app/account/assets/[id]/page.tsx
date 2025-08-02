@@ -1,5 +1,6 @@
 'use client';
 import { useQueryClient } from '@tanstack/react-query';
+import { observer } from 'mobx-react-lite';
 import { useParams } from 'next/navigation';
 
 import clsx from 'clsx';
@@ -13,10 +14,9 @@ import { useQueryRequest } from '@/shared/hooks';
 import { rootStore } from '@/shared/stores';
 import { WalletPreviewType } from '@/shared/types/Wallet.types';
 
-export default function Assets() {
+function Assets() {
   const params = useParams() as Record<string, string>;
   const id = rootStore.userStore.userId;
-
   const queryClient = useQueryClient();
 
   const { data, isLoading } = useQueryRequest<WalletPreviewType[]>({
@@ -66,6 +66,7 @@ export default function Assets() {
           </Button>
         </div>
       </div>
+
       <WalletsPanel
         wallets={data}
         isLoading={isLoading}
@@ -84,3 +85,5 @@ export default function Assets() {
     </div>
   );
 }
+
+export default observer(Assets);

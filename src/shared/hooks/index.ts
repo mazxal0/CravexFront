@@ -1,4 +1,4 @@
-export { useTelegram } from '@/shared/hooks/useTelegram';
+export { useTelegramAutoAuth } from '@/shared/hooks/useTelegram';
 
 export { useClickOutside } from './useClickOutside';
 export { useDebounce } from './useDebounce.hook';

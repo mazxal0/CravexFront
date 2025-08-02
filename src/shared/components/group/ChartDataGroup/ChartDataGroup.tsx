@@ -15,7 +15,7 @@ import { DateForChart } from '@/shared/types';
 export const ChartDataGroup = observer(() => {
   const { data, isError, isLoading } = useQueryRequest({
     nameOfCache: '',
-    apiUrl: `/coin/chart_data/${rootStore.currentActivityStore.currentAsset.coinName}`,
+    apiUrl: `/coin/chart_data/${rootStore.currentActivityStore.currentAsset.name}`,
     params: {
       vs_currency: 'usd',
       days: rootStore.currentActivityStore.dateOfChart,
@@ -25,16 +25,16 @@ export const ChartDataGroup = observer(() => {
         ...rootStore.currentActivityStore.currentAsset,
         prices: data.prices,
         volumes: data.volumes,
-        volume: data.volumes[data.volumes.length - 1].value,
+        currentVolume: data.volumes[data.volumes.length - 1].value,
         marketCaps: data.marketCaps,
-        marketCap: data.marketCaps[data.marketCaps.length - 1].value,
+        currentMarketCap: data.marketCaps[data.marketCaps.length - 1].value,
       };
       rootStore.currentActivityStore.dataForChart =
         rootStore.currentActivityStore.currentAsset.prices;
     },
     queryOptions: {
       enabled:
-        Boolean(rootStore.currentActivityStore.currentAsset.coinName) &&
+        Boolean(rootStore.currentActivityStore.currentAsset.name) &&
         Boolean(rootStore.currentActivityStore.dateOfChart),
       retry: 1,
     },

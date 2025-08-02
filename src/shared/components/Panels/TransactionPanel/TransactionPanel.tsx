@@ -1,6 +1,6 @@
 'use client';
 import { observer } from 'mobx-react-lite';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import clsx from 'clsx';
 
@@ -34,6 +34,14 @@ export const TransactionPanel = observer(() => {
       ),
     },
   });
+
+  useEffect(() => {
+    if (isLoading) {
+      console.log(data);
+    }
+  }, [isLoading]);
+
+  console.log('SEXQQQQ', rootStore.currentActivityStore.currentAsset);
 
   return (
     <>

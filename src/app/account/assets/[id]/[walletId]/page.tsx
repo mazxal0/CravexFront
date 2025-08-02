@@ -28,27 +28,30 @@ const ReactiveQRCode = observer(({ walletId }: { walletId: string }) => (
 
 interface MobilePartOfPageProps {
   isLoading: boolean;
+  walletId?: string;
 }
 
-const MobilePartOfPage = observer(({ isLoading }: MobilePartOfPageProps) => {
-  return (
-    <div className={styles.mobile}>
-      <GeneralModalPage />
-      {rootStore.currentActivityStore.currentAsset.isOpenChart ? (
-        <div className={styles.chart}>
-          <CurrentAssetCard />
-          <ChartDataGroup />
-          <TransactionPanel />
-        </div>
-      ) : (
-        <>
-          <HeaderAssetsCard />
-          <AssetsPanel isLoading={isLoading} />
-        </>
-      )}
-    </div>
-  );
-});
+const MobilePartOfPage = observer(
+  ({ isLoading, walletId }: MobilePartOfPageProps) => {
+    return (
+      <div className={styles.mobile}>
+        <GeneralModalPage />
+        {rootStore.currentActivityStore.currentAsset.isOpenChart ? (
+          <div className={styles.chart}>
+            <CurrentAssetCard />
+            <ChartDataGroup />
+            <TransactionPanel />
+          </div>
+        ) : (
+          <>
+            <HeaderAssetsCard />
+            <AssetsPanel isLoading={isLoading} />
+          </>
+        )}
+      </div>
+    );
+  },
+);
 
 export default function Home() {
   const params = useParams();
@@ -57,7 +60,7 @@ export default function Home() {
 
   const assets = useQueryRequest<Asset[]>({
     nameOfCache: `wallet-assets-${walletId}`,
-    apiUrl: `${process.env.NEXT_PUBLIC_API_GET_WALLET_ASSETS}/${walletId}`,
+    apiUrl: `${process.env.NEXT_PUBLIC_API_GET_WALLET_ASSETS}/${walletId}/assets`,
     additionQueryFn: rootStore.walletActivityStore.getWalletAssets,
   });
 
@@ -79,6 +82,7 @@ export default function Home() {
         <div className={styles.chart}>
           <CurrentAssetCard />
           {rootStore.currentActivityStore.currentAsset && <ChartDataGroup />}
+
           <TransactionPanel />
         </div>
       </div>

@@ -31,7 +31,7 @@ export default function InfoWalletPage() {
 
   const assets = useQueryRequest<Asset[]>({
     nameOfCache: `wallet-assets-${walletId}`,
-    apiUrl: `${process.env.NEXT_PUBLIC_API_GET_WALLET_ASSETS}/${walletId}`,
+    apiUrl: `${process.env.NEXT_PUBLIC_API_GET_WALLET_ASSETS}/${walletId}/assets`,
     additionQueryFn: rootStore.walletActivityStore.getWalletAssets,
   });
 

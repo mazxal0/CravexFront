@@ -43,7 +43,7 @@ export const TransactionModal: FC = observer(() => {
           await queryClient.invalidateQueries({
             queryKey: [
               `wallet-assets-${walletId}`,
-              `${process.env.NEXT_PUBLIC_API_GET_WALLET_ASSETS}/${walletId}`,
+              `${process.env.NEXT_PUBLIC_API_GET_WALLET_ASSETS}/${walletId}/assets`,
               {},
             ],
           });

@@ -22,8 +22,8 @@ export class WalletActivityStore {
       this.currentTotalChanging = data.totalChange;
       this.walletAssets = toJS(data.assets);
       if (!this.rootStore.isMobile) {
-        this.rootStore.currentActivityStore.currentAsset = toJS(
-          this.walletAssets[0],
+        await this.rootStore.currentActivityStore.setCurrentAssetId(
+          toJS(this.walletAssets[0]).id,
         );
       }
     } catch (e) {

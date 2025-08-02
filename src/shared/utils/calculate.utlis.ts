@@ -7,9 +7,9 @@ export function calculateTotalPortfolioChange(assets: Asset[]): number {
   // Рассчитываем взвешенные изменения
   const { totalChange, totalValue } = assets.reduce(
     (acc, asset) => {
-      const value = asset.price * asset.amount;
+      const value = asset.currentPrice * asset.amount;
       return {
-        totalChange: acc.totalChange + asset.changing * value,
+        totalChange: acc.totalChange + asset.change24hPercent * value,
         totalValue: acc.totalValue + value,
       };
     },

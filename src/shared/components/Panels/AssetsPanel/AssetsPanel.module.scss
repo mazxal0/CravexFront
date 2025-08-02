@@ -19,10 +19,6 @@
   overflow: hidden;
 
   @include respond(md) {
-    width: 600px;
-  }
-
-  @include respond(sm) {
     width: 80vw;
   }
 }

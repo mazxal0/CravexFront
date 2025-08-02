@@ -16,7 +16,7 @@ export class RootStore {
     makeAutoObservable(this);
     this.userStore = new UserStore();
     this.walletActivityStore = new WalletActivityStore(this);
-    this.currentActivityStore = new CurrentActivityStore();
+    this.currentActivityStore = new CurrentActivityStore(this);
     this.modalStore = new ModalStore();
     if (typeof window !== 'undefined') {
       window.addEventListener('resize', this.handleResize);
@@ -30,7 +30,7 @@ export class RootStore {
   };
 
   get isMobile() {
-    return this._width <= 768;
+    return this._width <= 1024;
   }
 }
 

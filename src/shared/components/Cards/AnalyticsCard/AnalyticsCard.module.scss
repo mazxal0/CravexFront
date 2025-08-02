@@ -1,0 +1,35 @@
+/* src/shared/components/Cards/AnalyticsCard/AnalyticsCard.module.scss */
+.card {
+
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--card-bg-color);
+  margin-bottom: 16px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  overflow: hidden;
+}

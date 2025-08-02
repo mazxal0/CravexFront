@@ -36,7 +36,7 @@ export const WalletsPanel = observer(
                 >
                   <WalletCard
                     key={wallet.id}
-                    id={wallet.id}
+                    walletId={wallet.id}
                     index={index}
                     name={wallet.name}
                     totalBalance={wallet.totalBalance}

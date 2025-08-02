@@ -105,7 +105,6 @@ export const useMutationRequest = <TDataGet = any, TDataSend = any>({
   >({
     mutationFn: async (variables) => {
       const apiUrl = variables.apiUrl ?? defaultApiUrl;
-
       if (!apiUrl) {
         throw new Error('API URL is required. Provide it in hook or mutate.');
       }

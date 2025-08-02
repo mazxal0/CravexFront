@@ -6,4 +6,5 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   active?: boolean;
   color?: 'primary-color' | 'red-color' | 'green-color';
   Icon?: ReactNode;
+  width?: number;
 }

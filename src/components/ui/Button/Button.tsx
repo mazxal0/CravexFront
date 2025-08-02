@@ -15,10 +15,15 @@ export const Button: FC<ButtonProps> = ({
   className,
   disabled,
   Icon,
+  width,
   ...props
 }) => {
+  let style = {};
+  if (width) style = { ...style, width: `${width}px` };
+
   return (
     <button
+      style={style}
       type={type}
       className={clsx(
         styles.button,

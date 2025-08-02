@@ -92,7 +92,7 @@ export const CryptoAssetModal = observer(
               await queryClient.invalidateQueries({
                 queryKey: [
                   `wallet-assets-${rootStore.userStore.walletId}`,
-                  `${process.env.NEXT_PUBLIC_API_GET_WALLET_ASSETS}/${rootStore.userStore.walletId}`,
+                  `${process.env.NEXT_PUBLIC_API_GET_WALLET_ASSETS}/${rootStore.userStore.walletId}/assets`,
                   {},
                 ],
               });

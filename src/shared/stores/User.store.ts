@@ -7,7 +7,7 @@ export class UserStore {
   private _walletId: string = '';
 
   private _isControl: boolean = false;
-
+  public text: string | number | any = 'QWERT';
   constructor() {
     makeAutoObservable(this);
     this._userId = this.loadFromStorage('userId');

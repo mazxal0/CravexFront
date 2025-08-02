@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
+import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -12,12 +13,15 @@ import { LoginSchema, loginSchema } from './schems/loginSchema';
 
 import { Button, Input, PasswordInput, Spinner } from '@/components/ui';
 import { OAuthContainer } from '@/shared/components';
-import { useMutationRequest } from '@/shared/hooks';
+import { useMutationRequest, useTelegramAutoAuth } from '@/shared/hooks';
 import { rootStore } from '@/shared/stores';
 import { saveToStorage } from '@/shared/utils';
 
-export default function LoginPage() {
+function LoginPage() {
   const router = useRouter();
+
+  const { isPending: isPendingTelegramAuthAuthorization } =
+    useTelegramAutoAuth();
 
   const {
     register,
@@ -47,7 +51,7 @@ export default function LoginPage() {
           rootStore.userStore.userId = userId;
           const link = encodeURIComponent(telegramLink);
           router.push(
-            `/verification?tg_link=${link}&requires2FA=${requires2FA}`,
+            `verification?tg_link=${link}&requires2FA=${requires2FA}`,
           );
         },
         onError: (err) => {
@@ -71,7 +75,8 @@ export default function LoginPage() {
       { data: {} },
       {
         onSuccess: async (data) => {
-          if (userId) saveToStorage('userId', userId);
+          if (userId || data.userId)
+            saveToStorage('userId', userId || data.userId);
           saveToStorage('accessToken', data.accessToken);
           router.push(`./../account/assets/${userId}`);
         },
@@ -79,7 +84,11 @@ export default function LoginPage() {
     );
   }, []);
 
-  if (loginIsPending || authRegistrationIsPending) {
+  if (
+    loginIsPending ||
+    authRegistrationIsPending ||
+    isPendingTelegramAuthAuthorization
+  ) {
     return <Spinner />;
   }
 
@@ -140,3 +149,5 @@ export default function LoginPage() {
     </motion.div>
   );
 }
+
+export default observer(LoginPage);

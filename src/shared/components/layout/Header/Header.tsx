@@ -21,10 +21,15 @@ import api from '@/lib/axios';
 import { rootStore } from '@/shared/stores';
 
 export const Header = () => {
-  const id = rootStore.userStore.userId;
+  const [id, setId] = useState<string | null>('');
+
   const [isOpenHeader, setIsOpenHeader] = useState<boolean>(false);
   const router = useRouter();
   const headerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setId(rootStore.userStore.userId);
+  }, []);
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {

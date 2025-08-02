@@ -24,4 +24,5 @@ export {
   WalletCard,
   HeaderAssetsCard,
   CurrentAssetCard,
+  AnalyticsCard,
 } from '@/shared/components/Cards';

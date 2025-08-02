@@ -78,7 +78,7 @@ export const CreatingTransactionModal: FC = observer(() => {
           await queryClient.invalidateQueries({
             queryKey: [
               `wallet-assets-${walletId}`,
-              `${process.env.NEXT_PUBLIC_API_GET_WALLET_ASSETS}/${walletId}`,
+              `${process.env.NEXT_PUBLIC_API_GET_WALLET_ASSETS}/${walletId}/assets`,
               {},
             ],
           });
@@ -103,7 +103,7 @@ export const CreatingTransactionModal: FC = observer(() => {
         (a) => a.id === selectedAssetId,
       );
       if (selectedAsset) {
-        setValue('price', selectedAsset.price.toString());
+        setValue('price', selectedAsset.currentPrice?.toString());
       }
     }
   }, [selectedAssetId, setValue, rootStore.walletActivityStore.walletAssets]);
@@ -146,7 +146,7 @@ export const CreatingTransactionModal: FC = observer(() => {
               <Select
                 options={rootStore.walletActivityStore.walletAssets.map(
                   (a) => ({
-                    label: a.coinName,
+                    label: a.name,
                     value: a.id,
                   }),
                 )}
@@ -157,13 +157,13 @@ export const CreatingTransactionModal: FC = observer(() => {
                     (a) => a.id === value,
                   );
                   if (asset) {
-                    setValue('price', asset.price.toString());
+                    setValue('price', asset.currentPrice?.toString());
                   }
                 }}
                 value={
                   selectedAsset
                     ? {
-                        label: selectedAsset.coinName,
+                        label: selectedAsset.name,
                         value: selectedAsset.id,
                       }
                     : undefined

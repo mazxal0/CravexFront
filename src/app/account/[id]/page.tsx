@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { observer } from 'mobx-react-lite';
 import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTimer } from 'react-timer-hook';
@@ -15,7 +16,7 @@ import { useMutationRequest, useQueryRequest } from '@/shared/hooks';
 import { rootStore } from '@/shared/stores';
 import { UserType, UserTypeGet } from '@/shared/types/User.types';
 
-export default function Account() {
+function Account() {
   const { isLoading, data } = useQueryRequest<UserTypeGet>({
     nameOfCache: `user-data-${rootStore.userStore.userId}`,
     apiUrl: process.env.NEXT_PUBLIC_API_URL_GET_ME,
@@ -27,6 +28,14 @@ export default function Account() {
       });
     },
   });
+
+  useEffect(() => {
+    reset({
+      username: data?.username,
+      email: data?.email,
+      telegram: data?.telegramUser?.telegramUsername || '',
+    });
+  }, []);
 
   const { mutate } = useMutationRequest({
     method: 'post',
@@ -125,6 +134,7 @@ export default function Account() {
     <div className={styles.page}>
       <form onSubmit={handleSubmit(onClick)} className={styles.form}>
         <h2>Your Profile</h2>
+
         <Input
           {...register('username', { required: true })}
           label={'username'}
@@ -182,3 +192,5 @@ export default function Account() {
     </div>
   );
 }
+
+export default observer(Account);

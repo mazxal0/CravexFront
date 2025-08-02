@@ -39,8 +39,8 @@ export const AssetsPanel = observer(
     };
 
     const debouncedChoiceAsset = useCallback(
-      debounce((asset: Asset) => {
-        rootStore.currentActivityStore.currentAsset = asset;
+      debounce(async (asset: Asset) => {
+        await rootStore.currentActivityStore.setCurrentAssetId(asset.id);
         rootStore.currentActivityStore.currentAsset.isOpenChart = true;
       }, 300),
       [],
@@ -62,9 +62,9 @@ export const AssetsPanel = observer(
                       rootStore.currentActivityStore.currentAsset.coinId ===
                         asset.coinId
                     }
-                    title={asset.coinName}
-                    price={asset.price}
-                    changing={asset.changing}
+                    title={asset.name}
+                    price={asset.currentPrice}
+                    changing={asset.change24hPercent}
                     ticket={asset.symbol}
                     amount={asset.amount}
                     totalSum={asset.totalSum}

@@ -6,7 +6,8 @@ import type { Metadata } from 'next';
 import './globals.scss';
 import { Providers } from '@/app/provider';
 
-import 'react-loading-skeleton/dist/skeleton.css'; // Импорт глобальных CSS здесь, в server-лейауте
+import 'react-loading-skeleton/dist/skeleton.css';
+// Импорт глобальных CSS здесь, в server-лейауте
 
 const inter = Manrope({
   subsets: ['latin'],

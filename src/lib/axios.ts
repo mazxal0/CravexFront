@@ -24,16 +24,22 @@ const processQueue = (error: any, token: string | null = null) => {
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080',
   withCredentials: true,
-  timeout: 5000,
+  timeout: 10000,
+  headers: {
+    // этот заголовок заставит ngrok не показывать warning
+    'ngrok-skip-browser-warning': '1',
+  },
 });
 
 // Подставляем accessToken в заголовок Authorization
 api.interceptors.request.use((config) => {
-  const token = rootStore.userStore.accessToken;
-  if (token) {
-    config.headers = config.headers ?? {};
-    config.headers['Authorization'] = `Bearer ${token}`;
-  }
+  const stored = localStorage.getItem('accessToken');
+  const token = stored ? JSON.parse(stored) : rootStore.userStore.accessToken;
+
+  config.headers = config.headers || {};
+
+  config.headers['Authorization'] = `Bearer ${token}`;
+
   return config;
 });
 

@@ -18,13 +18,18 @@ export const QRCode = ({ apiWebsite, size }: QRCodeProps) => {
       height: size,
       data: apiWebsite,
       image: '/craveX.svg',
+      type: 'svg',
       dotsOptions: {
-        color: '#000',
-        type: 'square',
+        color: '#fff',
+        type: 'extra-rounded',
       },
       imageOptions: {
         crossOrigin: 'anonymous',
-        margin: 5,
+        margin: 3,
+      },
+      backgroundOptions: {
+        color: 'var(--card-bg-color)',
+        round: 0.1,
       },
     });
 

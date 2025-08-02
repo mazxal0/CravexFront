@@ -11,7 +11,7 @@ export const OAuthTelegram = () => {
     const returnTo = encodeURIComponent(
       `${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/redirect?oauth=tg`, // Страница для обработки авторизации
     );
-
+    console.log('OPASWW', returnTo);
     const url = `https://oauth.telegram.org/auth?bot_id=${botId}&origin=${process.env.NEXT_PUBLIC_FRONTEND_URL}&return_to=${returnTo}&embed=0`;
 
     window.location.href = url;
